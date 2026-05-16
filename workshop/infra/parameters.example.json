@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "eastus2"
+    },
+    "rgName": {
+      "value": "rg-foundry-d3-demo"
+    },
+    "projectName": {
+      "value": "fdyd3demo"
+    },
+    "deployerPrincipalId": {
+      "value": "REPLACE_WITH_YOUR_OBJECT_ID"
+    },
+    "tags": {
+      "value": {
+        "workshop": "foundry-training-2026",
+        "module": "D3",
+        "owned_by": "instructor",
+        "cost_center": "training"
+      }
+    }
+  }
+}
