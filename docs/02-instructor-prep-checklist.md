@@ -9,7 +9,7 @@
 - 每个现成物都要能在无解释情况下交给助教使用。
 - 每个录屏 / trace / sample JSON 都要标注生成日期、SDK/package 版本、Azure region、模型部署名。
 - 如果 fork 或 Foundry UI/API 在 Day-7 后发生变化，只更新对应现成物，不改 `00-training-plan-v2.md`。
-- **现成物索引路径**：所有产物统一放到 `workshop-fork/prep-artifacts/day-7/<module>/`（如 `.../d4/`, `.../d10/`），并在本清单的"产物"列追加相对路径（例：`d4/live-switch-demo.md`）。助教只看清单就能找到全部物件。
+- **现成物索引路径**：所有产物统一放到 `prep-artifacts/day-7/<module>/`（如 `.../d4/`, `.../d10/`），并在本清单的"产物"列追加相对路径（例：`d4/live-switch-demo.md`）。助教只看清单就能找到全部物件。（注：旧设想里的 `workshop-fork/prep-artifacts/...` 已废弃——见 README.md "v1 旧版" 段；现 specs 已在 `prep-artifacts/day-7/specs/`，其他模块产物按同一根目录放）
 
 ## 全局核验
 

@@ -149,7 +149,7 @@
 **前移**：
 - **成本**：Day1 架构总览课就讲，每个 Ex 带成本说明（不是只在 Day3 最后讲一次）
 - **可移植**：Day1 加可移植性专题（写 provider abstraction），不是只口头提一句
-- **Scaling**：Day1 部署到 Container Apps 时就加 429 重试 + 并发限流 + 缓存
+- **Scaling**：Day1 部署到 Foundry Hosted Agents 主路径时就接 429 重试 + 并发限流 + 缓存（不依赖具体部署目标——Hosted Agents 的 scale-to-zero 是产品默认；ACA 自托管是对照路径，min replicas ≥ 1 那条约束限定在 ACA 段）
 - **红队**：从 Day3 提前到 Day2 下午，强调"红队是上线门槛不是 nice-to-have"
 
 **必修不是 nice-to-have**：综合作业评分中，可移植/scaling/红队**全部纳入评分维度**，不是加分项。

@@ -20,7 +20,7 @@
 | Models | 模型目录外的模型支持有限 / 滞后 | TODO（Day-7） | [ ] | … |
 | Evaluations / Red Team | 内置 attack set 覆盖范围 / 自定义攻击集成 | TODO（Day-7） | [ ] | … |
 | Tracing / Monitoring | 采样率 / 自定义维度 / 摄入成本 | TODO（Day-7） | [ ] | … |
-| Deployment | Container Apps 外的部署目标支持 | TODO（Day-7） | [ ] | … |
+| Deployment | Hosted Agents 外的部署目标支持 / 自托管（ACA）迁移代价 | TODO（Day-7） | [ ] | … |
 | Quotas / Cost | TPM / RPM 配额上限 + 增配审批流程 | TODO（Day-7） | [ ] | … |
 | SDK / Agent Framework | 与 Agent Service 的能力差 / 版本节奏 | TODO（Day-7） | [ ] | … |
 | A2A | 协议成熟度 / 跨 vendor 互通验证 | TODO（Day-7） | [ ] | … |

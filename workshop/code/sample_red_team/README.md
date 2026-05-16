@@ -1,14 +1,16 @@
 # sample_red_team
 
-D8 学员 fallback 资料：当 SDK 50min 内跑不通时，用这份**伪造**的 baseline 结果，把 baseline 报告的**结构**完成掉。真实跑通 SDK 转课后 / 综合作业加分项（handbook D8 spec）。
+D8 学员 fallback 资料：当 **SDK** 50min 内跑不通时，用这份**伪造**的 baseline 结果，把 baseline 报告的**结构**完成掉。真实跑通 SDK 转课后 / 综合作业加分项（handbook D8 spec）。
+
+> 课程口径：**Portal 是讲师演示，学员不要求当场跑 portal**；学员真跑走 **SDK + 云端 Foundry Red Teaming Agent**（target = 自己的 Foundry agent）。所以 fallback 只针对 SDK，没有"portal 没跑通"这个学员场景。详见 handbook D8 "产品口径"段。
 
 ## 什么时候用
 
 | 场景 | 用这里的东西吗 |
 |------|----------------|
-| portal 跑通了，SDK 也跑通了 | ❌ 用你自己的真实 JSON |
-| portal 跑通了，SDK 50min 内跑不动 | ✅ 用 `baseline_result.json` 走完报告结构 |
-| portal 没跑通 | ❌ 不接受 fallback，先去把 portal 跑通（handbook 硬约束） |
+| SDK 跑通了 | ❌ 用你自己的真实 JSON |
+| SDK 50min 内跑不动 | ✅ 用 `baseline_result.json` 走完报告结构 |
+| 想跳过 SDK 只看讲师 portal 演示就交报告 | ❌ SDK 是学员必跑路径（handbook D8 验收 checklist） |
 
 ## 文件
 
