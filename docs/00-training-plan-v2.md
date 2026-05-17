@@ -98,13 +98,14 @@
 | Evaluations / Red Team | 内置评测 + 攻击 prompt 生成 | D8 | 内置 attack set 覆盖 / 本地 PyRIT 不兼容 new portal/SDK → 见 D10（Day-7 实证） |
 | Tracing / Monitoring | OTel + Application Insights 集成 | D5 / D9 | 采样率 / 自定义维度 / 摄入成本 → 见 D10（Day-7 实证） |
 | Deployment | Hosted Agents（主路径）/ Container Apps（legacy 对照） | D5 | Hosted Agents 外部署目标 / 自托管迁移代价 → 见 D10（Day-7 实证） |
-| Quotas / Cost | TPM / RPM / 成本观测 | D5 / D9 | TPM/RPM 上限 + 增配审批流程 → 见 D10（Day-7 实证） |
+| Quotas（PAYG） | TPM / RPM 默认配额 + 成本观测 | D5 / D9 | TPM/RPM 上限 + 增配审批流程 → 见 D10（Day-7 实证） |
+| Capacity（dedicated） | PTU / reservation / provisioned throughput | D2（作选型硬约束）/ D5（实操） | dedicated 起买门槛 + 区域 + commitment 期限 → 见 D10（Day-7 实证） |
 | SDK / Agent Framework | 代码侧路径，独立于 Agent Service | D2 / D6a | 与 Agent Service 能力差 / 版本节奏 → 见 D10（Day-7 实证） |
 | Workflows | visual designer 编排（Agent Service 三选一之一） | D2 / D7 | designer 版本管理 / code review 不友好 → 见 D10（Day-7 实证） |
 | Agent 互通协议 | A2A | D6b | 协议成熟度 / 跨 vendor 互通验证 → 见 D10（Day-7 实证） |
 | 工具协议 | MCP（含 Foundry MCP server，若可用） | D6b / D11 | Foundry MCP server 可用性二选一 → 见 D10 + D11（Day-7 决定） |
 
-**镜像关系**：本表 13 行边界栏只给"方向 + 指针"；具体"当前边界 + 验证来源（官方文档 URL / portal 截图 / fork 实测）"在 D10 镜像表里填实（讲师手册 v2 D10 章节）。Day-7 由讲师跑 fork 实操时把验证来源补完；plan 侧改 → D10 表同步改。
+**镜像关系**：本表 14 行边界栏只给"方向 + 指针"；具体"当前边界 + 验证来源（官方文档 URL / portal 截图 / fork 实测）"在 D10 镜像表里填实（讲师手册 v2 D10 章节）。Day-7 由讲师跑 fork 实操时把验证来源补完；plan 侧改 → D10 表同步改。
 
 ## 五·六、每模块交付物清单（spec / negative examples / 验收）
 
@@ -148,7 +149,7 @@
 | 14:30-14:45 | ☕ | — | — |
 | 14:45-16:15 | **D4：Provider 抽象**（含非 Azure provider 切换演示，强调可移植决策） | 90 | 30 / 40 / 20 |
 | 16:15-16:30 | ☕ | — | — |
-| 16:30-18:00 | **D5：Scaling + Cost 决策**（Hosted Agents 主路径 + ACA 对照 + 429 重试 + 缓存 + 成本算账） | 90 | 30 / 40 / 20 |
+| 16:30-18:00 | **D5：部署与容量模式 + Scaling + Cost 决策**（前置 15 min 部署与容量模式对照；Hosted Agents 主路径 + ACA 对照 + 429 重试 + 缓存 + 成本算账） | 90 | 15+20 / 40 / 15 |
 | 18:00-18:15 | Day1 匿名反馈 + 公告 | 15 | — |
 
 **Day1 关键产出（每人）**：
@@ -158,6 +159,7 @@
 - 1 个能跑通的 Foundry 单 agent（D3）
 - 1 段 provider 抽象代码（D4）
 - 1 个带 429 重试 + 成本估算的部署方案（D5）
+- 1 份 deployment/capacity decision note（D5；选 Hosted Agents / ACA / SDK self-host 之一 + 选 PAYG / quota increase / PTU / reservation 之一，并说明理由 + 为什么不选其他）
 
 ---
 

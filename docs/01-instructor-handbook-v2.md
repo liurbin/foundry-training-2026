@@ -132,6 +132,19 @@
 - 后两项 ≥ 前两项 → SDK
 - 接近 → 混合（Service 跑入口 agent，SDK 跑专家 agent）
 
+## 硬约束触发条件（部署与容量是选型的输入，不是输出）
+> 硬约束**优先于**四维度打分检查。其中：
+> - 私有部署 / 网络隔离 / 最少运维 → **可直接覆盖打分**（决定 Service vs SDK / Hosted vs self-host）
+> - 容量类约束（高吞吐 SLA / 预算敏感）→ **作为额外决策输入**带进 D5 capacity planning，与 Service/SDK 选型正交
+
+| 触发条件 | 选型方向 | 备注 |
+|---------|---------|------|
+| 客户/合规要求私有部署 / 自带云 / 跨云 | SDK | Agent Service 是 Foundry 托管，无法搬出去 |
+| 高吞吐 + 稳定 SLA | 必须做 capacity planning；PAYG 不一定够，需评估 quota increase / PTU / reservation | 与 Service/SDK 选型正交——两条路径都要面对 |
+| 网络隔离（VNet / 私有 endpoint） | Hosted Agents 看 VNet 集成能力 vs SDK self-host（ACA/AKS）自己接 | D5 展开 |
+| 最少运维 / 没人值班 | Agent Service + Hosted Agents | 自托管 SDK 第一个 incident 就吃掉价差 |
+| 预算敏感 + 流量稳定可预测 | 评估 reservation / PTU 是否比 PAYG 划算 | 流量不可预测则反过来：PAYG + cache 更安全 |
+
 ## 我的选择 + 理由（≥3 句）
 […]
 
@@ -319,13 +332,36 @@ class ChatProvider(Protocol):
 - ACA 段落（min replicas / Bicep / 冷启动取舍）保留意义在于："如果哪天你必须自托管，要知道代价"——这是对照视角，不是必跑路径。
 - 因此 **"min replicas ≥ 1"是 ACA 段的硬约束，不适用 Hosted Agents**——Hosted Agents 的 scale-to-zero 是产品默认行为，不踩这条规则。
 
+### 前置 15 min：部署与容量模式对照（D5 开场必讲）
+
+> 这 15 min 是 D2 选型决策卡里"硬约束触发条件"栏的实操展开。学员在 D2 已经知道这些维度的存在，D5 这里把维度的实际选项摊开。
+
+**部署目标对照（agent 运行时跑在哪）**
+
+| 模式 | 何时选 | 学员要操心什么 |
+|------|-------|---------------|
+| **Foundry Hosted Agents**（主路径） | 默认选 | 几乎不用操心，scale-to-zero 默认 |
+| Container Apps 自托管 | 必须自托管 / VNet 强约束 / 客户私有 Azure | min replicas、镜像、滚动升级 |
+| SDK self-host（AKS / App Service / VM） | 跨云 / 客户自带 K8s / 真私有部署 | 全套 K8s 运维 + 自接观测 |
+
+**容量模式对照（token 配额怎么买）**
+
+| 模式 | 何时选 | 备注 |
+|------|-------|------|
+| **PAYG + 默认配额**（主路径） | 默认；流量不可预测；POC / 中小规模 | 触发 429 → 加 retry + cache 即可，多数场景够用 |
+| Quota increase（PAYG 配额增配） | 流量上涨但仍有抖动；不想买 commitment | 走审批流程，区域 + 模型有上限 |
+| PTU / Provisioned Throughput | 高吞吐 + 稳定 SLA + 流量可预测 | 买的是"保留吞吐"，按月起买；区域 + 模型限制更多 |
+| Reservation | 长期稳定用量 + 财务上要锁价 | commitment 期限 ≥ 1 年；和 PTU 正交 |
+
+**超时兜底**：若 Day-7 跑通时发现 15 min 不够，把容量模式压缩为 2 类讲（PAYG / dedicated），把 quota increase / PTU / reservation 作为 dedicated 的子项一句话带过，确保部署目标 3 选 1 一定讲完。
+
 ### 目标速查
 
 | 项 | 内容 |
 |----|------|
-| 时长 | 90 min（30 讲 / 40 实操 / 20 评审） |
+| 时长 | 90 min（15 min 部署与容量模式对照 + 20 min scaling/cost 决策讲解 / 40 min AI-pair 实操 / 15 min 评审） |
 | Day | 1 |
-| 关键产出 | 带 429 重试 + 缓存策略 + 成本估算的部署方案（部署目标 = Hosted Agents；ACA 仅对照讲） |
+| 关键产出 | ①带 429 重试 + 缓存策略 + 成本估算的部署方案（部署目标 = Hosted Agents；ACA 仅对照讲） ②deployment/capacity decision note：选 Hosted Agents / ACA / SDK self-host 之一 + 选 PAYG / quota increase / PTU / reservation 之一，含理由 + 为什么不选其他 |
 | 对应原则 | 1、5（成本/scaling 必修） |
 
 ### prompt spec
@@ -334,6 +370,31 @@ class ChatProvider(Protocol):
 
 ````markdown
 # 让 AI 帮我把 D3 的单 agent 部署到 Hosted Agents（主路径），并补 429 重试 + 缓存 + 成本估算；ACA 仅作对照
+
+## 部署路径分层（开课前讲师必须先讲清）
+- **主路径 = Foundry Hosted Agents**（new backend，托管容器，scale-to-zero，15 min idle 后释放）
+- **对照路径 = Container Apps 自托管**（走旧 `azd ai agent` 模板）：仅作"自托管时你要操心什么"对照，不作为学员部署目标
+- "min replicas ≥ 1"是 ACA 段的硬约束，**不适用 Hosted Agents**
+
+## 前置 15 min：部署与容量模式对照（D5 开场必讲）
+> 这 15 min 是 D2 选型决策卡里"硬约束触发条件"栏的实操展开。学员在 D2 已经知道这些维度的存在，D5 这里把维度的实际选项摊开。
+
+### 部署目标对照（agent 运行时跑在哪）
+| 模式 | 何时选 | 学员要操心什么 |
+|------|-------|---------------|
+| **Foundry Hosted Agents**（主路径） | 默认选 | 几乎不用操心，scale-to-zero 默认 |
+| Container Apps 自托管 | 必须自托管 / VNet 强约束 / 客户私有 Azure | min replicas、镜像、滚动升级 |
+| SDK self-host（AKS / App Service / VM） | 跨云 / 客户自带 K8s / 真私有部署 | 全套 K8s 运维 + 自接观测 |
+
+### 容量模式对照（token 配额怎么买）
+| 模式 | 何时选 | 备注 |
+|------|-------|------|
+| **PAYG + 默认配额**（主路径） | 默认；流量不可预测；POC / 中小规模 | 触发 429 → 加 retry + cache 即可，多数场景够用 |
+| Quota increase（PAYG 配额增配） | 流量上涨但仍有抖动；不想买 commitment | 走审批流程，区域 + 模型有上限 |
+| PTU / Provisioned Throughput | 高吞吐 + 稳定 SLA + 流量可预测 | 买的是"保留吞吐"，按月起买；区域 + 模型限制更多 |
+| Reservation | 长期稳定用量 + 财务上要锁价 | commitment 期限 ≥ 1 年；和 PTU 正交 |
+
+> **超时兜底**：若 Day-7 跑通时发现 15 min 不够，把容量模式压缩为 2 类讲（PAYG / dedicated），把 quota increase / PTU / reservation 作为 dedicated 的子项一句话带过，确保部署目标 3 选 1 一定讲完。
 
 ## 输入
 - 来自 D2 成本估算表：日请求量 / 平均 token / QPS（直接搬过来）
@@ -356,6 +417,7 @@ class ChatProvider(Protocol):
 - 成本估算必须给区间（best/worst），不准给单点数字
 
 ## 自验证
+- [ ] 已交 deployment/capacity decision note：部署目标 + 容量模式各 1 选 + 为什么不选其他（每条 ≥1 句理由）
 - [ ] 用 stub / 讲师提供的 replay response 注入 429，观测到重试 + jitter 行为正确（不抛业务层）
 - [ ] 真实 100 RPS × 5min 压测为**可选**（讲师统一演示或录屏；真跑由讲师侧执行，避免学员触发共享配额）
 - [ ] 缓存命中率 > 0（说明缓存真的接进去了）
@@ -374,6 +436,7 @@ class ChatProvider(Protocol):
 
 ### 验收 checklist
 
+- [ ] **deployment/capacity decision note 已交**：明确写出选了哪种部署目标（Hosted Agents / ACA / SDK self-host）+ 哪种容量模式（PAYG / quota increase / PTU / reservation），以及为什么不选其他选项（每条 ≥1 句理由）
 - [ ] 主路径部署目标明确写"Hosted Agents"；若学员选了 ACA 对照路径，需在产出里说明为什么（如"未来必须自托管 / 合规要求 VNet 隔离"）
 - [ ] ACA 对照路径产出（如果有）：Bicep min replicas ≥ 1（讲师 grep 抽查；仅适用 ACA 段）
 - [ ] 重试策略代码集中在一处（grep "retry" 不应散落 5+ 文件）
@@ -386,6 +449,7 @@ class ChatProvider(Protocol):
 - **429 注入 stub / replay response**（学员侧验证 retry 行为用，不依赖真实配额）
 - 100 RPS × 5min 真实压测脚本 + 录屏（讲师侧演示用）
 - 一份"中型项目成本三档参考"（小：1k DAU / 中：10k DAU / 大：100k DAU），D2 成本表填不出时学员可对照
+- **decision note 兜底**：90 min 内若学员卡在 AI-pair 实操、来不及写完 decision note，接受"评审段口头讲清部署目标 + 容量模式各选哪个 + 为什么不选其他"作为课堂验收；书面 note 课后 24h 内补交助教（不影响 Day1 当日反馈，但计入 D9 / 综合作业的"决策可追溯"要求）
 
 ---
 
@@ -799,7 +863,7 @@ HandoffService 手写模式：plan v1 旧路径，多 agent 状态机自己写�
 - 我项目 D2 / D6a 决策卡产物
 
 ## 边界表（讲师当天发实物，学员对照勾选）
-> 13 个能力域与 plan 五·五能力地图一一对应（镜像）；plan 改 → 本表同步改。
+> 14 个能力域与 plan 五·五能力地图一一对应（镜像）；plan 改 → 本表同步改。
 > "验证来源"列**已预填官方文档锚点**（agent 在 2026/05 抓取核对）；portal 截图 / fork 实测仍由讲师 Day-7 补充，作为"二次验证"，写在本表脚注或学员发的 PDF 附录里。文档措辞如有漂移，以 Day-7 重新抓取为准。
 
 | # | 能力域 | Foundry 的边界（不能做 / 有限制） | 验证来源（官方文档 + Day-7 补 portal/fork） | 命中？ | 迁移方案 |
@@ -813,10 +877,11 @@ HandoffService 手写模式：plan v1 旧路径，多 agent 状态机自己写�
 | 7 | Evaluations / Red Team | **本地 AI Red Teaming Agent (PyRIT) 不兼容 Foundry (new) portal/SDK**；要把 Foundry agent 当 target 必须走云端 Red Teaming Agent；区域受限（East US 2 / France Central / Sweden Central / Switzerland West / US North Central）；仅 single-turn text-only | [Run AI Red Teaming Agent Locally](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/run-scans-ai-red-teaming-agent)（"Note: AI Red Teaming Agent local is not compatible with the Foundry(new) portal and SDK" + "Region support" + "AI Red Teaming Agent only supports single-turn"）| [ ] | 需 multi-turn / 区域外 → 自建 PyRIT pipeline；CI 集成 → 云端 Red Teaming Agent SDK |
 | 8 | Tracing / Monitoring | 走 OTel + Application Insights；**采样、保留、计费跟随 App Insights 配置**；hosted/workflow/custom agents 的 tracing 仍 preview，仅 prompt agents GA | [Agent tracing concept](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)（"Note: Tracing is generally available for prompt agents only" + "Trace data retention and sampling follow your Application Insights configuration"）| [ ] | 摄入费爆 → App Insights 侧调采样率；自定义维度 → OTel attribute 自加 |
 | 9 | Deployment | **Hosted agents 是当前主路径**：托管容器、scale-to-zero、~15 分钟 idle 释放、session 文件最长 30 天；legacy ACA 路径走旧 `azd ai agent` 0.1.25-preview | [Hosted agent quickstart](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-hosted-agent)（"Runtime behavior: Hosted agents use scale-to-zero compute. Idle compute deprovisions after approximately 15 minutes" + Warning 段提到 legacy 走 0.1.25-preview）| [ ] | 必须自托管 → ACA legacy（min replicas ≥ 1）/ 自己 VM；BYO VNet → Hosted agents 支持 |
-| 10 | Quotas / Cost | TPM/RPM 自动 Tier 升级（Tier 1-6），可 opt-out；超 tier 会有更高 latency 抖动；增配走 [quota request form](https://aka.ms/oai/stuquotarequest) | [Quotas-limits "Quota tiers" + "Usage tiers"](https://learn.microsoft.com/en-us/azure/foundry/openai/quotas-limits) | [ ] | 配额不够 → PTU（dedicated）或 form 申请；latency 敏感 → PTU |
-| 11 | SDK / Agent Framework | Hosted agents = code-based，框架自选（Agent Framework / LangGraph / 自己写）；workflow designer 不支持 hosted agents 编排 | [Hosted agent quickstart "Step 1"](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-hosted-agent) + [Workflow note](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow)（hosted not supported in designer）| [ ] | 想用 hosted 编排多 agent → Agent Framework workflows / 自写 |
-| 12 | A2A | 仅 **协议版本 0.3**；仅 text modality；transports 仅 HTTP+JSON / JSONRPC（**无 gRPC**）；要求 Microsoft Entra ID 鉴权，不支持 key-based / anonymous；预览期 | [Enable A2A endpoint](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/enable-agent-to-agent-endpoint)（"Foundry Agent Service supports A2A protocol version 0.3 only" + "Supported A2A transports"表 + "Limitations"段）| [ ] | 跨 vendor 互通 → 对方也须 A2A 0.3 + Entra；要 gRPC → 自包一层 |
-| 13 | MCP | 支持 remote MCP servers（含 Azure DevOps MCP preview）+ Azure Functions custom MCP；auth 选项：Key / Entra（agent 或 project managed identity）/ OBO / unauthenticated；Toolbox（preview）统一暴露多 tool | [Agent Service overview "Tools"段](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview) + [Toolbox 文档](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/toolbox) | [ ] | 内置 MCP server 不够 → 自写 MCP server on Azure Functions；rebrand 期 → Day-7 重抓最新 catalog |
+| 10 | Quotas（PAYG） | TPM/RPM 自动 Tier 升级（Tier 1-6），可 opt-out；超 tier 会有更高 latency 抖动；增配走 [quota request form](https://aka.ms/oai/stuquotarequest) | [Quotas-limits "Quota tiers" + "Usage tiers"](https://learn.microsoft.com/en-us/azure/foundry/openai/quotas-limits) | [ ] | 配额不够 → form 申请增配；仍不够 → 升 Capacity（dedicated），见下一行 |
+| 11 | Capacity（dedicated） | PTU / Provisioned Throughput / Reservation：按月起买、commitment 期限 ≥ 1 年；区域 + 模型限制比 PAYG 更窄；与 PAYG 正交（可叠加） | [Provisioned throughput](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput) + [Reservation discounts](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput#reservation-discounts) | [ ] | 流量不可预测 → 留 PAYG；要 SLA + 稳定 latency → PTU；要锁价 → reservation；区域/模型不支持 → 换 region 或回 PAYG |
+| 12 | SDK / Agent Framework | Hosted agents = code-based，框架自选（Agent Framework / LangGraph / 自己写）；workflow designer 不支持 hosted agents 编排 | [Hosted agent quickstart "Step 1"](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-hosted-agent) + [Workflow note](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow)（hosted not supported in designer）| [ ] | 想用 hosted 编排多 agent → Agent Framework workflows / 自写 |
+| 13 | A2A | 仅 **协议版本 0.3**；仅 text modality；transports 仅 HTTP+JSON / JSONRPC（**无 gRPC**）；要求 Microsoft Entra ID 鉴权，不支持 key-based / anonymous；预览期 | [Enable A2A endpoint](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/enable-agent-to-agent-endpoint)（"Foundry Agent Service supports A2A protocol version 0.3 only" + "Supported A2A transports"表 + "Limitations"段）| [ ] | 跨 vendor 互通 → 对方也须 A2A 0.3 + Entra；要 gRPC → 自包一层 |
+| 14 | MCP | 支持 remote MCP servers（含 Azure DevOps MCP preview）+ Azure Functions custom MCP；auth 选项：Key / Entra（agent 或 project managed identity）/ OBO / unauthenticated；Toolbox（preview）统一暴露多 tool | [Agent Service overview "Tools"段](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview) + [Toolbox 文档](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/toolbox) | [ ] | 内置 MCP server 不够 → 自写 MCP server on Azure Functions；rebrand 期 → Day-7 重抓最新 catalog |
 
 （合规 / 数据驻留 / 多租户隔离粒度作为跨能力域的"非功能"边界，参考 [Agent Service overview "Security, privacy, and compliance" + "Private networking"](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview) 一段；Day-7 由讲师按行业法规要求评估是否单列。）
 
@@ -832,7 +897,7 @@ HandoffService 手写模式：plan v1 旧路径，多 agent 状态机自己写�
 - 命中的项必须给迁移方案；没命中的项不要硬找
 
 ## 自验证
-- [ ] 边界表 13 行全部判定（命中 / 未命中）
+- [ ] 边界表 14 行全部判定（命中 / 未命中）
 - [ ] 命中项都有迁移方案 + 理由
 - [ ] 边界表"验证来源"列已由讲师填实（学员看到"TODO"应当反馈）
 - [ ] 与 D1 决策卡一致（如果 D1 说"用 Foundry"但 D10 命中 ≥3 项关键边界，需要回去 review D1）
@@ -849,14 +914,14 @@ HandoffService 手写模式：plan v1 旧路径，多 agent 状态机自己写�
 
 ### 验收 checklist
 
-- [ ] 边界表 13 行全判定
+- [ ] 边界表 14 行全判定
 - [ ] 命中项的迁移方案具体（不接受"考虑切到其他平台"）
 - [ ] 与 D1 决策卡一致性检查通过（不一致需写明）
 - [ ] 评审段能回答："命中的边界里，哪一项 6 个月内最可能成为阻塞"
 
 ### 讲师准备
 
-- **边界表实物（含具体边界描述 + 验证来源）**——13 行覆盖 plan 五·五能力地图全部能力域；Day-7 必须定稿
+- **边界表实物（含具体边界描述 + 验证来源）**——14 行覆盖 plan 五·五能力地图全部能力域；Day-7 必须定稿
 - 每条边界标注验证来源：官方文档 URL / portal 截图 / fork 实测（三选一硬要求）；"未验证假设"只能作为风险备注列在边界表脚注，不进入主表
 - 与 plan 第五·五能力地图的镜像校对（同步更新）
 - 至少 3 个迁移方案样本（命中常见边界时给学员参考）
