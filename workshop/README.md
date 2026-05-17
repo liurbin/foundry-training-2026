@@ -28,18 +28,18 @@
 
 | Day | 模块 | 时长 | 类型 |
 |-----|------|------|------|
-| 1 | [D1 概念 + 决策框架](docs/d01_concepts/) | 45 min | 决策 |
-| 1 | [D2 Agent Service vs SDK](docs/d02_agent_vs_sdk/) | 90 min | 决策 |
-| 1 | [D3 单 agent 平台路径](docs/d03_single_agent/) | 120 min（跨午饭） | 实操 |
-| 1 | [D4 Provider 抽象](docs/d04_provider_abstraction/) | 90 min | 实操 |
-| 1 | [D5 Scaling + Cost](docs/d05_scaling_cost/) | 90 min | 实操 |
-| 2 | [D6a Agent Framework SDK 的边界](docs/d06a_sdk_boundary/) | 60 min | 决策 + 实操 |
-| 2 | [D6b A2A + MCP 边界 + 叠加](docs/d06b_a2a_mcp/) | 60 min 主段 + 45 min 叠加段 | 实操 |
-| 2 | [D7 多 agent 编排三选一](docs/d07_multi_agent/) | 120 min | 实操 |
-| 2 | [D8 红队 Baseline](docs/d08_red_team/) | 105 min | 实操 |
-| 3 | [D9 生产化 Checklist](docs/d09_production/) | 90 min | 决策 |
-| 3 | [D10 Foundry 能力边界表](docs/d10_boundary/) | 60 min | 决策 |
-| 3 | [D11 AI-pair 工作流](docs/d11_ai_pair/) | 35 min | 决策 + 实操 |
+| 1 | [D1 概念 + 决策框架](workshop/d01_concepts/) | 45 min | 决策 |
+| 1 | [D2 Agent Service vs SDK](workshop/d02_agent_vs_sdk/) | 90 min | 决策 |
+| 1 | [D3 单 agent 平台路径](workshop/d03_single_agent/) | 120 min（跨午饭） | 实操 |
+| 1 | [D4 Provider 抽象](workshop/d04_provider_abstraction/) | 90 min | 实操 |
+| 1 | [D5 Scaling + Cost](workshop/d05_scaling_cost/) | 90 min | 实操 |
+| 2 | [D6a Agent Framework SDK 的边界](workshop/d06a_sdk_boundary/) | 60 min | 决策 + 实操 |
+| 2 | [D6b A2A + MCP 边界 + 叠加](workshop/d06b_a2a_mcp/) | 60 min 主段 + 45 min 叠加段 | 实操 |
+| 2 | [D7 多 agent 编排三选一](workshop/d07_multi_agent/) | 120 min | 实操 |
+| 2 | [D8 红队 Baseline](workshop/d08_red_team/) | 105 min | 实操 |
+| 3 | [D9 生产化 Checklist](workshop/d09_production/) | 90 min | 决策 |
+| 3 | [D10 Foundry 能力边界表](workshop/d10_boundary/) | 60 min | 决策 |
+| 3 | [D11 AI-pair 工作流](workshop/d11_ai_pair/) | 35 min | 决策 + 实操 |
 | 3 | 综合作业实做 + 演示评分 + 成本回顾 + 结业 | 145 + 60 + 30 + 30 min | 5 维度 rubric |
 
 ## 综合作业评分（5 维度）
@@ -70,4 +70,4 @@ workshop/
 
 ## 上游素材归属
 
-本 workshop 部分素材（Bicep 模板结构、A2A server 实现思路、红队 SDK 调用模式）参考自 [microsoft/TechWorkshop-L300-AI-Apps-and-agents](https://github.com/microsoft/TechWorkshop-L300-AI-Apps-and-agents)，MIT License。完整归属见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+本 workshop 部分素材（Bicep 模板结构、A2A server 实现思路、红队 SDK 调用模式）参考自 [microsoft/TechWorkshop-L300-AI-Apps-and-agents](https://github.com/microsoft/TechWorkshop-L300-AI-Apps-and-agents)，MIT License。完整归属见 [`THIRD_PARTY_NOTICES.md`](https://github.com/your-org/foundry-training-2026/blob/main/workshop/THIRD_PARTY_NOTICES.md)。

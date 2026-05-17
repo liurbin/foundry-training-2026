@@ -39,6 +39,6 @@
 - 借鉴上游 Ex02-03（部署到 Azure 的段落）作为部署上下文；scaling / cost 决策（429 stub、压测脚本、成本三档）为本模块 v2 新增，上游 Ex05 只覆盖 CI/CD 不涉及。
 
 ## 参考
-- 链回 ../../../docs/01-instructor-handbook-v2.md#d5
-- 训练计划：../../../docs/00-training-plan-v2.md（D5 行）
-- Fork 映射：../../../docs/03-workshop-fork-mapping.md（D5 标记为新增）
+- 链回 ../../handbook/01-instructor-handbook-v2.md#d5
+- 训练计划：../../handbook/00-training-plan-v2.md（D5 行）
+- Fork 映射：../../handbook/03-workshop-fork-mapping.md（D5 标记为新增）

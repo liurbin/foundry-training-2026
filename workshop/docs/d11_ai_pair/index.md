@@ -28,7 +28,7 @@
 - 无（Ex05 提到 Copilot 生成 workflow，不是 spec 库）
 
 ## 参考
-- ../../../docs/00-training-plan-v2.md D11 行
-- ../../../docs/01-instructor-handbook-v2.md D11 章节
-- ../../../prep-artifacts/day-7/specs/spec-d11-ai-pair-team.md（spec 全文）
-- ../../../docs/03-workshop-fork-mapping.md D11 行（新增模块）
+- ../../handbook/00-training-plan-v2.md D11 行
+- ../../handbook/01-instructor-handbook-v2.md D11 章节
+- ../../specs/spec-d11-ai-pair-team.md（spec 全文）
+- ../../handbook/03-workshop-fork-mapping.md D11 行（新增模块）

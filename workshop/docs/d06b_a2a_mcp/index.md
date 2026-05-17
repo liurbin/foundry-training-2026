@@ -35,6 +35,6 @@
 - MCP 部分上游 fork 没有，本模块自写（最小本地 MCP server + 一个有副作用的 tool）
 
 ## 参考
-- 链回 ../../../docs/01-instructor-handbook-v2.md#d6b--a2a--mcp-的边界
-- 训练计划：../../../docs/00-training-plan-v2.md（D6b 行 + 11:45-12:30 衔接叠加段）
-- Fork 映射：../../../docs/03-workshop-fork-mapping.md（D6b 标记 🟡 部分借 Ex03，MCP 部分上游无）
+- 链回 ../../handbook/01-instructor-handbook-v2.md#d6b--a2a--mcp-的边界
+- 训练计划：../../handbook/00-training-plan-v2.md（D6b 行 + 11:45-12:30 衔接叠加段）
+- Fork 映射：../../handbook/03-workshop-fork-mapping.md（D6b 标记 🟡 部分借 Ex03，MCP 部分上游无）

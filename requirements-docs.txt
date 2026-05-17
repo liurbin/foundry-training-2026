@@ -1,0 +1,4 @@
+# MkDocs Material 站点构建依赖
+# 本地预览：pip install -r requirements-docs.txt && mkdocs serve
+# 本地构建（strict）：mkdocs build --strict
+mkdocs-material>=9.5

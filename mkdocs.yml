@@ -1,0 +1,115 @@
+site_name: Foundry 培训 2026
+site_description: 3 天 11 模块 · 决策驱动 + 平台路径 + 生产化
+site_url: https://example.com/  # 改成你 GitHub Pages 实际域名
+repo_url: https://github.com/your-org/foundry-training-2026  # 改成实际 repo
+repo_name: foundry-training-2026
+edit_uri: edit/main/
+
+docs_dir: site_src
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: 切换到深色
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到浅色
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+nav:
+  - 课程总览: index.md
+  - 学员侧 workshop:
+    - Day 1:
+      - D1 概念 + 决策框架: workshop/d01_concepts/index.md
+      - D2 Agent Service vs SDK: workshop/d02_agent_vs_sdk/index.md
+      - D3 单 agent 平台路径: workshop/d03_single_agent/index.md
+      - D4 Provider 抽象: workshop/d04_provider_abstraction/index.md
+      - D5 Scaling + Cost: workshop/d05_scaling_cost/index.md
+    - Day 2:
+      - D6a Agent Framework SDK 边界: workshop/d06a_sdk_boundary/index.md
+      - D6b A2A + MCP: workshop/d06b_a2a_mcp/index.md
+      - D7 多 agent 编排: workshop/d07_multi_agent/index.md
+      - D8 红队 Baseline: workshop/d08_red_team/index.md
+    - Day 3:
+      - D9 生产化 Checklist: workshop/d09_production/index.md
+      - D10 Foundry 能力边界表: workshop/d10_boundary/index.md
+      - D11 AI-pair 工作流: workshop/d11_ai_pair/index.md
+  - 讲师包:
+    - 训练计划 v2: handbook/00-training-plan-v2.md
+    - 讲师手册 v2: handbook/01-instructor-handbook-v2.md
+    - Day-7 准备清单: handbook/02-instructor-prep-checklist.md
+    - 上游 ↔ v2 映射: handbook/03-workshop-fork-mapping.md
+    - 设计原则: handbook/04-design-principles.md
+    - 学员前置清单: handbook/01-precheck.md
+  - Prompt Spec 库:
+    - D1 Foundry fit: specs/spec-d1-foundry-fit.md
+    - D2 Service vs SDK: specs/spec-d2-service-vs-sdk.md
+    - D3 单 agent: specs/spec-d3-single-agent.md
+    - D4 Provider 抽象: specs/spec-d4-provider-abstraction.md
+    - D5 Scaling + Cost: specs/spec-d5-scaling-cost.md
+    - D6a SDK 边界: specs/spec-d6a-sdk-boundary.md
+    - D6b A2A + MCP: specs/spec-d6b-a2a-mcp.md
+    - D7 多 agent: specs/spec-d7-multi-agent.md
+    - D8 红队 gate: specs/spec-d8-redteam-gate.md
+    - D9 生产化 checklist: specs/spec-d9-prod-checklist.md
+    - D10 边界表: specs/spec-d10-foundry-limits.md
+    - D11 AI-pair team: specs/spec-d11-ai-pair-team.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-org/foundry-training-2026

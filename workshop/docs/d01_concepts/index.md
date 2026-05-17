@@ -37,6 +37,6 @@
 
 ## 参考
 
-- [training plan v2 — Day1 / 第五·五节 Foundry 能力地图](../../../docs/00-training-plan-v2.md)
-- [instructor handbook v2 — D1 模块](../../../docs/01-instructor-handbook-v2.md)
-- 上游对应：无（D1 为本课新增模块，见 [03-workshop-fork-mapping.md](../../../docs/03-workshop-fork-mapping.md)）
+- [training plan v2 — Day1 / 第五·五节 Foundry 能力地图](../../handbook/00-training-plan-v2.md)
+- [instructor handbook v2 — D1 模块](../../handbook/01-instructor-handbook-v2.md)
+- 上游对应：无（D1 为本课新增模块，见 [03-workshop-fork-mapping.md](../../handbook/03-workshop-fork-mapping.md)）

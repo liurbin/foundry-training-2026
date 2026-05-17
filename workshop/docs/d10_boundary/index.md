@@ -31,7 +31,7 @@
 - 无（上游 workshop 教"怎么用"，不讲边界；D10 为 v2 新增 🔴）
 
 ## 参考
-- 链回 [../../../docs/01-instructor-handbook-v2.md#d10](../../../docs/01-instructor-handbook-v2.md#d10)
-- 链回 [../../../docs/00-training-plan-v2.md](../../../docs/00-training-plan-v2.md) 五·五能力地图（13 行镜像源）
-- 链回 [../../../docs/02-instructor-prep-checklist.md](../../../docs/02-instructor-prep-checklist.md) D10 节（边界表实物 + 验证来源验收口径）
-- 链回 [../../../docs/03-workshop-fork-mapping.md](../../../docs/03-workshop-fork-mapping.md) D10 行（🔴 新增定位）
+- 链回 [../../handbook/01-instructor-handbook-v2.md#d10](../../handbook/01-instructor-handbook-v2.md#d10)
+- 链回 [../../handbook/00-training-plan-v2.md](../../handbook/00-training-plan-v2.md) 五·五能力地图（13 行镜像源）
+- 链回 [../../handbook/02-instructor-prep-checklist.md](../../handbook/02-instructor-prep-checklist.md) D10 节（边界表实物 + 验证来源验收口径）
+- 链回 [../../handbook/03-workshop-fork-mapping.md](../../handbook/03-workshop-fork-mapping.md) D10 行（🔴 新增定位）

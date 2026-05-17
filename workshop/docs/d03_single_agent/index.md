@@ -48,7 +48,7 @@
 
 ## 参考
 
-- 讲师手册 D3 模块：[../../../docs/01-instructor-handbook-v2.md](../../../docs/01-instructor-handbook-v2.md)（搜 "D3 — 单 agent 平台路径"）
-- 训练计划 D3 议程：[../../../docs/00-training-plan-v2.md](../../../docs/00-training-plan-v2.md)（Day1 第六节）
-- fork 映射表 D3 行：[../../../docs/03-workshop-fork-mapping.md](../../../docs/03-workshop-fork-mapping.md)
-- prompt spec：[../../../prep-artifacts/day-7/specs/spec-d3-single-agent.md](../../../prep-artifacts/day-7/specs/spec-d3-single-agent.md)
+- 讲师手册 D3 模块：[../../handbook/01-instructor-handbook-v2.md](../../handbook/01-instructor-handbook-v2.md)（搜 "D3 — 单 agent 平台路径"）
+- 训练计划 D3 议程：[../../handbook/00-training-plan-v2.md](../../handbook/00-training-plan-v2.md)（Day1 第六节）
+- fork 映射表 D3 行：[../../handbook/03-workshop-fork-mapping.md](../../handbook/03-workshop-fork-mapping.md)
+- prompt spec：[../../specs/spec-d3-single-agent.md](../../specs/spec-d3-single-agent.md)

@@ -42,7 +42,7 @@
 
 ## 参考
 
-- 链回 [../../../docs/01-instructor-handbook-v2.md](../../../docs/01-instructor-handbook-v2.md) D4 节（含 negative examples、验收 checklist 完整版）
-- prompt spec：[../../../prep-artifacts/day-7/specs/spec-d4-provider-abstraction.md](../../../prep-artifacts/day-7/specs/spec-d4-provider-abstraction.md)
-- 训练大纲 [../../../docs/00-training-plan-v2.md](../../../docs/00-training-plan-v2.md) D4 行
-- Fork 映射 [../../../docs/03-workshop-fork-mapping.md](../../../docs/03-workshop-fork-mapping.md)
+- 链回 [../../handbook/01-instructor-handbook-v2.md](../../handbook/01-instructor-handbook-v2.md) D4 节（含 negative examples、验收 checklist 完整版）
+- prompt spec：[../../specs/spec-d4-provider-abstraction.md](../../specs/spec-d4-provider-abstraction.md)
+- 训练大纲 [../../handbook/00-training-plan-v2.md](../../handbook/00-training-plan-v2.md) D4 行
+- Fork 映射 [../../handbook/03-workshop-fork-mapping.md](../../handbook/03-workshop-fork-mapping.md)

@@ -28,4 +28,4 @@
 - 纯决策模块，无需 Azure 凭证
 
 ## 参考
-- 链回 ../../../docs/01-instructor-handbook-v2.md#d2
+- 链回 ../../handbook/01-instructor-handbook-v2.md#d2

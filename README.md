@@ -21,6 +21,18 @@
 | `workshop/` | 学员侧站点（12 模块 × 45 子任务） | **学员**、助教 |
 | `prep-artifacts/day-7/specs/` | 11 个 spec 文件（已从 handbook 抽出） | 讲师、AI-pair |
 
+## 本地预览站点
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-docs.txt
+mkdocs serve         # http://127.0.0.1:8000
+mkdocs build --strict  # CI 跑这个；broken link 会失败
+```
+
+站点结构：学员侧 workshop（12 模块）+ 讲师包（plan / handbook / checklist）+ Prompt Spec 库；docs 源用 symlink 聚合到 `site_src/`，nav 在 `mkdocs.yml`。
+推送到 main 由 `.github/workflows/pages.yml` 自动部署到 GitHub Pages。
+
 ## 目录结构
 
 ```

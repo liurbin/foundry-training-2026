@@ -40,7 +40,7 @@
 - 红队 gate / 事故复盘 / runbook 模板 / Azure DevOps 对照表 —— 上游无，v2 自写
 
 ## 参考
-- 讲师手册：../../../docs/01-instructor-handbook-v2.md（D9 章节）
-- 训练计划：../../../docs/00-training-plan-v2.md（D9 行）
-- Fork 映射：../../../docs/03-workshop-fork-mapping.md（D9 标记 🟡 部分复用）
-- prompt spec：../../../prep-artifacts/day-7/specs/spec-d9-prod-checklist.md
+- 讲师手册：../../handbook/01-instructor-handbook-v2.md（D9 章节）
+- 训练计划：../../handbook/00-training-plan-v2.md（D9 行）
+- Fork 映射：../../handbook/03-workshop-fork-mapping.md（D9 标记 🟡 部分复用）
+- prompt spec：../../specs/spec-d9-prod-checklist.md

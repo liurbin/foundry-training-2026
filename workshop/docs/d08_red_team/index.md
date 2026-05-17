@@ -41,6 +41,6 @@
 
 ## 参考
 - 训练计划 v2 D8 行（`docs/00-training-plan-v2.md`）
-- 讲师手册 D8 章节（`../../../docs/01-instructor-handbook-v2.md` "D8 — 红队作为上线门槛"）
-- Fork 映射表 D8 行（`../../../docs/03-workshop-fork-mapping.md`）
-- spec 文件：[../../../prep-artifacts/day-7/specs/spec-d8-redteam-gate.md](../../../prep-artifacts/day-7/specs/spec-d8-redteam-gate.md)
+- 讲师手册 D8 章节（`../../handbook/01-instructor-handbook-v2.md` "D8 — 红队作为上线门槛"）
+- Fork 映射表 D8 行（`../../handbook/03-workshop-fork-mapping.md`）
+- spec 文件：[../../specs/spec-d8-redteam-gate.md](../../specs/spec-d8-redteam-gate.md)
