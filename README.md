@@ -59,9 +59,10 @@ foundry-training-2026/
 - [x] 学员侧 workshop 站点（`workshop/` 12 模块 × 45 子任务 + code + infra）
 - [x] 11 spec 抽独立文件（`prep-artifacts/day-7/specs/`）
 - [x] 学员前置准备清单（`docs/01-precheck.md`，订阅项已降为 optional）
-- [ ] **Day-7 by 讲师**：fork 实操跑通改造 + 各模块录屏 / sample JSON / prepared repo / API 漂移清单
-- [ ] **Day-7 by 讲师**：D10 边界表 13 行实证填实（plan §五·五 + handbook D10 镜像同步）
+- [~] **Day-7 by 讲师**：fork 实操跑通改造 + 各模块录屏 / sample JSON / prepared repo / API 漂移清单（讲师 Day-7 实物，需 Azure 订阅；当前为"课程设计完成"，未达"讲师包完成"）
+- [~] **Day-7 by 讲师**：D10 边界表 13 行验证来源——**官方文档 URL 已预填**（agent 2026/05 抓取核对，覆盖 Agent Service / Workflows / Quotas / Hosted agents / Red Teaming / Tracing / A2A 等关键行）；portal 截图 / fork 实测 / 订阅级 region 可用性 **仍待讲师 Day-7 补**
 - [ ] **Day-7 by 讲师**：Foundry MCP server 可用性二选一（D11）
+- [~] **Day-7 by 讲师**：`workshop/infra/` Bicep 骨架未在真实订阅验证（D3 真部署路径，需讲师 Day-7 跑通或录屏）
 - [x] D5（Hosted Agents 主路径 / ACA 对照）与 D8（云端 Red Teaming Agent + SDK 学员真跑 / Portal 讲师演示）口径已统一；具体边界 / 验证来源待 Day-7 实证
 
 > v1 文档（`00-training-plan.md`、`02-instructor-manual.md`）保留作演化参考，不再维护。
