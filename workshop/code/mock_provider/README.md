@@ -27,6 +27,9 @@ class ChatProvider(Protocol):
 ## 怎么跑
 
 ```bash
+# 一次性装依赖（仓库根目录的 requirements-dev.txt 列了 pytest / httpx 等）
+pip install -r ../../../requirements-dev.txt
+
 cd workshop/code/mock_provider
 python3 -m pytest test_provider.py -v
 # 或者手跑：

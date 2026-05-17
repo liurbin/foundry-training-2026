@@ -34,7 +34,7 @@
 
 ```bash
 # 1. Python 3.12+
-python --version  # 必须 3.12 或更高
+python3 --version  # 必须 3.12 或更高（macOS / Linux 默认无 `python`，统一用 python3）
 # 装法：pyenv install 3.12 或 brew install python@3.12
 
 # 2. uv（包管理，workshop 用的）

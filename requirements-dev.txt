@@ -1,0 +1,11 @@
+# 学员侧测试 / 工具依赖（最小集合）
+# 用法：
+#   python3 -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements-dev.txt
+#
+# 用 uv 等价：
+#   uv venv && source .venv/bin/activate
+#   uv pip install -r requirements-dev.txt
+
+pytest>=8.0      # workshop/code/mock_provider + stub_429 测试
+httpx>=0.27      # workshop/code/load_test/loadtest.py

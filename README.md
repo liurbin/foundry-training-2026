@@ -42,9 +42,12 @@ foundry-training-2026/
 │   ├── infra/                         # Bicep 骨架（讲师演示用，未在真实订阅验证）
 │   └── THIRD_PARTY_NOTICES.md         # 上游 MIT 归属
 ├── prep-artifacts/day-7/specs/        # 12 个 spec 独立文件
+├── requirements-dev.txt               # 学员/助教跑 pytest 用的最小依赖（pytest / httpx）
 └── scripts/
     └── precheck.sh                    # 学员环境自检（python3 / git / curl 等）
 ```
+
+> 跑 workshop/code 下的 pytest 前：`pip install -r requirements-dev.txt`（或用 `uv pip install -r requirements-dev.txt`）。
 
 ## 当前进度
 

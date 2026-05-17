@@ -31,7 +31,10 @@ python retry_client.py --url http://127.0.0.1:18429/ --max-retries 5
 ### 3. 跑 pytest（自动起 server）
 
 ```bash
-python -m pytest test_retry.py -v
+# 一次性装依赖（仓库根目录的 requirements-dev.txt）
+pip install -r ../../../requirements-dev.txt
+
+python3 -m pytest test_retry.py -v
 ```
 
 ## 注入到自己的 retry 逻辑里

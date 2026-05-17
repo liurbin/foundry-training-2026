@@ -78,12 +78,15 @@ def test_backoff_respects_max_delay() -> None:
 
 
 def test_full_jitter_within_bounds() -> None:
+    # full jitter 语义：sleep ∈ [exp, exp*2)，再被 max_delay 封顶。
+    # exp 作为下界保证遵守服务端语义（Retry-After 也是硬下界，见下个测试）。
     random.seed(42)
     p = RetryPolicy(base_delay=1.0, max_delay=8.0, jitter="full")
     for attempt in range(1, 6):
+        exp = min(8.0, 1.0 * (2 ** (attempt - 1)))
         for _ in range(50):
             d = p.backoff(attempt)
-            assert 0 <= d <= min(8.0, 1.0 * (2 ** (attempt - 1)))
+            assert exp <= d <= max(exp, min(8.0, exp * 2))
 
 
 def test_retry_after_header_raises_floor() -> None:
