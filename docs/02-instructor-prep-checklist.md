@@ -48,14 +48,18 @@
 | [ ] | mock provider 学员侧样例 | 学员可拷走的代码 + README | 无 Azure 凭证 / 断网可跑通；与手册 D4 接口契约一致 |
 | [ ] | live demo 失败时录屏 fallback | 3-5 分钟录屏 | 含 Foundry 调用 + 切换 + 非 Azure provider 调用全链路 |
 
-## D5: Scaling + Cost
+## D5: 部署与容量模式 + Scaling + Cost
 
 | 状态 | 项 | 产物 | 验收 |
 |------|----|------|------|
+| [ ] | 部署与容量模式对照表（投屏用） | 一页对照表（3 部署目标 × 4 容量模式） | 与 handbook D5 / spec-d5 前置 15 min 段逐字一致；含"何时选 + 学员要操心什么" |
+| [ ] | decision note 样例 | 1-2 份填好的 `decision_note.md` 样例（如"中小 SaaS 走 Hosted Agents + PAYG"、"金融 partner 走 ACA 自托管 + PTU"） | 5 张表全填 + 每个"为什么不选"≥1 句业务理由；课堂可投屏对照 |
+| [ ] | PAYG / quota increase / PTU / reservation 讲师口径速查 | 一页 Q&A：起买门槛 / commitment / 区域 / 与 PAYG 是否叠加 | 学员问"PTU 一档多少钱 / 哪些区域 / 能不能月付"时讲师不卡壳 |
 | [ ] | 429 注入 stub / replay response | 可复用 stub 代码或 replay fixture | 学员不依赖真实配额也能验证 retry + jitter |
 | [ ] | 100 RPS x 5min 压测脚本 | 脚本 + README + 参数说明 | 讲师侧可复跑，学员侧不要求真实执行 |
 | [ ] | 压测录屏 | 3-5 分钟录屏或终端日志摘要 | 能看到压测启动、429 注入、retry 成功、缓存命中 |
-| [ ] | 成本三档参考 | 小/中/大三档估算表 | 覆盖 1k / 10k / 100k DAU，包含模型费、容器费、AI 摄入费 |
+| [ ] | 成本三档参考 | 小/中/大三档估算表（每档对应容量模式） | 覆盖 1k / 10k / 100k DAU，包含模型费、容器费、AI 摄入费；100k DAU 那档明示需要 quota increase 或 PTU |
+| [ ] | decision note 兜底口径 | 一行讲师口径 | 90 min 内学员卡住时接受口头讲清 + 24h 内补交（与 handbook D5 兜底一致） |
 
 ## D6b: A2A + MCP
 

@@ -78,7 +78,7 @@ nav:
       - D2 Agent Service vs SDK: workshop/d02_agent_vs_sdk/index.md
       - D3 单 agent 平台路径: workshop/d03_single_agent/index.md
       - D4 Provider 抽象: workshop/d04_provider_abstraction/index.md
-      - D5 Scaling + Cost: workshop/d05_scaling_cost/index.md
+      - D5 部署与容量模式 + Scaling + Cost: workshop/d05_scaling_cost/index.md
     - Day 2:
       - D6a Agent Framework SDK 边界: workshop/d06a_sdk_boundary/index.md
       - D6b A2A + MCP: workshop/d06b_a2a_mcp/index.md
@@ -100,7 +100,7 @@ nav:
     - D2 Service vs SDK: specs/spec-d2-service-vs-sdk.md
     - D3 单 agent: specs/spec-d3-single-agent.md
     - D4 Provider 抽象: specs/spec-d4-provider-abstraction.md
-    - D5 Scaling + Cost: specs/spec-d5-scaling-cost.md
+    - D5 部署与容量模式 + Scaling + Cost: specs/spec-d5-scaling-cost.md
     - D6a SDK 边界: specs/spec-d6a-sdk-boundary.md
     - D6b A2A + MCP: specs/spec-d6b-a2a-mcp.md
     - D7 多 agent: specs/spec-d7-multi-agent.md
