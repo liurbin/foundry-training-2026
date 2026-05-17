@@ -1,7 +1,7 @@
 site_name: Foundry 培训 2026
 site_description: 3 天 11 模块 · 决策驱动 + 平台路径 + 生产化
-site_url: https://example.com/  # 改成你 GitHub Pages 实际域名
-repo_url: https://github.com/your-org/foundry-training-2026  # 改成实际 repo
+site_url: https://liurbin.github.io/foundry-training-2026/
+repo_url: https://github.com/liurbin/foundry-training-2026
 repo_name: foundry-training-2026
 edit_uri: edit/main/
 
@@ -112,4 +112,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/your-org/foundry-training-2026
+      link: https://github.com/liurbin/foundry-training-2026
