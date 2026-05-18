@@ -72,6 +72,11 @@ plugins:
 
 nav:
   - 课程总览: index.md
+  - English:
+    - Overview: en/index.md
+    - Learner Workshop: en/workshop/index.md
+    - Instructor Pack: en/handbook/index.md
+    - Prompt Spec Library: en/specs/index.md
   - 学员侧 workshop:
     - Day 1:
       - D1 概念 + 决策框架: workshop/d01_concepts/index.md
