@@ -9,12 +9,14 @@ implement, and verify the result.
 ## Credential Model
 
 Learners are not required to bring an Azure subscription.
+Real resource, quota, and billing steps are described as Microsoft Foundry on
+Azure and are instructor-led unless learners bring their own environment.
 
 | Path | How it works |
 |------|--------------|
 | Learner default | Mock provider, local stubs, sample JSON, prepared repos, and decision cards. |
-| Instructor demo | Real Foundry portal, model deployments, tracing, red-team runs, and live provider switch. |
-| Learner optional | Learners with their own Azure subscription may run selected deployment steps after class. |
+| Instructor demo | Real Microsoft Foundry on Azure portal, model deployments, tracing, red-team runs, and live provider switch. |
+| Learner optional | Learners with their own Azure subscription and Microsoft Foundry on Azure access may run selected deployment steps after class. |
 
 ## Module Map
 
@@ -88,4 +90,3 @@ Every module follows the same course contract:
 | Red-team baseline | ASR is reported, false positives are reviewed, and gate rules are concrete. |
 | Production readiness | Monitoring, rollback, cost sampling, and runbook gaps are explicit. |
 | AI-pair workflow | Specs, negative examples, and reusable prompts are preserved as team assets. |
-

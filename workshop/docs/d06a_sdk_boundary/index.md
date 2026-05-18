@@ -33,7 +33,7 @@
 ## 凭证说明
 
 - 学员侧：mock provider，本机即可
-- 不需要真实 Azure / Foundry 凭证；Container Apps / Application Insights 部分以"决策卡里估算"代替真部署
+- 不需要真实 Microsoft Foundry on Azure 凭证；Container Apps / Application Insights 部分以"决策卡里估算"代替真部署
 
 ## 反例预警（评审段会被点名）
 

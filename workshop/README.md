@@ -1,6 +1,7 @@
-# Microsoft Foundry 3-Day Workshop
+# Microsoft Foundry Training 2026
 
-> 面向工程师的 Microsoft Foundry 实战培训，3 天 11 模块，决策驱动 + 平台路径 + 生产化。
+> Microsoft Foundry, formerly Azure AI Foundry。面向工程师的 Microsoft Foundry
+> 实战培训，3 天 11 模块，决策驱动 + 平台路径 + 生产化。
 > 上游参考：[microsoft/TechWorkshop-L300-AI-Apps-and-agents](https://microsoft.github.io/TechWorkshop-L300-AI-Apps-and-agents/)（MIT）。
 > 课程设计源：`../docs/00-training-plan-v2.md`；讲师手册：`../docs/01-instructor-handbook-v2.md`。
 
@@ -19,7 +20,8 @@
 
 ## 凭证假设
 
-学员侧**不要求**自带 Azure 订阅。所有需要真实 Azure / Foundry 的步骤由讲师演示，学员用 mock provider / stub / sample JSON 完成验收。
+学员侧**不要求**自带 Azure 订阅。所有需要真实 Microsoft Foundry on Azure
+资源或计费上下文的步骤由讲师演示，学员用 mock provider / stub / sample JSON 完成验收。
 讲师侧的环境准备见 `../docs/02-instructor-prep-checklist.md`。
 
 ## 课程地图

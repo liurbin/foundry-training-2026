@@ -1,7 +1,11 @@
-# Foundry Developer Training 2026
+# Microsoft Foundry Training 2026
 
 > A 3-day, 11-module Microsoft Foundry workshop for AI-native developers.
 > The course is decision-driven, platform-aware, and production-oriented.
+
+Microsoft Foundry, formerly Azure AI Foundry, is the product name used by this
+course. When the course refers to resources, subscriptions, quota, or billing,
+it uses "Microsoft Foundry on Azure" to make the Azure execution context clear.
 
 This English edition covers the published training output: the learner workshop,
 the instructor pack, and the prompt spec library. It is adapted from the Chinese
@@ -25,8 +29,8 @@ red-team gates, cost, scaling, and team-level AI-pair workflows.
   "3-day MVP, production-grade direction" style of training
 - Teams that are already adopting, or about to adopt, Microsoft Foundry
 
-Learners do not need their own Azure subscription for the main class path.
-Real Azure and Foundry actions are demonstrated by the instructor; learners
+Learners do not need their own Azure subscription for the main class path. Real
+Microsoft Foundry on Azure actions are demonstrated by the instructor; learners
 complete most checks with mock providers, stubs, sample JSON, and decision cards.
 
 ## What Learners Can Do Afterward
@@ -81,4 +85,3 @@ instructor still has to validate time-sensitive platform details before delivery
 The original Chinese site remains the canonical detailed source for the full
 module subtask pages and implementation notes. This English edition keeps the
 same structure and links back to those detailed Chinese pages where useful.
-

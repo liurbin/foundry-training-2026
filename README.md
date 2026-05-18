@@ -1,13 +1,15 @@
-# Foundry 开发者培训 2026
+# Microsoft Foundry Training 2026
 
-基于微软官方 `microsoft/TechWorkshop-L300-AI-Apps-and-agents` 改造、按 plan v2 重新组织的 3 天 11 模块培训材料。
+Microsoft Foundry, formerly Azure AI Foundry。本文档是基于微软官方
+`microsoft/TechWorkshop-L300-AI-Apps-and-agents` 改造、按 plan v2 重新组织的
+3 天 11 模块培训材料。
 
 ## 培训定位
 
-- **人群**：~10 人 Python 开发者，无 Foundry 经验
+- **人群**：~10 人 Python 开发者，无 Microsoft Foundry 经验
 - **形式**：远程 **3 天**（约 18 课时）
 - **深度**：L300，决策驱动 + 平台路径 + 生产化；代码动手为主
-- **产出**：每人能独立部署一套 Foundry agent + 接入观测 + 跑红队 baseline + 完成综合作业（5 维度 rubric）
+- **产出**：每人能独立部署一套 Microsoft Foundry agent + 接入观测 + 跑红队 baseline + 完成综合作业（5 维度 rubric）
 
 ## 4 份核心文档 + workshop 站点
 

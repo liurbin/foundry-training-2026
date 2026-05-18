@@ -1,4 +1,4 @@
-# Foundry 开发者培训方案（3 天版）
+# Microsoft Foundry Training 2026 旧版培训方案（3 天版）
 
 ## 一、培训定位
 

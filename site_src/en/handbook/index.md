@@ -22,7 +22,7 @@ The course is derived from five design principles:
 
 | Area | Must be ready before class |
 |------|----------------------------|
-| Platform path | Real or recorded Foundry project setup, model deployment, agent invocation, and trace evidence. |
+| Platform path | Real or recorded Microsoft Foundry on Azure project setup, model deployment, agent invocation, and trace evidence. |
 | API drift | Current package versions, renamed fields, broken examples, and current portal paths. |
 | Provider abstraction | One non-Azure provider key for instructor-only live switch or a fallback recording. |
 | Scaling and cost | 429 stub, replay response, cost tiers, and capacity-mode explanation. |

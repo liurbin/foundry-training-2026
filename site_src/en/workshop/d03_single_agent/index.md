@@ -1,6 +1,6 @@
 # D3: Single-Agent Platform Path
 
-> Module type: hands-on + review | Duration: 120 min | Credentials: Azure subscription and Foundry project for real deployment; mock or instructor endpoint for fallback
+> Module type: hands-on + review | Duration: 120 min | Credentials: Azure subscription with Microsoft Foundry on Azure project access for real deployment; mock or instructor endpoint for fallback
 
 ## Goals
 - Deploy or understand a minimal Foundry agent resource path.
@@ -25,7 +25,7 @@
 - Trace observation is recorded when tracing is enabled.
 
 ## Credential Notes
-Azure subscription and Foundry project for real deployment; mock or instructor endpoint for fallback.
+Azure subscription with Microsoft Foundry on Azure project access for real deployment; mock or instructor endpoint for fallback.
 
 ## Common Mistakes
 - Deploying AI-generated Bicep without reading the diff.

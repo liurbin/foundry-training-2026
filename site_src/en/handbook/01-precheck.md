@@ -7,7 +7,9 @@
 - A working AI coding assistant such as Claude Code, Codex, or GitHub Copilot.
 
 ## Optional Cloud Access
-An Azure subscription is optional for learners. Real Foundry portal and deployment steps are instructor-led unless learners bring their own environment.
+An Azure subscription is optional for learners. Real Microsoft Foundry on Azure
+portal and deployment steps are instructor-led unless learners bring their own
+environment.
 
 ## Before Class
 - Clone the repository.

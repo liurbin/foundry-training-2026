@@ -1,7 +1,11 @@
 # Training Plan v2: AI-Native Developer Edition
 
 ## Positioning
-This is a 3-day Microsoft Foundry course for AI-native developers. It is not an API walkthrough and it is not a generic AI-pair programming class. The instructor teaches Foundry capability boundaries, platform choices, composition paths, red-team gates, cost, scaling, and production tradeoffs.
+This is a 3-day Microsoft Foundry course for AI-native developers. Microsoft
+Foundry, formerly Azure AI Foundry, is not taught here as an API walkthrough or
+generic AI-pair programming class. The instructor teaches Foundry capability
+boundaries, platform choices, composition paths, red-team gates, cost, scaling,
+and production tradeoffs.
 
 ## Learner Profile
 Learners already use AI coding assistants in daily work. They care about shipping a demonstrable MVP quickly while still reasoning about production concerns from day one.
@@ -33,4 +37,7 @@ The course uses 14 Foundry capability domains: Agent Service, Workflows, Project
 | AI-pair workflow reuse | 15% |
 
 ## Human Gating Items
-Instructor-side Azure subscription, model access, TPM capacity, provider key for D4, portal screenshots, validated traces, sample JSON, and Day-7 evidence are human prerequisites and cannot be invented by the course material.
+Instructor-side Microsoft Foundry on Azure subscription access, model access,
+TPM capacity, provider key for D4, portal screenshots, validated traces, sample
+JSON, and Day-7 evidence are human prerequisites and cannot be invented by the
+course material.
