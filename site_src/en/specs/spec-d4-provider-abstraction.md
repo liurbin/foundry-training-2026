@@ -1,44 +1,26 @@
-# Ask AI to Build a Provider Abstraction Layer
+# D4 Provider Abstraction
 
-> Bilingual mirror. Original source: `prep-artifacts/day-7/specs/spec-d4-provider-abstraction.md`.
+## Goal
+Build a ChatProvider abstraction so business code is not tied to one SDK.
 
-## English Guide
+## Inputs
+- Project context and current stage.
+- Relevant outputs from earlier modules.
+- Current platform assumptions, SDK versions, portal evidence, or instructor-provided fallback artifacts.
 
-This is the bilingual mirror for a prompt spec or decision card. Use the English heading for discovery, then rely on the full Chinese source below for the exact template, constraints, and self-verification checklist.
+## Ask AI to Produce
+- Provider interface, implementations, switch config, and tests.
+- A short explanation of decisions and rejected alternatives.
+- Verification steps that can be run or reviewed during class.
 
-- Chinese canonical title: 让 AI 帮我写一层 provider 抽象
-- English navigation title: Ask AI to Build a Provider Abstraction Layer
-- Scope: this page is part of the full bilingual Foundry training site.
+## Constraints
+- Do not hardcode secrets, endpoints, regions, model deployment names, or private keys.
+- Do not invent platform capabilities that were not verified by documentation, portal screenshots, or fork tests.
+- Keep abstractions minimal and aligned with the module goal.
+- Explicitly name uncertainty instead of hiding it.
 
-## Chinese Source with Bilingual Headings
-
-> 抽自 docs/01-instructor-handbook-v2.md D4 模块；同步规则见 docs/02-instructor-prep-checklist.md
-
-# Ask AI to Build a Provider Abstraction Layer / 让 AI 帮我写一层 provider 抽象
-
-## Goals / 目标
-我的业务代码不直接依赖 Foundry SDK 或 OpenAI SDK，而是依赖一个 ChatProvider 接口。
-今天能在 Foundry / mock 之间切，未来能加第三方 provider（Anthropic / 自托管）。
-
-## 接口定义（Learner必须先想清楚） / 接口定义（学员必须先想清楚）
-```python
-class ChatProvider(Protocol):
-    async def chat(self, messages: list[Message], **opts) -> ChatResponse: ...
-```
-
-## 让 AI 生成的产物Checklist / 让 AI 生成的产物清单
-1. ChatProvider 接口（含 Message / ChatResponse 的最小字段）
-2. FoundryProvider 实现（包 Foundry SDK 调用）
-3. MockProvider 实现（学员侧，返回写死文本，用于不依赖真 key 跑 abstraction）
-4. 一个 switch 配置（env 变量决定加载哪个 provider）
-5. 单元测试：MockProvider 通 + FoundryProvider 用 contract test 框（不强求真调）
-
-## Constraints / 约束
-- 接口里不准出现任何 provider 专有概念（不准有 Foundry 的 thread_id、不准有 OpenAI 的 tool_choice）
-- 共性参数（temperature / max_tokens / stop）走结构化字段；provider 专有参数走 **opts 透传
-- 不写"抽象工厂的工厂"——一个 if/elif 就够
-
-## Self-Verification / 自验证
-- [ ] MockProvider 在没有任何 Azure 凭证的机器上能跑
-- [ ] 业务代码 grep 不到 "azure" 或 "openai" 字符串（除 provider 实现文件外）
-- [ ] 加第三个 provider 不需要改业务代码，只加一个文件
+## Self-Verification
+- [ ] The output is concrete enough for instructor review.
+- [ ] Rejected alternatives are documented.
+- [ ] Operational, cost, security, and boundary assumptions are visible.
+- [ ] The artifact can be reused in the capstone or team spec library.

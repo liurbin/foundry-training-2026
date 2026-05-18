@@ -1,55 +1,26 @@
-# Ask AI to Run a Red-Team Baseline and Design Launch Gates
+# D8 Red-Team Gate
 
-> Bilingual mirror. Original source: `prep-artifacts/day-7/specs/spec-d8-redteam-gate.md`.
+## Goal
+Run or inspect a red-team baseline and design launch gates.
 
-## English Guide
+## Inputs
+- Project context and current stage.
+- Relevant outputs from earlier modules.
+- Current platform assumptions, SDK versions, portal evidence, or instructor-provided fallback artifacts.
 
-This is the bilingual mirror for a prompt spec or decision card. Use the English heading for discovery, then rely on the full Chinese source below for the exact template, constraints, and self-verification checklist.
+## Ask AI to Produce
+- ASR report and CI/CD gate rules.
+- A short explanation of decisions and rejected alternatives.
+- Verification steps that can be run or reviewed during class.
 
-- Chinese canonical title: 让 AI 帮我跑红队 baseline + 设计上线门槛
-- English navigation title: Ask AI to Run a Red-Team Baseline and Design Launch Gates
-- Scope: this page is part of the full bilingual Foundry training site.
+## Constraints
+- Do not hardcode secrets, endpoints, regions, model deployment names, or private keys.
+- Do not invent platform capabilities that were not verified by documentation, portal screenshots, or fork tests.
+- Keep abstractions minimal and aligned with the module goal.
+- Explicitly name uncertainty instead of hiding it.
 
-## Chinese Source with Bilingual Headings
-
-> 抽自 docs/01-instructor-handbook-v2.md D8 模块；同步规则见 docs/02-instructor-prep-checklist.md
-
-# Ask AI to Run a Red-Team Baseline and Design Launch Gates / 让 AI 帮我跑红队 baseline + 设计上线门槛
-
-## Inputs / 输入
-- 一个被测 agent（D3 或 D6a/b 任选一个）
-- 业务可接受的 ASR 上限（Attack Success Rate；学员自己定，必须 < 100%）
-
-## 产品口径（2026 当前，Instructor必须先和Learner讲清） / 产品口径（2026 当前，讲师必须先和学员讲清）
-- 微软现在有两个 Red Teaming Agent：
-  1. **云端 Red Teaming Agent**（Foundry 内置）—— 唯一支持把 **Foundry Agents 当 target** 的路径；本课走这条
-  2. 本地 PyRIT-based Red Teaming Agent —— **不兼容** Foundry new portal/SDK；本课不用，只在边界澄清时提一下
-- 学员真跑走 SDK（指向云端 Red Teaming Agent，target = D3/D6a/b 的 Foundry agent）
-- Portal 路径作为讲师演示视图，让学员看一次端到端结果如何呈现；**学员不要求每人当场在 portal 里跑**
-
-## 让 AI 生成的产物Checklist / 让 AI 生成的产物清单
-1. 看一次讲师 portal 演示（num_objectives=3 起步），理解结果界面 + ASR 数字读法
-2. SDK 跑一次云端红队（同 agent 同 attack set），拿到自己的结果 JSON
-3. baseline 报告：ASR、按攻击类型分类、Top 3 失败 case
-4. CI/CD 接入设计稿（不要求实接，画一张图 + 写 3 条 gate 规则）
-
-## CI/CD gate 设计模板
-- gate A：ASR > X% 阻塞 merge
-- gate B：新增攻击类型失败率 > Y% 报警
-- gate C：[学员自定义]
-
-## Constraints / 约束
-- SDK 必须学员自己跑（target = 自己的 Foundry agent）；portal 是讲师演示，不要求每人当场跑
-- baseline 报告必须有数字，不接受"看起来还行"
-- Top 3 失败 case 必须人工 review（红队工具能找 case，判定要不要修是人的活）
-
-## Fallback（SDK 跑超时时）
-- 若 50min 内 SDK 跑不通：至少完成 SDK 命令 + 配置文件 + 用讲师 sample JSON 完成 baseline 报告结构
-- 真实跑通 SDK 转课后 / 综合作业加分项
-- portal 由讲师演示完成，不存在"portal 跑不通"的学员场景
-
-## Self-Verification / 自验证
-- [ ] SDK 跑出的 ASR 是具体数字，且与讲师 portal 演示的量级一致（差 ≤ 2x 算合理）
-- [ ] baseline 报告含至少 2-3 个攻击类型分类（取决于 attack set；不足 3 类需在报告说明覆盖缺口及下一步补法）
-- [ ] CI/CD gate 3 条规则全填，能给具体阈值
-- [ ] Top 3 失败 case 学员能口头判定"修 / 不修 / 加 system prompt 兜底"
+## Self-Verification
+- [ ] The output is concrete enough for instructor review.
+- [ ] Rejected alternatives are documented.
+- [ ] Operational, cost, security, and boundary assumptions are visible.
+- [ ] The artifact can be reused in the capstone or team spec library.
