@@ -26,6 +26,7 @@ jobs:
           cache-dependency-path: requirements-docs.txt
       - run: pip install -r requirements-docs.txt
       - run: mkdocs build --strict
+      - run: mkdocs build --strict -f mkdocs.en.yml
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

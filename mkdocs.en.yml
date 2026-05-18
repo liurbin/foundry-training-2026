@@ -1,0 +1,124 @@
+site_name: Foundry Training 2026
+site_description: 3 days, 11 modules · decision-driven + platform path + production readiness
+site_url: https://liurbin.github.io/foundry-training-2026/en/
+repo_url: https://github.com/liurbin/foundry-training-2026
+repo_name: foundry-training-2026
+edit_uri: edit/main/site_src/en/
+
+docs_dir: site_src/en
+site_dir: site/en
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search:
+      lang:
+        - en
+        - zh
+
+nav:
+  - Overview: index.md
+  - Learner Workshop:
+    - Overview: workshop/index.md
+    - Day 1:
+      - D1 Concepts and Decision Framework: workshop/d01_concepts/index.md
+      - D2 Agent Service vs SDK: workshop/d02_agent_vs_sdk/index.md
+      - D3 Single-Agent Platform Path: workshop/d03_single_agent/index.md
+      - D4 Provider Abstraction: workshop/d04_provider_abstraction/index.md
+      - D5 Deployment, Capacity, Scaling, and Cost: workshop/d05_scaling_cost/index.md
+    - Day 2:
+      - D6a Agent Framework SDK Boundary: workshop/d06a_sdk_boundary/index.md
+      - D6b A2A + MCP: workshop/d06b_a2a_mcp/index.md
+      - D7 Multi-Agent Orchestration: workshop/d07_multi_agent/index.md
+      - D8 Red-Team Baseline: workshop/d08_red_team/index.md
+    - Day 3:
+      - D9 Production Checklist: workshop/d09_production/index.md
+      - D10 Foundry Capability Boundary Table: workshop/d10_boundary/index.md
+      - D11 AI-Pair Workflow: workshop/d11_ai_pair/index.md
+  - Instructor Pack:
+    - Training Plan v2: handbook/00-training-plan-v2.md
+    - Instructor Handbook v2: handbook/01-instructor-handbook-v2.md
+    - Day-7 Preparation Checklist: handbook/02-instructor-prep-checklist.md
+    - Upstream to v2 Mapping: handbook/03-workshop-fork-mapping.md
+    - Design Principles: handbook/04-design-principles.md
+    - Learner Precheck: handbook/01-precheck.md
+  - Prompt Spec Library:
+    - D1 Foundry Fit: specs/spec-d1-foundry-fit.md
+    - D2 Service vs SDK: specs/spec-d2-service-vs-sdk.md
+    - D3 Single Agent: specs/spec-d3-single-agent.md
+    - D4 Provider Abstraction: specs/spec-d4-provider-abstraction.md
+    - D5 Deployment, Capacity, Scaling, and Cost: specs/spec-d5-scaling-cost.md
+    - D6a SDK Boundary: specs/spec-d6a-sdk-boundary.md
+    - D6b A2A + MCP: specs/spec-d6b-a2a-mcp.md
+    - D7 Multi-Agent: specs/spec-d7-multi-agent.md
+    - D8 Red-Team Gate: specs/spec-d8-redteam-gate.md
+    - D9 Production Checklist: specs/spec-d9-prod-checklist.md
+    - D10 Foundry Limits: specs/spec-d10-foundry-limits.md
+    - D11 AI-Pair Team: specs/spec-d11-ai-pair-team.md
+
+extra:
+  alternate:
+    - name: 中文
+      link: /foundry-training-2026/
+      lang: zh
+    - name: English
+      link: /foundry-training-2026/en/
+      lang: en
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/liurbin/foundry-training-2026
