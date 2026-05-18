@@ -21,18 +21,18 @@ Every spec should include:
 
 | Spec | Use it when | Output |
 |------|-------------|--------|
-| [D1 Foundry Fit](../../specs/spec-d1-foundry-fit.md) | Deciding whether to use Foundry for a project | Foundry fit decision card. |
-| [D2 Service vs SDK](../../specs/spec-d2-service-vs-sdk.md) | Choosing Agent Service, SDK, or hybrid | Scored platform decision with hard constraints and cost inputs. |
-| [D3 Single Agent](../../specs/spec-d3-single-agent.md) | Deploying and invoking one Foundry agent | Bicep, deployment script, `agent_reference` code, and trace link. |
-| [D4 Provider Abstraction](../../specs/spec-d4-provider-abstraction.md) | Decoupling business code from provider SDKs | `ChatProvider`, provider implementations, switch config, and tests. |
-| [D5 Scaling and Cost](../../specs/spec-d5-scaling-cost.md) | Adding retry, cache, cost estimation, and capacity reasoning | Deployment and capacity note plus runtime safeguards. |
-| [D6a SDK Boundary](../../specs/spec-d6a-sdk-boundary.md) | Testing whether the project should switch to SDK | SDK rewrite, comparison table, and switch decision card. |
-| [D6b A2A + MCP](../../specs/spec-d6b-a2a-mcp.md) | Separating agent-to-agent and tool protocol choices | A2A/MCP demos, decision card, token and latency estimate. |
-| [D7 Multi-Agent](../../specs/spec-d7-multi-agent.md) | Choosing a multi-agent orchestration path | Native orchestration output, trace evidence, and three-way decision card. |
-| [D8 Red-Team Gate](../../specs/spec-d8-redteam-gate.md) | Creating a launch gate from red-team results | ASR report, attack categories, failed-case review, and gate rules. |
-| [D9 Production Checklist](../../specs/spec-d9-prod-checklist.md) | Applying production readiness checks | Checklist status, minimum fixes, and launch gap list. |
-| [D10 Foundry Limits](../../specs/spec-d10-foundry-limits.md) | Mapping project needs to Foundry boundaries | Boundary hits and migration options. |
-| [D11 AI-Pair Team](../../specs/spec-d11-ai-pair-team.md) | Turning specs into a team workflow | Team spec repository structure and two starter spec outlines. |
+| [D1 Foundry Fit](spec-d1-foundry-fit.md) | Deciding whether to use Foundry for a project | Foundry fit decision card. |
+| [D2 Service vs SDK](spec-d2-service-vs-sdk.md) | Choosing Agent Service, SDK, or hybrid | Scored platform decision with hard constraints and cost inputs. |
+| [D3 Single Agent](spec-d3-single-agent.md) | Deploying and invoking one Foundry agent | Bicep, deployment script, `agent_reference` code, and trace link. |
+| [D4 Provider Abstraction](spec-d4-provider-abstraction.md) | Decoupling business code from provider SDKs | `ChatProvider`, provider implementations, switch config, and tests. |
+| [D5 Scaling and Cost](spec-d5-scaling-cost.md) | Adding retry, cache, cost estimation, and capacity reasoning | Deployment and capacity note plus runtime safeguards. |
+| [D6a SDK Boundary](spec-d6a-sdk-boundary.md) | Testing whether the project should switch to SDK | SDK rewrite, comparison table, and switch decision card. |
+| [D6b A2A + MCP](spec-d6b-a2a-mcp.md) | Separating agent-to-agent and tool protocol choices | A2A/MCP demos, decision card, token and latency estimate. |
+| [D7 Multi-Agent](spec-d7-multi-agent.md) | Choosing a multi-agent orchestration path | Native orchestration output, trace evidence, and three-way decision card. |
+| [D8 Red-Team Gate](spec-d8-redteam-gate.md) | Creating a launch gate from red-team results | ASR report, attack categories, failed-case review, and gate rules. |
+| [D9 Production Checklist](spec-d9-prod-checklist.md) | Applying production readiness checks | Checklist status, minimum fixes, and launch gap list. |
+| [D10 Foundry Limits](spec-d10-foundry-limits.md) | Mapping project needs to Foundry boundaries | Boundary hits and migration options. |
+| [D11 AI-Pair Team](spec-d11-ai-pair-team.md) | Turning specs into a team workflow | Team spec repository structure and two starter spec outlines. |
 
 ## English Decision Card Templates
 

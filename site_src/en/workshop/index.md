@@ -20,18 +20,18 @@ Learners are not required to bring an Azure subscription.
 
 | Module | Duration | Type | Learner outcome |
 |--------|----------|------|-----------------|
-| [D1: Concepts and Decision Framework](../../workshop/d01_concepts/) | 45 min | Decision | A Foundry fit card for the learner's own project. |
-| [D2: Agent Service vs SDK](../../workshop/d02_agent_vs_sdk/) | 90 min | Decision | A scored platform choice with hard constraints and cost inputs. |
-| [D3: Single-Agent Platform Path](../../workshop/d03_single_agent/) | 120 min | Hands-on | A minimal Foundry agent, external invocation path, and trace observation checklist. |
-| [D4: Provider Abstraction](../../workshop/d04_provider_abstraction/) | 90 min | Hands-on | A `ChatProvider` interface plus a mock provider that works without cloud credentials. |
-| [D5: Deployment, Capacity, Scaling, and Cost](../../workshop/d05_scaling_cost/) | 90 min | Hands-on | Retry with jitter, cache policy, cost estimate, deployment choice, and capacity choice. |
-| [D6a: Agent Framework SDK Boundary](../../workshop/d06a_sdk_boundary/) | 60 min | Decision + hands-on | A clear decision on whether and when to switch from Agent Service to SDK. |
-| [D6b: A2A + MCP Boundary](../../workshop/d06b_a2a_mcp/) | 60 + 45 min | Hands-on | A2A vs MCP decision card and at least one runnable local demo or prepared trace. |
-| [D7: Multi-Agent Orchestration](../../workshop/d07_multi_agent/) | 120 min | Hands-on | A three-way decision across Agent Service native orchestration, `as_tool`, and Workflows. |
-| [D8: Red-Team Baseline](../../workshop/d08_red_team/) | 105 min | Hands-on | A baseline report with ASR, attack categories, false-positive review, and gate rules. |
-| [D9: Production Checklist](../../workshop/d09_production/) | 90 min | Decision | A production-readiness checklist with concrete gaps and minimum fixes. |
-| [D10: Foundry Capability Boundary Table](../../workshop/d10_boundary/) | 60 min | Decision | A 14-row boundary table mapped to the learner's own project. |
-| [D11: AI-Pair Workflow](../../workshop/d11_ai_pair/) | 35 min | Decision + workflow | A team spec-library starting structure and two reusable example spec outlines. |
+| [D1: Concepts and Decision Framework](d01_concepts/) | 45 min | Decision | A Foundry fit card for the learner's own project. |
+| [D2: Agent Service vs SDK](d02_agent_vs_sdk/) | 90 min | Decision | A scored platform choice with hard constraints and cost inputs. |
+| [D3: Single-Agent Platform Path](d03_single_agent/) | 120 min | Hands-on | A minimal Foundry agent, external invocation path, and trace observation checklist. |
+| [D4: Provider Abstraction](d04_provider_abstraction/) | 90 min | Hands-on | A `ChatProvider` interface plus a mock provider that works without cloud credentials. |
+| [D5: Deployment, Capacity, Scaling, and Cost](d05_scaling_cost/) | 90 min | Hands-on | Retry with jitter, cache policy, cost estimate, deployment choice, and capacity choice. |
+| [D6a: Agent Framework SDK Boundary](d06a_sdk_boundary/) | 60 min | Decision + hands-on | A clear decision on whether and when to switch from Agent Service to SDK. |
+| [D6b: A2A + MCP Boundary](d06b_a2a_mcp/) | 60 + 45 min | Hands-on | A2A vs MCP decision card and at least one runnable local demo or prepared trace. |
+| [D7: Multi-Agent Orchestration](d07_multi_agent/) | 120 min | Hands-on | A three-way decision across Agent Service native orchestration, `as_tool`, and Workflows. |
+| [D8: Red-Team Baseline](d08_red_team/) | 105 min | Hands-on | A baseline report with ASR, attack categories, false-positive review, and gate rules. |
+| [D9: Production Checklist](d09_production/) | 90 min | Decision | A production-readiness checklist with concrete gaps and minimum fixes. |
+| [D10: Foundry Capability Boundary Table](d10_boundary/) | 60 min | Decision | A 14-row boundary table mapped to the learner's own project. |
+| [D11: AI-Pair Workflow](d11_ai_pair/) | 35 min | Decision + workflow | A team spec-library starting structure and two reusable example spec outlines. |
 
 ## Day 1
 

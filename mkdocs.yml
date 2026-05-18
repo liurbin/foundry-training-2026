@@ -74,9 +74,45 @@ nav:
   - 课程总览: index.md
   - English:
     - Overview: en/index.md
-    - Learner Workshop: en/workshop/index.md
-    - Instructor Pack: en/handbook/index.md
-    - Prompt Spec Library: en/specs/index.md
+    - Learner Workshop:
+      - Overview: en/workshop/index.md
+      - Day 1:
+        - D1 Concepts and Decision Framework: en/workshop/d01_concepts/index.md
+        - D2 Agent Service vs SDK: en/workshop/d02_agent_vs_sdk/index.md
+        - D3 Single-Agent Platform Path: en/workshop/d03_single_agent/index.md
+        - D4 Provider Abstraction: en/workshop/d04_provider_abstraction/index.md
+        - D5 Deployment, Capacity, Scaling, and Cost: en/workshop/d05_scaling_cost/index.md
+      - Day 2:
+        - D6a Agent Framework SDK Boundary: en/workshop/d06a_sdk_boundary/index.md
+        - D6b A2A + MCP: en/workshop/d06b_a2a_mcp/index.md
+        - D7 Multi-Agent Orchestration: en/workshop/d07_multi_agent/index.md
+        - D8 Red-Team Baseline: en/workshop/d08_red_team/index.md
+      - Day 3:
+        - D9 Production Checklist: en/workshop/d09_production/index.md
+        - D10 Foundry Capability Boundary Table: en/workshop/d10_boundary/index.md
+        - D11 AI-Pair Workflow: en/workshop/d11_ai_pair/index.md
+    - Instructor Pack:
+      - Overview: en/handbook/index.md
+      - Training Plan v2: en/handbook/00-training-plan-v2.md
+      - Instructor Handbook v2: en/handbook/01-instructor-handbook-v2.md
+      - Day-7 Preparation Checklist: en/handbook/02-instructor-prep-checklist.md
+      - Upstream to v2 Mapping: en/handbook/03-workshop-fork-mapping.md
+      - Design Principles: en/handbook/04-design-principles.md
+      - Learner Precheck: en/handbook/01-precheck.md
+    - Prompt Spec Library:
+      - Overview: en/specs/index.md
+      - D1 Foundry Fit: en/specs/spec-d1-foundry-fit.md
+      - D2 Service vs SDK: en/specs/spec-d2-service-vs-sdk.md
+      - D3 Single Agent: en/specs/spec-d3-single-agent.md
+      - D4 Provider Abstraction: en/specs/spec-d4-provider-abstraction.md
+      - D5 Deployment, Capacity, Scaling, and Cost: en/specs/spec-d5-scaling-cost.md
+      - D6a SDK Boundary: en/specs/spec-d6a-sdk-boundary.md
+      - D6b A2A + MCP: en/specs/spec-d6b-a2a-mcp.md
+      - D7 Multi-Agent: en/specs/spec-d7-multi-agent.md
+      - D8 Red-Team Gate: en/specs/spec-d8-redteam-gate.md
+      - D9 Production Checklist: en/specs/spec-d9-prod-checklist.md
+      - D10 Foundry Limits: en/specs/spec-d10-foundry-limits.md
+      - D11 AI-Pair Team: en/specs/spec-d11-ai-pair-team.md
   - 学员侧 workshop:
     - Day 1:
       - D1 概念 + 决策框架: workshop/d01_concepts/index.md
