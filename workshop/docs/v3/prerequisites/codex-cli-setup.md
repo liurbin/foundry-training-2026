@@ -11,8 +11,10 @@
 
 - `AZURE_OPENAI_ENDPOINT`：形如 `https://<resource-name>.openai.azure.com/`
 - `AZURE_OPENAI_API_KEY`：长串密钥
-- `AZURE_OPENAI_DEPLOYMENT`：部署名（例如 `gpt-4o`）
-- `AZURE_OPENAI_API_VERSION`：API 版本（例如 `2024-10-21`）
+- `AZURE_OPENAI_DEPLOYMENT`：部署名（讲师 Day-7 实测后给具体值——本文档不写死，rebrand 期 model 目录漂移频繁）
+- `AZURE_OPENAI_API_VERSION`：API 版本（同上，以讲师私信为准）
+
+> 为什么不写死示例值：v3 设计阶段写过 `gpt-4o` / `2024-10-21` 这样的占位，但 Foundry 模型目录和 API version 处在 rebrand 期，半年内会漂。**以讲师课前私信发的最终值为准**，文档里出现的写死值都视为过期。
 
 **不要把这些粘到聊天 / 公开仓库 / 截图里。**课后讲师会回收/失效这些 key。
 

@@ -15,7 +15,7 @@
 
 用 codex CLI 让 AI 帮你：
 
-1. 装 `azure-ai-projects` SDK（或同等 Foundry SDK）
+1. 装讲师 Day-7 私信的 Foundry SDK（rebrand 期 SDK 名 / 版本会漂；常见候选：`azure-ai-projects` / Agent Framework SDK——以讲师私信为准，不要在文档里写死的版本上较真）
 2. 写一个最小 agent，从环境变量读 endpoint
 3. 让 agent 回答一次"我要查订单 ORD-T-12345"
 4. 在 portal / trace 里看到这次调用的 span
@@ -44,7 +44,7 @@ codex
 进入后，给它这段需求（**这是 v3 推荐 prompt 模板，讲师 Day-7 会迭代**）：
 
 ```
-帮我用 azure-ai-projects SDK（或当前 Foundry 推荐 SDK）写一个最小 Python agent：
+帮我用 <讲师私信发的 Foundry SDK 名> 写一个最小 Python agent：
 
 1. 从环境变量 OPENAI_BASE_URL / OPENAI_API_KEY / OPENAI_API_VERSION 读凭证
 2. agent 名字叫 customer_service_agent
@@ -97,7 +97,7 @@ codex
 
 | 现象 | 处理 |
 |---|---|
-| `ModuleNotFoundError: azure.ai.projects` | codex 装包用 `--user` 装到了用户目录，PYTHONPATH 没指过去——让 codex 用 venv |
+| `ModuleNotFoundError`（找不到 SDK） | codex 装包用 `--user` 装到了用户目录，PYTHONPATH 没指过去——让 codex 用 venv |
 | 401 from endpoint | `OPENAI_API_KEY` 没生效；新开 terminal `source ~/.zshrc` |
 | API version 报错 | `OPENAI_API_VERSION` 拼错 / 太老，用讲师给的版本 |
 | codex 反复改代码不收敛 | 明确告诉它"先停下，把当前错误 stacktrace 完整贴出来再改" |
