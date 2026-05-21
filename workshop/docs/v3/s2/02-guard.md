@@ -7,12 +7,14 @@
 
 v3 早期草稿让学员在 agent 代码里加 input/output filter。**当前版本改为两层**：
 
-| 层 | 来源 | 适合什么 |
-|---|---|---|
-| **平台层 guardrail policy** | Foundry Control Plane → Compliance pane | content safety / prompt injection / protected materials——平台 built-in，策略级、跨 deployment、可审计 |
-| **业务层 system prompt 加固** | agent 代码里的 instructions | 业务专属约束（不承诺退款 / 不主动外呼 / 转人工话术）——只该层能表达 |
+| 层 | portal 入口 | 适合什么 | 谁能操作 |
+|---|---|---|---|
+| **平台层 guardrail policy** | **Operate → Compliance → Policies** tab | content safety / prompt injection / protected materials——策略级、跨 deployment、可审计；Azure Policy 集成 | 讲师演示（要 Owner / Resource Policy Contributor） |
+| **业务层 guardrail** | **Build → Guardrails** + agent instructions（双管） | project 内 content safety + 业务专属约束（不承诺退款 / 不主动外呼 / 转人工话术） | 学员动手 |
 
 builder 视角："为什么不用平台的"是合理质问——v3 课中两条路径都摸一遍。
+
+> ⚠️ Build → Guardrails 子页具体能配哪些 control（content filter / prompt shield / jailbreak / protected materials / custom blocklist）：官方文档当前在重组（多个 URL 404），**讲师 Day-7 portal 实测后补具体清单**。
 
 ## 这一段的目标
 
@@ -38,11 +40,13 @@ builder 视角："为什么不用平台的"是合理质问——v3 课中两条�
 
 ## 二、动手：两层 guardrail（35 min）
 
-### 步骤 1：选 attack + 在 Foundry portal 看 Compliance pane（10 min）
+### 步骤 1：在 Foundry portal 看两个 guardrail 入口（10 min）
 
 从场景 Story 5（prompt injection）或讲师 payload 里选 1 条。
 
-打开 `https://ai.azure.com` → 你的 project → **Operate** 工具栏（右上角）→ **Compliance** pane。
+**1a. 平台层入口（讲师演示）**
+
+打开 `https://ai.azure.com` → 你的 project → 顶部 **Operate** → 左栏 **Compliance** → 顶部 tab **Policies**。
 
 跟讲师一起看一次"Create policy"流程（**讲师演示，学员不需要每人创建**——RBAC 要求 Owner / Resource Policy Contributor，不是每个学员都有）：
 
@@ -54,12 +58,23 @@ builder 视角："为什么不用平台的"是合理质问——v3 课中两条�
 3. 配 exceptions（对学员 deployment 例外，否则课程中全员模型部署被 block）
 4. Submit → Azure Policy 后台跑合规扫描
 
+**讲师顺便点开 Compliance 其他 3 个 tab**（Guardrails / Security posture / Data security and governance），让学员看一眼 Compliance 是个**4 tab 复合页**，不是单一功能。
+
+**1b. 业务层入口（学员看，下一步会用）**
+
+切到顶部 **Build** → 左栏 **Guardrails**。
+
+这是 **project 级**的 guardrail 入口——你可以在这里给当前 project 配 content safety 类规则，不需要订阅级 RBAC。⚠️ Day-7 讲师 portal 实测后补具体能配什么。
+
 **讨论**：
 
-- 平台 policy 是 deployment 级的，不是 agent 级——它防的是模型出"违规内容"，不直接防"agent 越权承诺退款"。差别是什么？
-- "prompt injection" control 防得住 Story 5 吗？讲师视情况演示。
+- 平台 policy（Operate → Compliance → Policies）是 **deployment 级 + 跨 project**——它防的是模型出"违规内容"，不直接防"agent 越权承诺退款"
+- project guardrail（Build → Guardrails）是 **project 级**——你能配，但仍是 content safety 类，不能表达"不承诺退款"这种业务规则
+- 业务规则只能在 **agent instructions（system prompt）** 里写——这是步骤 2 要做的事
 
 ### 步骤 2：业务层 system prompt 加固（15 min）
+
+> 注：Build → Guardrails 也是业务层的一部分（content safety 类），但**业务专属约束**（"不承诺退款"）只能写进 agent instructions。本步骤专做后者。
 
 进入 codex 交互模式：
 
@@ -116,10 +131,10 @@ python run_eval.py
 
 ## 三、自检
 
-- [ ] 你看过 Foundry portal → Operate → Compliance pane，能讲清 platform guardrail policy 涵盖哪几类 control
+- [ ] 你看过 Foundry portal **两个 guardrail 入口**：Operate → Compliance（4 tab）和 Build → Guardrails，能讲清两者差异
 - [ ] 你创建了 agent 新 version，instructions 含越权 / 注入显式约束
 - [ ] 跑回 run_eval.py，能讲清 task_adherence 结果（pass / fail / 部分 pass）
-- [ ] 能口头讲：这类 attack 为什么对客服 agent 重要、平台 policy 和 system prompt 各能解决什么、下一步会怎么做
+- [ ] 能口头讲：这类 attack 为什么对客服 agent 重要、平台 policy / project guardrail / system prompt 各能解决什么、下一步会怎么做
 
 4 项打勾即动手 2 pass（**挡住与否不影响 pass**）。
 

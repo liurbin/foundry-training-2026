@@ -115,10 +115,13 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 
 ## 步骤 3：在 Foundry portal 看 trace（5 min）
 
-打开讲师发的 Foundry portal 链接（`https://ai.azure.com`），找到你的 project：
+打开讲师发的 Foundry portal 链接（`https://ai.azure.com`，顶部 **New Foundry** toggle 打开），找到你的 project：
 
-- 左侧 **Build → Agents**：能看到你刚才创建的 agent，version = 1
-- 左侧 **Observability → Traces**（或顶部 toolbar 找 Tracing）：能看到刚才两次 `responses.create` 调用
+1. 顶部 5 个 section 选 **Build**
+2. 左栏选 **Agents** → 能看到你刚才创建的 agent，version = 1
+3. **Agents 页面顶部** tab 切到 **Traces** → 能看到刚才两次 `responses.create` 调用
+
+> ⚠️ Trace 入口在 **Build → Agents → Traces tab**（顶部，不是 Operate 左栏）。来源：[Set up tracing in Foundry](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-agent-setup) "In the left navigation, select Agents. At the top, select Traces."
 
 期望看到（来自 Foundry 官方 [Agent tracing 概念](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)）：
 
@@ -132,7 +135,7 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 
 看不到？常见原因：
 
-- 你的 project 还没接 Application Insights（trace 数据存那里——讲师 Day-7 确认 project 已配好）
+- 你的 project 还没接 Application Insights（trace 数据存那里——讲师 Day-7 确认 project 已配好；如果 portal 提示 "Connect Application Insights"，说明 project 还没连）
 - trace 异步未到（等 30s 刷新）
 - agent 没真跑（步骤 1/2 输出是 codex 编的样例文字而不是真返回——回去审代码）
 
