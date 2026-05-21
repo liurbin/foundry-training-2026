@@ -1,7 +1,7 @@
-# 学员课前准备：codex CLI + Azure OpenAI
+# 学员课前准备：codex CLI + Microsoft Foundry SDK
 
 > 适用：v3 短课（S1+S2 共 4h，AI CLI 副驾驶主线）
-> 目标耗时：**10 分钟以内**完成
+> 目标耗时：**15 分钟以内**完成
 > 系统：macOS（其他系统请联系讲师）
 > 状态：⚠️ 未经讲师 Day-7 实测验收，以讲师课前发出的最终版为准
 
@@ -9,32 +9,38 @@
 
 讲师在课前会发给你**一封私信**，内容包含：
 
-- `AZURE_OPENAI_ENDPOINT`：形如 `https://<resource-name>.openai.azure.com/`
-- `AZURE_OPENAI_API_KEY`：长串密钥
-- `AZURE_OPENAI_DEPLOYMENT`：部署名（讲师 Day-7 实测后给具体值——本文档不写死，rebrand 期 model 目录漂移频繁）
-- `AZURE_OPENAI_API_VERSION`：API 版本（同上，以讲师私信为准）
+- `PROJECT_ENDPOINT`：形如 `https://<resource-name>.services.ai.azure.com/api/projects/<project-name>`
+- `MODEL_DEPLOYMENT_NAME`：模型部署名（讲师 Day-7 在 Foundry 里部好；rebrand 期模型目录会漂，**以讲师私信为准**）
+- 一个 Azure 账户邀请（你用自己的 Microsoft 账号 `az login` 后会拿到 **Foundry User** 角色）
 
-> 为什么不写死示例值：v3 设计阶段写过 `gpt-4o` / `2024-10-21` 这样的占位，但 Foundry 模型目录和 API version 处在 rebrand 期，半年内会漂。**以讲师课前私信发的最终值为准**，文档里出现的写死值都视为过期。
+**重要**：v3 用的是 Microsoft Foundry 当前主路径——**Entra ID 鉴权（`DefaultAzureCredential` + `az login`）**，不是 API key。课程结束后讲师会回收你在 Foundry project 上的 RBAC。
 
-**不要把这些粘到聊天 / 公开仓库 / 截图里。**课后讲师会回收/失效这些 key。
+> 为什么不在文档里写死模型名 / API version：Foundry 仍在 rebrand 期（Azure AI Foundry → Microsoft Foundry / Assistants API → Responses API），model 目录、SDK 版本、portal UI 都在演化。讲师 Day-7 实测后的私信值才是当天的真相。
 
 ## 步骤
 
-### 1. 装 Node.js 20+（如果没有）
+### 1. 装 Azure CLI + Python ≥ 3.8
 
 ```bash
-# 用 Homebrew
-brew install node
+# Azure CLI（如果没有）
+brew install azure-cli
+
+# Python ≥ 3.8
+python --version    # 应 ≥ 3.8；不够用 brew install python@3.12 或 pyenv
 
 # 验证
-node --version   # 应 ≥ v20
+az --version
+python --version
 ```
 
-如果你已经有 nvm / volta / asdf 管 Node 版本，用你熟悉的方式装 20+ 即可。
-
-### 2. 装 codex CLI
+### 2. 装 codex CLI 和 Node.js 20+
 
 ```bash
+# Node（codex 依赖）
+brew install node
+node --version   # 应 ≥ v20
+
+# codex CLI
 npm install -g @openai/codex
 codex --version
 ```
@@ -42,29 +48,36 @@ codex --version
 如果 `npm install -g` 报权限错，**不要用 sudo**，而是：
 
 ```bash
-# 设一个用户级全局目录
 mkdir -p ~/.npm-global
 npm config set prefix ~/.npm-global
-# 把 ~/.npm-global/bin 加到 PATH（zsh）
 echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
 source ~/.zshrc
-# 重试
 npm install -g @openai/codex
 ```
 
-### 3. 配置环境变量（指向 Azure OpenAI）
+### 3. 装 Foundry Python SDK
+
+```bash
+# 建议建一个隔离 venv
+python -m venv ~/foundry-v3-env
+source ~/foundry-v3-env/bin/activate
+
+# 装 Foundry projects SDK（必须 2.x；1.x 对应 Foundry classic）
+pip install "azure-ai-projects>=2.0.0" "azure-identity"
+```
+
+> codex CLI 课中会替你装/升级包；建好 venv 是为了课中 codex 装的东西不污染全局环境。
+
+### 4. 配置 Foundry 项目环境变量
 
 在你的 shell rc 文件（macOS 默认 `~/.zshrc`）末尾追加，**把值替换成讲师发的**：
 
 ```bash
-# Azure OpenAI for codex CLI (training v3)
-export OPENAI_API_KEY="<AZURE_OPENAI_API_KEY>"
-export OPENAI_BASE_URL="<AZURE_OPENAI_ENDPOINT>openai/deployments/<AZURE_OPENAI_DEPLOYMENT>"
-export OPENAI_API_VERSION="<AZURE_OPENAI_API_VERSION>"
+# Microsoft Foundry for v3 training
+export PROJECT_ENDPOINT="<讲师私信发的 PROJECT_ENDPOINT>"
+export MODEL_DEPLOYMENT_NAME="<讲师私信发的模型部署名>"
+export AGENT_NAME="customer-service-agent-v3-$(whoami)"   # 加你自己的名字避免冲突
 ```
-
-注意 `OPENAI_BASE_URL` 的拼接形式（Azure OpenAI 的兼容 endpoint 是
-`<endpoint>openai/deployments/<deployment>`，不要漏掉 trailing path）。
 
 让配置生效：
 
@@ -72,55 +85,101 @@ export OPENAI_API_VERSION="<AZURE_OPENAI_API_VERSION>"
 source ~/.zshrc
 ```
 
-> 如果讲师发的是别的环境变量名约定（例如直接给 `AZURE_OPENAI_*`），以讲师课前最终说明为准。
-
-### 4. 跑通第一个 prompt
-
-新开一个终端 tab（确保新的 env 生效），cd 到一个**临时空目录**：
+### 5. Azure 登录（Entra ID）
 
 ```bash
-mkdir -p ~/foundry-training-tmp && cd ~/foundry-training-tmp
+az login
+# 浏览器会弹出微软登录页，用讲师邀请你的账号登录
+az account show    # 应能看到 subscription + tenant
+```
+
+> v3 不让你保管 API key——身份由 Entra ID 管。`DefaultAzureCredential` 在 SDK 里会自动捡 `az login` 留下的凭证。
+
+### 6. 跑通第一个 Foundry 调用
+
+新开终端 tab（确认 venv + env 都生效）：
+
+```bash
+source ~/foundry-v3-env/bin/activate
+cd ~ && mkdir -p foundry-v3-tmp && cd foundry-v3-tmp
+```
+
+把下面代码存成 `hello.py`：
+
+```python
+import os
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+project = AIProjectClient(
+    endpoint=os.environ["PROJECT_ENDPOINT"],
+    credential=DefaultAzureCredential(),
+)
+openai = project.get_openai_client()
+
+response = openai.responses.create(
+    model=os.environ["MODEL_DEPLOYMENT_NAME"],
+    input="用一句话介绍 Microsoft Foundry。",
+)
+print(response.output_text)
+```
+
+跑：
+
+```bash
+python hello.py
+```
+
+期望看到一段中文回复。
+
+### 7. 跑一次 codex CLI（确认副驾驶环境就绪）
+
+```bash
 codex
 ```
 
-进入 codex 交互模式后，输入：
+进入交互模式后输入：
 
 ```
-用一句话介绍 Azure OpenAI 和 OpenAI 直连的区别。
+读一下当前目录的 hello.py，告诉我这段代码在做什么。
 ```
 
-期望看到一段中文回答输出。退出用 `/exit` 或 Ctrl-D。
+期望 codex 给出一段总结。退出用 `/exit` 或 Ctrl-D。
 
-### 5. 自检 checklist
+### 8. 自检 checklist
 
-把下面 4 条都打勾再来上课，不通过的提前在群里问：
+把下面 6 条都打勾再来上课：
 
-- [ ] `node --version` ≥ v20
-- [ ] `codex --version` 能输出版本号
-- [ ] `echo $OPENAI_BASE_URL` 输出包含 `openai/deployments/` 的 URL
-- [ ] 第 4 步那条 codex 命令返回了一段文字（不是报错）
+- [ ] `az account show` 输出包含 subscription + tenant
+- [ ] `python --version` ≥ 3.8
+- [ ] `pip show azure-ai-projects` 显示 ≥ 2.0.0
+- [ ] `node --version` ≥ v20，`codex --version` 有输出
+- [ ] `echo $PROJECT_ENDPOINT` 输出讲师发的 endpoint
+- [ ] 步骤 6 的 `hello.py` 跑出真实模型回复（不是异常 stacktrace）
 
 ## 常见报错（基于公开模式整理，讲师 Day-7 会补充实测案例）
 
 | 现象 | 可能原因 | 处理 |
 |---|---|---|
 | `command not found: codex` | 全局 npm bin 不在 PATH | 见步骤 2 的 `~/.npm-global` 方案 |
-| 401 / Unauthorized | key 错 / key 已失效 / 复制时带了空格 | 重新从讲师私信复制，确认无前后空格 |
-| 404 Not Found | `OPENAI_BASE_URL` 拼接错（漏 deployment 或多/少斜杠） | 对照步骤 3 的格式 |
-| `model not found` | deployment 名拼错 / 该 deployment 没暴露给这个 key | 对照讲师发的 deployment 名 |
-| API version 报错 | `OPENAI_API_VERSION` 拼写错 / 太老 | 用讲师给的版本，不要自己改 |
-| Network timeout | 本地代理 / 公司网络拦截 *.openai.azure.com | 切手机热点重试，或问讲师备用 endpoint |
+| `DefaultAzureCredential failed to retrieve a token` | 没 `az login`，或登录的账号没 Foundry User 角色 | 重跑 `az login`；找讲师确认角色已分配 |
+| `404 Not Found` / `Connection refused` | `PROJECT_ENDPOINT` 拼接错，或 resource/project 名错 | 对照讲师发的字符串，格式是 `https://<resource>.services.ai.azure.com/api/projects/<project>` |
+| `model not found` | `MODEL_DEPLOYMENT_NAME` 错，或该 deployment 未在 project 暴露 | 对照讲师发的部署名；rebrand 期模型目录会漂，不要自己猜 |
+| `ModuleNotFoundError: azure.ai.projects` | 没进 venv，或 SDK 版本错 | `source ~/foundry-v3-env/bin/activate` + `pip install "azure-ai-projects>=2.0.0"` |
+| `AttributeError` on `evals` / `responses` | 装到了 1.x（Foundry classic） | `pip install --upgrade "azure-ai-projects>=2.0.0"` |
+| Network timeout | 本地代理 / 公司网络拦截 `*.services.ai.azure.com` | 切手机热点重试，或问讲师备用 endpoint |
 
 ## 失败兜底
 
-- 5 分钟内卡住：在群里 @讲师贴**完整报错 + 你跑的命令**（**不要贴 key**）
+- 10 分钟内卡住：在群里 @讲师贴**完整报错 + 你跑的命令**（**不要贴 endpoint URL 全文，也不要贴 token**）
 - 课前彻底搞不定：上课用同桌的环境结对完成动手；课后讲师单独帮你过一遍
 
 ## 安全提醒
 
-- key 不要 commit 到任何 git 仓库（包括 private repo）
-- 课程结束后讲师会失效这批 key，你不需要做清理
-- 如果你怀疑 key 已经泄露（贴错地方了），立刻告诉讲师，不要等
+- `PROJECT_ENDPOINT` 里的 resource 名不算高敏，但**不要 commit 到 public repo**（含子域信息）
+- `az login` 留下的 token 缓存在 `~/.azure/`，课程结束后可以 `az logout` 清掉
+- 课程结束后讲师会撤掉你的 Foundry RBAC，你不需要做清理
+- 如果怀疑账号异常（被钓鱼 / 设备丢失），立刻 `az logout` + 在 Microsoft 账号页面终止 session，再告诉讲师
 
 ## 反馈
 

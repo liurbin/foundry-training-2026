@@ -1,136 +1,192 @@
-# S1：Foundry 介绍 + 决策对齐（90min，不动手）
+# S1：Microsoft Foundry 平台扫盲（90min，不动手）
 
-> 时长：90 min ｜ 形式：讲师讲 + 集体口头表态 ｜ 凭证要求：无（S1 不连 endpoint）
+> 时长：90 min ｜ 形式：讲师讲 + portal 走读 ｜ 凭证要求：无（S1 不连 endpoint）
+> 状态：⚠️ 基于 Microsoft Foundry 2026/04-05 官方文档；rebrand 进行中，讲师 Day-7 重抓核对
 
 ## 这一段的目标
 
-S1 不写代码，也不让学员**填决策卡**——填卡是 v2 三天班的产物形态（学员带自己项目），4h 短课塞不下"填卡 + 评审"流程。
+学员对 **AI / agent 熟，对 Microsoft Foundry 0 知识**——S1 不教 agent 概念，也不让你填决策卡。
 
-S1 90min 用来做两件事：
-
-1. **30min 把 Foundry 是什么、当前能做什么、不能做什么讲清**——蒸馏自 v2 D10 能力边界表（14 行）+ D5 部署 / 容量对照
-2. **40min 用 D1/D2 决策维度做集体口头表态**——拿客服 agent 当例子，每个维度集体回答 yes/no + 一条理由
+90min 用来做一件事：**让你看清 Microsoft Foundry 现在长什么样**。这样 S2 动手时你知道每行代码对应平台的哪个能力。
 
 学完 S1 你应该能：
 
-- 在能力边界表里指出"客服 agent 用得到的 5-6 行" + "可能命中边界的 1-2 行"
-- 当场口头给出"客服 agent 用 / 不用 / 部分用 Foundry"的明确结论
-- 选 Agent Service 还是 SDK 时，能用 D2 四维度说一句话理由
+- 一句话说清"Microsoft Foundry = 什么"（不再以为是 Azure OpenAI 的换名）
+- 在 Foundry portal 里指出 Build / Operate / Foundry IQ / Foundry Tools 各自的入口
+- 跟讲师对照"你现有的栈"（Responses API / OpenAI Agents SDK / LangGraph / CrewAI / 等），讲出 Foundry 多了/少了什么
 
 ## 90min 节奏
 
-| 时长 | 段落 | 集体产出 |
+| 时长 | 段 | 内容 |
 |---|---|---|
-| 30min | 一、Foundry 介绍：能力边界 + 部署 / 容量分层 | 学员能口头指出客服 agent 命中 / 不命中的边界行 |
-| 10min | 二、客服场景介入 + 用得到哪几行 | 在边界表上集体圈出 5-6 行 |
-| 40min | 三、决策对齐：D1 用不用 + D2 Service vs SDK + D7 单 vs 多 agent | 三组维度集体口头表态，每组给一条理由 |
-| 10min | 四、Q&A + S2 预告（环境自检） | 所有学员 `codex --version` 有输出 |
+| 5min | 一、开场 + 这门课你会得到什么 | — |
+| 15min | 二、Foundry 来龙去脉（rebrand + Responses API + 资源模型） | 不绕过历史，但只挑影响代码的事讲 |
+| 25min | 三、Foundry 7 能力域全景（portal 走读） | Models / Agent Service / Control Plane / IQ / Tools / AML / Local |
+| 15min | 四、Control Plane 5 panes（builder 关心的"治理"层） | Overview / Assets / Compliance / Quota / Admin |
+| 10min | 五、What's new April 2026 + builder 视角差异化 | Hosted-agent tracing preview / Model Router / Priority processing / Fireworks 等 |
+| 10min | 六、Foundry vs 你的现有栈 | 讲师按入场调研对照 |
+| 10min | 七、Q&A + 环境自检 + scenario 自读 | 所有学员 `az account show` + `python -c "import azure.ai.projects"` |
 
-## 一、Foundry 介绍：能力边界 + 部署 / 容量分层（30 min）
+## 一、开场（5 min）
 
-> 来源：v2 `prep-artifacts/day-7/specs/spec-d10-foundry-limits.md`（14 行边界表）+ `docs/01-instructor-handbook-v2.md` D5 段（部署 / 容量分层）。
-> v3 不重写最新能力——v2 已基于 2026/05 官方文档锚点整理过；这里只挑客服 agent 用得到的子集讲。
+**这门课会给你什么**：
 
-### 1a. 能力边界表（v2 D10 镜像，挑 6 行讲，15 min）
+- 看清 Microsoft Foundry 2026 当前的能力地图（不是 2024 末的 Azure AI Foundry）
+- 跑通一个 prompt agent（Responses API + agent_reference 形态）
+- 用 built-in evaluator 跑一次评测（不是从零写 pytest）
+- 看一次 Foundry Control Plane 怎么管 guardrail policy
 
-完整 14 行见 v2 `spec-d10-foundry-limits.md`。v3 短课聚焦客服 agent 高频用到的：
+**这门课不教**：
 
-| # | 能力域 | 客服 agent 视角的边界 | 命中阀值 |
-|---|---|---|---|
-| 1 | Agent Service | 三种 agent 类型分层：prompt / workflow / **hosted**；自定义控制流 = Hosted | 客服只用 prompt agent 即可 |
-| 6 | Models | 模型目录（Azure OpenAI 直供 + 第三方）；Tier 1-6 自动 quota 升级 | **具体 model 名以讲师 Day-7 私信为准**——rebrand 期目录会漂 |
-| 7 | Red Team | 本地 PyRIT **不兼容** Foundry new portal/SDK；要把 Foundry agent 当 target 必须走云端 Red Teaming Agent；区域受限 5 个 region | S2 动手 2 不真接红队工具，只讲框架；命中边界仅供讨论 |
-| 8 | Tracing | OTel + App Insights；**仅 prompt agents GA**，hosted/workflow/custom 仍 preview | 客服走 prompt agent，落在 GA 范围 |
-| 9 | Deployment | **Hosted Agents** 是当前主路径：托管容器、scale-to-zero、~15min idle 释放、session 文件 30 天；ACA 是 legacy | 客服默认走主路径 |
-| 14 | MCP | remote MCP / Azure Functions custom MCP；rebrand 期 Toolbox preview | 客服可接也可不接，看真接口形态 |
+- ❌ Bicep / azd 部署 IaC—— v3 不走 IaC
+- ❌ Hosted agents / Workflow agents 实操（都是 preview）
+- ❌ Multi-agent 编排实操——只在能力地图里讲
+- ❌ 5 维度评分流程——3 维 pass/fail
 
-讲师 demo：现场打开 v2 D10 spec，对照官方 learn.microsoft.com 锚点演示**怎么查最新能力**——而不是背 model 名。
+## 二、Foundry 来龙去脉（15 min）
 
-### 1b. 部署 / 容量分层（v2 D5 镜像，15 min）
+> 来源：[What is Microsoft Foundry?](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry)（2026/04/29）
 
-| 部署目标 | 何时选 | 客服 agent 默认 |
+**1 个事实先讲在前面**：**Microsoft Foundry**（注意不是 "Azure AI Foundry"，rebrand 已完成）= 把之前散在 Azure AI Studio / Azure AI Foundry classic / 多个 SDK / Hub-based projects 全部统一到**一个 Azure resource provider namespace** 的产品。
+
+### 旧 → 当前 对照表（影响代码的部分）
+
+| 维度 | 旧 | 当前（2026） |
 |---|---|---|
-| **Hosted Agents**（主路径） | 默认 | ✅ |
-| Container Apps 自托管 | 必须自托管 / VNet 强约束 / 私有 Azure | 仅有合规要求时 |
-| SDK self-host（AKS / VM） | 跨云 / 自带 K8s | 客服基本不会 |
+| 品牌 | Azure AI Studio / Azure AI Foundry | **Microsoft Foundry** |
+| 周边服务 | Azure AI Services | **Foundry Tools** |
+| Portal | Foundry (classic) | **Foundry**（new portal，`https://ai.azure.com` 顶部 New Foundry toggle） |
+| Agent API | Assistants API（Agents v0.5/v1）| **Responses API**（Agents v2） |
+| API 版本 | 月度 `api-version` | **v1 稳定路由** `/openai/v1/` |
+| 资源模型 | Hub + Azure OpenAI + AI Services | **单一 Foundry resource**（含 projects） |
+| Python SDK | `azure-ai-inference` / `-generative` / `-ml` / `AzureOpenAI()` 多包 | **`azure-ai-projects` 2.x** + `project.get_openai_client()` |
+| 对话术语 | Threads / Messages / Runs / Assistants | **Conversations / Items / Responses / Agent Versions** |
+| RBAC 角色 | Azure AI User / Owner / … | **Foundry User / Owner / Account Owner / Project Manager**（rename，权限 ID 不变） |
 
-| 容量模式 | 何时选 | 客服 agent 默认 |
+**核心代码形态**（这就是 S2 动手 0 你会做的事）：
+
+```python
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+
+project = AIProjectClient(
+    endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
+    credential=DefaultAzureCredential(),
+)
+openai = project.get_openai_client()
+
+# 直接调 model
+openai.responses.create(model="gpt-5-mini", input="...")
+
+# 调 prompt agent + 多轮 conversation
+openai.responses.create(
+    conversation=conv.id,
+    extra_body={"agent_reference": {"name": AGENT_NAME, "type": "agent_reference"}},
+    input="...",
+)
+```
+
+讲师会现场跑这段，让你看 codex CLI 怎么干。
+
+## 三、Foundry 7 能力域全景（25 min，portal 走读）
+
+> 来源：[Foundry documentation hub](https://learn.microsoft.com/en-us/azure/foundry/)（2026/04/13）
+
+讲师投屏 `https://ai.azure.com`，对照每个能力域**点开看**。学员不操作，看一遍即可。
+
+| 能力域 | 是什么 | builder 关心点 |
 |---|---|---|
-| **PAYG + 默认配额** | 默认 / POC / 中小规模 | ✅ |
-| Quota increase | 流量上涨但不想买 commitment | 上线后视情况 |
-| PTU / Reservation | 高吞吐 + 稳定 SLA / 锁价 | 客服规模化后再考虑 |
+| **Foundry Models** | 1,900+ 模型目录：GPT-5 / GPT-4.1 / Claude / Grok / Mistral / DeepSeek-R1 / Phi-4 / Llama …；自动 Tier 升级 | model 切换不改代码（不锁 vendor）；fine-tune 入口 |
+| **Foundry Agent Service** | 三种 agent 类型：**Prompt (GA) / Workflow (preview) / Hosted (preview)**；Tool catalog 12 built-in + 4 custom；Toolbox preview | Prompt agent 是 v3 主路径；Hosted agents = container（Micro VM）跑你自己的 LangGraph / Agent Framework 代码 |
+| **Foundry Control Plane** | 跨订阅治理：Operate 工具栏下 5 panes | **新 pillar**；管 fleet / compliance / quota / cost；Defender + Purview + Entra + Azure Policy 集成 |
+| **Foundry IQ** | 企业知识层 = knowledge base + agentic retrieval + ACL/Purview | 客服 agent 接 FAQ 知识库的真实路径；跟 Fabric IQ / Work IQ 并列三件套 |
+| **Foundry Tools**（rebrand） | Speech / Translator / Language / Document Intelligence / Content Understanding / Face（之前叫 Azure AI Services） | 不是 agent 的事，是平台级 AI 服务库 |
+| **Azure Machine Learning** | train / pipelines / AutoML | 不是 v3 焦点；ML eng / data scientist 用 |
+| **Foundry Local** | 端侧跑 LLM / HuggingFace 模型集成 | offline / edge 场景；v3 不涉及 |
 
-讨论：客服 agent 上线 6 个月内会不会触发 PTU 阀值？通常不会——这就是为什么 v3 短课不做 PTU 实操。
+**SDK 4 语言**：Python（GA）/ C#（GA）/ JavaScript（preview）/ Java（preview）。v3 用 Python。
 
-## 二、客服场景介入 + 用得到哪几行（10 min）
+> ⏱️ Day-7：portal 走读时如果某能力域 UI 已变，以当天 portal 为准，不要硬讲文档表述。
 
-读 [scenario.md](../scenario.md) §业务背景 + §Agent 能力范围。
+## 四、Control Plane 5 panes（15 min，builder 关心的"治理"层）
 
-集体在边界表上**圈**——讲师投屏，学员口头答：
+> 来源：[What is Microsoft Foundry Control Plane?](https://learn.microsoft.com/en-us/azure/foundry/control-plane/overview)（2026/05/06）
 
-- 客服 agent 用得到 1a 表的哪几行？（预期答：1 / 6 / 8 / 9，可能加 14）
-- 可能**命中边界**的是哪几行？（预期答：7 红队区域受限——但 v3 不真跑；其他基本不命中）
-- 不需要的能力域有哪些？（A2A / Workflows / Capacity dedicated / Identity 跨租户 …）
+入口：Foundry portal 右上角 **Operate** 工具栏。
 
-10min 走完即过——不强求每个学员都答对，目的是让学员**知道边界表是查询入口**，需要时翻 v2 D10。
-
-## 三、决策对齐：三组维度口头表态（40 min）
-
-蒸馏自 v2 D1（用不用 Foundry）+ D2（Service vs SDK）+ D7（单 vs 多 agent）。**学员不填卡**，每个维度集体口头答 yes/no + 一条理由，讲师板书。
-
-### 3a. D1：客服 agent 用 / 不用 / 部分用 Foundry（15 min）
-
-8 条决策维度（蒸馏自 v2 D1 决策卡）：
-
-- [ ] 需要托管 agent 运行时 + 状态管理 → 倾向 Foundry
-- [ ] 需要 Azure 生态（AAD / Key Vault / App Insights）原生集成 → 倾向 Foundry
-- [ ] 有合规 / 数据驻留要求 → 倾向 Foundry
-- [ ] 需要 portal 上让非工程师配 agent / 看 trace → 倾向 Foundry
-- [ ] 只需要单次 LLM call，无 agent 概念 → **不用** Foundry
-- [ ] 核心模型在 Azure 目录外（Claude / Gemini / 自托管）且不打算切 → **不用** Foundry
-- [ ] 研究 demo / hackathon，下周扔 → **不用** Foundry
-- [ ] 已有成熟 LangGraph / CrewAI 生产栈，无迁移动机 → **不用** Foundry
-
-集体过：客服 agent 命中哪几条"倾向"？哪几条"不用"？预期结论 = **用 Foundry**（命中前 2 条 + 不命中后 4 条）。
-
-不强求一致——学员可以反驳"我们公司客服已有 LangGraph"，讲师追问"迁移成本 vs 收益"。
-
-### 3b. D2：Agent Service vs SDK（15 min）
-
-四维度（v2 D2，1-5 打分），客服 agent 口头估值：
-
-| 维度 | 客服 agent 估值 | 倾向 |
+| Pane | 干什么 | builder 视角 |
 |---|---|---|
-| 托管运行时（不想自己跑 worker） | 强（4-5） | Service |
-| Portal 可视化（PM/SA 直接配） | 弱-中（2-3） | — |
-| 代码完全控制（自定义编排 / 状态） | 弱（1-2） | — |
-| 跨 provider 移植性 | 中（3） | — |
+| **Overview** | fleet health / 成本趋势 / run 完成率 / 阻止行为 | 你部了 5 个 agent 后，这是首页 |
+| **Assets** | 跨 project 所有 agents / models / tools 清单（version / tag / health / cost / token usage 过滤） | "我们公司有多少 agent 在跑 / 谁的成本最高"——一眼看 |
+| **Compliance** | 创建 guardrail policy（**content safety / prompt injection / protected materials**）；scope = subscription / RG；Azure Policy + Defender + Purview 集成 | S2 动手 2 你会用到 |
+| **Quota** | 模型部署配额视图；Show all toggle 看未部署模型的可用配额 | 选 region / 模型前先看这里 |
+| **Admin** | 项目 / 用户 / 连接资源跨订阅治理 | 不是 builder 日常事，但 IT admin 角色会用 |
 
-口径：前两项 ≥ 后两项 → **Agent Service**。客服 agent 是 Service 的典型场景。
+**讨论**：你现有的栈（OpenAI / LangGraph / 自管）里 Control Plane 这层等价物是什么？通常是没有——你要自己建 dashboard / 接 Datadog / 写 cost script。
 
-硬约束扫一遍：客服 agent 通常**不命中**私有部署 / VNet 隔离——除非业务有特殊要求。
+## 五、What's new April 2026（10 min，builder 视角差异化）
 
-### 3c. D7：单 agent vs 多 agent（10 min）
+> 来源：[What's new in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/whats-new-foundry)（2026/05/12）
 
-三问（v2 D7）：
+**产品更新（last 30 days）**：
 
-1. 职责能不能在一个 system prompt 讲清？→ 客服核心能力（订单 / 物流 / 退款工单）能讲清 → 单 agent 起步
-2. 需不需要显式编排？→ "先查订单 → 判退款资格 → 创建工单"这条链可以放 function calling 里，不需要 multi-agent
-3. 要稳定 tool 调用图 / trace replay？→ 上线后要，但 v3 课中不做
+- **Foundry Control Plane** 新 pillar（上节讲过）
+- **Agent Monitoring Dashboard**：运营指标 + 评测结果
+- **Hosted-agent tracing (Preview)**：debug session details / run steps / tool calls
+- **Built-in evaluators**（S2 动手 1 你会用）
+- **AI gateway 集成（preview）**
+- **Model Router**：自动选模型
+- **Priority processing**：保留吞吐
+- **Fireworks 模型导入（preview）**：第三方推理 provider
+- **GPT Realtime 2.0 (preview)**
 
-预期结论：**v3 课中走单 agent + function calling**；多 agent（客诉升级 agent）作为生产化扩展，留课后。
+**集成层**：
 
-## 四、Q&A + S2 预告（10 min）
+- **LangChain + LangGraph 集成**：tracing 已经接通
+- **Microsoft Agent Framework**：微软自家的 multi-agent SDK，AutoGen + Semantic Kernel 合并产物
+- **A2A protocol (preview)**：agent 间通信协议
+- **MCP**：tool / 工具协议，Foundry 全量支持（remote / local / Azure Functions custom）
 
-- 所有学员当场跑：`codex --version` + `echo $OPENAI_BASE_URL`，确认环境就绪
-- S2 第一段动手 0：用 codex CLI 把刚才讨论的"客服 agent 用 Agent Service + 单 agent"这个决策落到代码
+**builder 视角差异化卖点**（v3 这门课不能全讲，但你应该知道存在）：
 
-## 课后扩展
+- **Foundry IQ**：把企业知识库做成 ACL 感知的 agentic retrieval——你自己用 LangChain 搭一套要花周
+- **Control Plane**：跨订阅 / 跨 platform fleet 管理——你自己写 dashboard 要花月
+- **Built-in evaluators + Continuous evaluation**：开箱即用的 eval 体系——你自己用 promptfoo / DeepEval 搭也行，但 Foundry 这套接进 Application Insights + Azure Policy
 
-S1 没讲透的内容（4h 课只能这样）：
+## 六、Foundry vs 你的现有栈（10 min）
 
-- v2 D1 完整决策卡：`workshop/docs/d01_concepts/`
-- v2 D2 完整决策卡 + 成本估算：`workshop/docs/d02_agent_vs_sdk/`
-- v2 D7 多 agent 三选一实操：`workshop/docs/d07_multi_agent/`
-- v2 D10 14 行边界表完整版（含官方 URL 锚点）：`prep-artifacts/day-7/specs/spec-d10-foundry-limits.md`
-- v2 D5 部署 / 容量分层完整讨论：`docs/01-instructor-handbook-v2.md` D5 段
+**讲师按入场调研对照**。常见栈：
+
+| 你现有 | Foundry 怎么接 |
+|---|---|
+| **OpenAI Responses API + 自己 orchestrator** | Foundry SDK 走的是同一个 Responses API；多了 agent_reference / Tracing / Eval / Control Plane |
+| **OpenAI Agents SDK** | Foundry **OTel 集成已经接通**（trace 直接在 Foundry portal 看）；可以跑在 Hosted agents 上 |
+| **LangGraph / LangChain** | 官方 [LangChain + LangGraph 集成](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/langchain)；可以跑在 Hosted agents 上；tracing 自动接 OTel 语义约定 |
+| **CrewAI / AutoGen / Pydantic AI** | 走 Hosted agents（任何 Python 框架都能跑）；tracing 看是否实现了 OTel 语义约定 |
+| **自己的 vector DB + LangChain RAG** | 对照 Foundry IQ（knowledge base + agentic retrieval + ACL/Purview）——决定迁不迁 |
+| **自己的 MCP server** | Foundry 直接接 remote MCP server / Toolbox preview |
+
+**留 5min** 给学员说自己的栈，讲师回应。
+
+## 七、Q&A + 环境自检 + scenario 自读（10 min）
+
+- **环境自检**：所有学员当场跑：
+  ```bash
+  az account show
+  python -c "import azure.ai.projects; print(azure.ai.projects.__version__)"
+  echo $PROJECT_ENDPOINT
+  codex --version
+  ```
+- **scenario 自读**：5min 自己读 [scenario.md](../scenario.md)，了解客服 agent 业务背景 + 5 个 user story。讲师不念。
+- 剩下时间 Q&A。
+
+## 课后扩展（S1 没讲透的）
+
+S1 没展开，但 builder 课后该读的：
+
+- [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)——三种 agent 类型详细对比
+- [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)——12 built-in + 4 custom tools + Toolbox
+- [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq)——客服 FAQ 知识库的"正经"做法
+- [Agent tracing](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)——OTel 语义约定 + 多 agent 追踪
+- [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)——task_adherence / intent_resolution / tool_call_success 等
+- v2 三天班完整 11 模块（如果想系统学）：`docs/00-training-plan-v2.md`——⚠️ v2 内容仍基于 Foundry classic 旧口径，2026 上半年已 partially outdated，等讲师升级

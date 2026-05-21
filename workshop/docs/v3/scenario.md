@@ -36,6 +36,11 @@
 
 P0 是 S2 动手 0 跑通的最小集；P1 是综合作业或课后扩展。
 
+> 📌 **生产形态 vs v3 课中形态**：
+>
+> - **真实生产**：P0 三个查询用 **function calling / OpenAPI tool / MCP** 调订单系统；FAQ 用 **Foundry IQ** knowledge base + agentic retrieval（ACL/Purview 集成）
+> - **v3 课中**：为了 4h 内跑通，订单数据 hardcode 在 agent instructions 里，FAQ 不接 IQ——这些都在课后扩展里补
+
 ## 关键用户故事（评测的来源）
 
 ### Story 1：Happy path · 订单状态查询
@@ -70,39 +75,45 @@ P0 是 S2 动手 0 跑通的最小集；P1 是综合作业或课后扩展。
 
 ## 凭证 / 数据 mock 边界
 
-v3 学员**不**连真实电商订单系统。讲师 Day-7 在 `workshop/docs/v3/code/` 提供：
+v3 学员**不**连真实电商订单系统。**简化路径**（v3 课中实际走的）：
 
-- `mock_orders.json`：10-20 条订单样例数据（含 Story 1-3 期望命中的样例）
+- 订单数据 hardcode 在 agent 的 `instructions`（system prompt）里——动手 0 只演示一条订单（ORD-T-12345）
+- 真订阅 Foundry endpoint 用于 LLM 调用；业务数据全部 mock
+- **这是为什么 v3 既需要订阅、又能在 4h 内跑动**：LLM 是真的，业务是假的
+
+**完整 mock 数据**（讲师 Day-7 在 `workshop/docs/v3/code/` 提供，给"接 tool"课后扩展用）：
+
+- `mock_orders.json`：10-20 条订单样例（含 Story 1-3 期望命中的样例）
 - `mock_logistics.json`：物流轨迹样例
 - `mock_kb.md`：FAQ 知识库样例（退货流程 / 运费 / 发票）
-- agent 通过 function calling / tool use 调这些 mock 数据源
-
-真订阅 Azure OpenAI endpoint 用于 LLM 调用；业务数据全部 mock。**这是为什么 v3 既需要订阅、又能在 4h 内跑动**：LLM 是真的，业务是假的。
+- agent 通过 **function calling / OpenAPI tool / MCP** 调这些 mock 数据源（生产形态等价物）
 
 ## 评测期望（动手 1 的依据）
 
-学员动手 1 写的 3 条评测 case 应覆盖：
+学员动手 1 用 **Foundry built-in evaluators** 跑 3 条评测 case：
 
-- 1 条 happy（Story 1 类）：能正确解析订单号 + 引用 mock 数据
+- 1 条 happy（Story 1 类）：能正确解析订单号 + 引用 instructions 里的样例数据
 - 1 条 edge（Story 2 或 3）：识别异常输入并合理反问
 - 1 条对抗（Story 4 或 5）：不被诱导越权 / 不被注入劫持
 
-判定方式（讲师 Day-7 拍）：
+判定 evaluator（3 件套）：
 
-- 选项 A：字符串包含/正则——简单但脆
-- 选项 B：LLM-as-judge——准确但要多一次 LLM 调用 + 写 judge prompt
-- 选项 C：混合（happy 用 A，对抗用 B）——推荐
+- `builtin.task_adherence`（Agent 类，LLM-judge）——判定是否遵循 system instructions
+- `builtin.coherence`（Quality 类，LLM-judge）——判定回复逻辑通顺
+- `builtin.violence`（Safety 类，规则）——对抗 case 的 negative check
+
+> 完整 evaluator 列表见 [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)。生产化进阶：加 `intent_resolution` / `tool_call_success` / Custom evaluator。
 
 ## Guardrail 期望（动手 2 的依据）
 
-学员动手 2 选 1 条防护实现：
+学员动手 2 走**两层 guardrail**：
 
-| 选项 | 防的是 Story 几 | 实现位置 |
+| 层 | 防的是 Story 几 | 实现位置 |
 |---|---|---|
-| Input filter（关键词 / 分类器） | Story 5 prompt injection 浅层 | agent 接收 user message 前 |
-| System prompt 加固 | Story 4 越权 + Story 5 注入 | agent 初始化 |
-| Output filter（敏感词 / 越权承诺检测） | Story 4 越权承诺 | agent 回复发出前 |
-| Function call 限制（白名单工具 + 参数校验） | Story 5 直接调退款工具 | tool schema 层 |
+| **平台层 guardrail policy** | Story 5 prompt injection（通用类） | Foundry Control Plane → Compliance pane（content safety / prompt injection / protected materials） |
+| **业务层 system prompt 加固** | Story 4 越权 + Story 5 业务专属 | `project.agents.create_version` 创建新 version，instructions 加显式约束 |
+
+课后扩展：output filter 中间件 + function call `requires_human_approval`——这些在 wrap.md 里讲。
 
 "挡不住"也算 pass——只要学员能讲清"挡不住的原因 + 下一步会怎么做"。
 

@@ -1,45 +1,48 @@
 # 收尾：可观测 + 上线 checklist（15 min）
 
 > 时长：15 min ｜ 形式：讲师讲 + 学员对照客服 agent 自检 ｜ 不动手
-> 蒸馏自 v2 D9 + D10
-
+> 状态：⚠️ 蒸馏自 v2 D9/D10 + Foundry 2026/05 [Agent tracing 概念](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept) + [Monitor agents dashboard](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard)
+>
 > 节奏提示：本段 15 min 是建议，五个小节按 4+4+3+2+2 分配。讲师可以在"评分自检"留时间，砍"runbook 模板"细节让学员课后看。
 
 ## 一、可观测三件套（4 min）
 
-你的客服 agent 已经在 portal trace 里能看见。**生产化的 minimum 还需要**（蒸馏自 v2 D9）：
+你的客服 agent 已经在 portal trace 里能看见。**生产化的 minimum 还需要**：
 
-1. **Tracing**：每条对话能找到 span → 已有（动手 0 看过）
-2. **Cost telemetry**：每个 deployment 的 token 用量 + $ 估算 → portal Metrics 标签
-3. **Alert**：超出预算 / 429 飙升 / ASR > X% 触发通知 → portal Alerts 设置
+1. **Tracing**：每条对话能找到 span → 动手 0 看过
+   - **Prompt agents tracing = GA**（v3 走的路径，落在 GA 范围）
+   - **Hosted / Workflow / Custom agent tracing 仍是 Preview**——上生产前要确认 GA 状态
+   - Trace 数据落在你 project 关联的 **Application Insights**——⚠️ 这会**单独计费**（按 ingest GB + 保留天数算）；上线前估一下高峰 trace 体量，否则月底账单容易爆
+2. **Agent Monitoring Dashboard**（Foundry portal Observability → Monitor）：运营指标 + 评测结果汇总，比自己拼 Datadog 快
+3. **Continuous evaluation**：在 Control Plane → **Assets** pane 给已部署 agent 开 continuous evaluation——线上请求按采样率自动跑 eval，结果回流到 dashboard。生产化首选 vs 只靠 CI pre-merge 跑
 
 **客服场景特殊关注**：
 
 - 单条对话**多轮** token 累加——单轮看着省，10 轮可能爆
-- 高峰期 429——客服流量有日内峰谷，Quotas 要按峰值算
+- 高峰期 429——客服流量有日内峰谷，Quota 要按峰值算（Control Plane → **Quota** pane 看）
 
 ## 二、上线 checklist（4 min）
 
-蒸馏自 v2 D9/06 + D10。**6 项最小生产化清单**（v3 砍到必要项）：
+**6 项最小生产化清单**（v3 砍到必要项）：
 
-- [ ] **Endpoint + secret 分环境**：dev / staging / prod 独立 deployment 和 key，prod key 进 Key Vault
-- [ ] **Eval gate 接 CI**：每次 PR 跑 eval_harness.py，至少 happy path 不退化
-- [ ] **Red Team gate 阈值**：ASR > X% 阻塞上线（动手 2 的 guardrail 直接关联这条）
+- [ ] **环境分离**：dev / staging / prod 各自 Foundry project（或至少独立 deployment）；prod 不共享 dev 的 agent version
+- [ ] **Eval gate 接 CI**：每次 PR 跑动手 1 的 evaluation，至少 task_adherence happy path 不退化（[GitHub Action for evaluations](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action)）
+- [ ] **Guardrail policy 已在 Control Plane → Compliance 开**：content safety + prompt injection + protected materials（动手 2 的平台层）
 - [ ] **Runbook**：客服 agent 4 类故障（429 / 5xx / 误回复 / 越权承诺）各一条处置流程
-- [ ] **Cost alert**：日预算上限 + 触发 webhook
-- [ ] **回滚一行命令**：deployment 切回上一个 version 的 `az` / SDK 命令贴在 runbook 里
+- [ ] **Cost + Budget alert**：portal Cost analysis 设日预算 + webhook；同时确认 Application Insights ingest 额度也在监控里
+- [ ] **回滚一行命令**：`project.agents.create_version` 留下的 version 链可以一键切回上一个——把切换命令贴 runbook 里
 
 讨论：你的项目目前命中几条？哪几条是 Day-1 必须有的？
 
 ## 三、Runbook 模板（3 min）
 
-蒸馏自 v2 D9/04。**客服 agent 429 限流处置**示例：
+**客服 agent 429 限流处置**示例：
 
 ```markdown
 ## 客服 agent 429 限流
 
 ### 触发条件
-portal Metrics: `RateLimitExceeded` 1min 窗口 > 5 次
+Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 > 5 次
 
 ### 第一响应（≤ 5 min）
 1. 看是哪个 deployment 限流（dev/staging/prod？）
@@ -47,14 +50,14 @@ portal Metrics: `RateLimitExceeded` 1min 窗口 > 5 次
 
 ### 处置
 - burst 真实：开启限流 503 兜底（agent 返回"系统繁忙，请稍候"），不影响其他用户
-- 配额问题：portal 申请扩配额；临时把流量切到备用 deployment
+- 配额问题：Control Plane → Quota 申请扩配额；临时把流量切到备用 deployment 或开 **Priority processing**（preview，保留吞吐）
 
 ### 通知
 - > 10 min 仍未恢复：通知 oncall + 产品负责人
 - 客服侧切回人工
 
 ### 复盘
-- 24h 内填一份 RCA：burst 来源 / 是否符合 capacity plan / 调整 Quotas 阈值
+- 24h 内填一份 RCA：burst 来源 / 是否符合 capacity plan / 调整 Quota 阈值
 ```
 
 讲师 Day-7 完成 4 类故障的完整 runbook，放在 `workshop/docs/v3/code/runbook.md`。
@@ -66,33 +69,35 @@ portal Metrics: `RateLimitExceeded` 1min 窗口 > 5 次
 ### 把 v3 跑深
 
 - **综合作业**：把客服 agent 换成你自己项目场景，重跑动手 0/1/2
-- **接真接口**：mock_orders.json 换成真 ERP API
-- **多 agent 拆分**：把客诉升级拆成独立 agent，主 agent 调它做 as_tool
-- **CI 接入**：eval_harness + GitHub Actions
+- **接真接口**：把 instructions 里 hardcode 的订单换成 **function calling / OpenAPI tool / MCP** 调真后端
+- **接 Foundry IQ**：FAQ / 退货政策做成 knowledge base，agent 用 agentic retrieval（带 ACL/Purview）而不是塞 system prompt
+- **多 agent 拆分**：把客诉升级拆成独立 agent，主 agent 用 connected agents / A2A protocol 调它
+- **CI 接入**：eval + GitHub Actions 当 merge gate
+- **Continuous evaluation**：给 staging deployment 开，看一周的真实 task_adherence 漂移
 
-### 系统学完 v2 三天班
+### Foundry 平台延伸阅读
 
-| v2 模块 | 你会补到什么 |
+| 想深入哪块 | 官方入口 |
 |---|---|
-| [D1 概念](../../d01_concepts/index.md) | 完整 14 格能力地图 + 4 条反例 |
-| [D2 Agent vs SDK](../../d02_agent_vs_sdk/index.md) | 5 类硬约束 + 成本估算 |
-| [D3 单 agent](../../d03_single_agent/index.md) | Bicep 部署 + 完整 trace 三件套 |
-| [D7 多 agent](../../d07_multi_agent/index.md) | as_tool / Workflows 实操 |
-| [D8 Red Team](../../d08_red_team/index.md) | Portal + SDK 完整 baseline |
-| [D9 生产化](../../d09_production/index.md) | CI/CD workflow + 完整 runbook |
-| [D10 边界](../../d10_boundary/index.md) | 14 行边界表 + 迁移方案 |
+| 三种 agent 类型详细对比（Prompt/Workflow/Hosted） | [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview) |
+| 12 built-in + 4 custom tools + Toolbox preview | [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog) |
+| 企业知识 + agentic retrieval + ACL | [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq) |
+| 跨订阅 fleet 治理 | [Foundry Control Plane](https://learn.microsoft.com/en-us/azure/foundry/control-plane/overview) |
+| Tracing + OTel 语义约定 | [Agent tracing 概念](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept) |
+| 完整 evaluator 列表 | [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) |
+| AI Red Teaming Agent（preview） | [AI red teaming agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) |
 
-### Specs（让 codex CLI 当陪练）
+### v2 三天班（系统学）
 
-11 个模块的 spec 在 `prep-artifacts/day-7/specs/`，每份是给 AI-pair 当 prompt 用的。挑感兴趣的让 codex 跑一遍。
+v2 11 模块完整版在仓库 `docs/00-training-plan-v2.md`。**⚠️ 注意**：v2 仍基于 Foundry classic 旧口径（Assistants API / 多包 SDK / 月度 api-version），2026 上半年 partially outdated——课程概念结构可用，具体 API 调用以最新 Foundry 文档为准。
 
 ## 五、你的评分自检（2 min）
 
 回到 [v3 总览](../index.md) §"学完之后你应该能"。3 维全 pass 即课程通过：
 
-- [ ] **决策**：能口头讲"客服 agent 用/不用/部分用 Foundry"+ 一条理由（S1）
+- [ ] **认知**：能口头讲 Foundry 7 能力域中至少 4 个 + Control Plane 5 panes 各做什么（S1）
 - [ ] **实操**：动手 0 跑通 1 条对话 + 动手 1 至少 2 条评测明确 pass/fail
-- [ ] **安全**：能讲你的 guardrail 防的是哪类 attack、为什么客服场景重要（挡住与否不影响）
+- [ ] **安全**：能讲你的 guardrail 防的是哪类 attack、为什么客服场景重要、平台层 vs 业务层各能解决什么（挡住与否不影响）
 
 任何 1 维 fail 不影响发放课程材料，讲师会在课后跟进。
 
