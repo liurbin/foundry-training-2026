@@ -28,24 +28,24 @@
 | 部署 | D5 Bicep / azd | codex CLI 调 SDK，**不用 Bicep** |
 | 评分 rubric | 5 维度加权 | **3 维 pass/fail**（决策 / 实操 / 安全） |
 | 项目假设 | 学员带自己项目讨论 | **统一 demo 场景**（客服 agent，讲师提供） |
-| workshop 代码 | `workshop/code/` mock provider 主路径 | **独立 `workshop-v3/`**（不复用 v2，隔离） |
-| 综合作业 | D11 ~2h 完整版 | 取消，学员课后做（见课后自学包） |
+| workshop 代码 | `workshop/code/` mock provider 主路径 | **独立 `workshop/docs/v3/`** 子树（学员只看 v3 nav） |
+| 综合作业 | D11 ~2h 完整版 | 课中跑哪段算哪段，**未完成部分进课后自学包**（不强行 4h 内塞完） |
 
-v3 不替代 v2，也不冻结 v2。两份并存。`workshop-v3/` 与 `workshop/` 互不污染。
+v3 不替代 v2，也不冻结 v2。两份并存。`workshop/docs/v3/` 是 v2 学员站点下的独立分支，nav 隔离即可，物理上共用 mkdocs 配置。
 
 ## Prerequisites（课前）
 
 学员侧：
 
 - macOS（其他系统联系讲师）
-- 完成 [`workshop/docs/prerequisites/codex-cli-setup.md`](../workshop/docs/prerequisites/codex-cli-setup.md) 全部 4 条自检
+- 完成 [`workshop/docs/v3/prerequisites/codex-cli-setup.md`](../workshop/v3/prerequisites/codex-cli-setup.md) 全部 4 条自检
 - **不要求带项目**——v3 全程用统一 demo 场景（客服 agent），降低节奏风险
 
 讲师侧（Day-7 gating，见§Day-7 清单）：
 
 - Azure OpenAI 资源起好、deployment 暴露、key 私信发放
 - 学员引导自己跑过一遍，补完报错表
-- `workshop-v3/code/eval_harness.py` 骨架就绪（见§动手 1）
+- `workshop/docs/v3/code/eval_harness.py` 骨架就绪（见§动手 1）
 
 ## S1 议程（90min，决策框架，不动手）
 
@@ -59,36 +59,36 @@ v3 不替代 v2，也不冻结 v2。两份并存。`workshop-v3/` 与 `workshop/
 
 **S1 不动手**——这 90min 全部用来对齐决策口径，避免 S2 动手时学员还在纠结"该不该用 Foundry"。
 
-**统一 demo 场景**：客服 agent（处理订单查询 / 退款请求 / 一般 FAQ）。讲师在 Day-7 把场景描述、几条典型对话、和评测样例写进 `workshop-v3/scenario.md`。S1 第 25min 段和 S2 全程都围绕这个场景。
+**统一 demo 场景**：客服 agent（处理订单查询 / 退款请求 / 一般 FAQ）。完整场景见 [`workshop/docs/v3/scenario.md`](../workshop/v3/scenario.md)。S1 第 25min 段和 S2 全程都围绕这个场景。
 
 ## S2 议程（150min，codex CLI 副驾驶动手）
 
-> 注：相比早期 stub，**砍掉 25min 综合作业**——给动手 0/1/2 各留 buffer，避免节奏崩。
+> 注：4h 是建议节奏，**完整性优先于"当堂跑完"**——动手 0/1/2 哪段没跑完就进课后自学包接着做。
 
 | 时长 | 段落 | 真订阅用途 |
 |---|---|---|
-| 10min | 评测先行：为什么写评测在写功能前 + 今天用的 endpoint + demo 场景说明 | — |
-| 20min | **动手 0**：codex CLI 起一个客服 agent + 连 endpoint，跑通"订单状态查询"对话 | ✅ 真调用 |
+| 10min | S2 开场：评测先行论点 + 今天 endpoint + scenario 说明（动手 0 文件开头） | — |
+| 20min | **动手 0**：codex CLI 起一个客服 agent + 连 endpoint，跑通"订单状态查询"对话（hardcode 简化，function calling 留课后） | ✅ 真调用 |
 | 55min | **动手 1**：让 codex CLI 往 `eval_harness.py` 骨架里加 3 条评测 case，跑 pass/fail | ✅ 真调用 |
-| 15min | Red Teaming 框架 + 讲师 demo 一条 attack | 讲师 demo |
+| 15min | Red Team 框架 + 讲师 demo 一条 attack（动手 2 文件开头） | 讲师 demo |
 | 35min | **动手 2**：让 codex CLI 帮你加一条 guardrail，跑回评测验证 | ✅ 真调用 |
 | 15min | 可观测 + 上线 checklist + 课后自学包（链 v2 / workshop / specs） | — |
 
-合计 150min。动手段落比早期 stub 各 +10/+15/+5min，符合 L300 学员真实节奏。
+合计 150min。
 
 ### 动手段落骨架（讲师 Day-7 实测后补完整脚本）
 
 > ⚠️ 以下逐步骤脚本在讲师 Day-7 实测后写入，stub 阶段只列骨架。
 
 **动手 0（20min）骨架**：
-- 学员在 `workshop-v3/scenario.md` 里读到"客服 agent 要处理订单查询"
+- 学员在 `workshop/docs/v3/scenario.md` 里读到"客服 agent 要处理订单查询"
 - `codex "帮我用 azure-ai-projects SDK 起一个客服 agent，从环境变量读 endpoint，能回答订单状态查询"`
 - 审 → 执行 → 跑通至少一条对话
 - `TODO`：讲师实测后补具体话术 / 常见报错 / SDK 包版本锁定
 
 **动手 1（55min）骨架**：
-- 讲师提供 `workshop-v3/code/eval_harness.py` 骨架（~30 行 pytest-style，含 1 条示例 case）
-- 学员 `codex "往这个 harness 里加 3 条 case：1 条 happy path（订单存在）、1 条 edge（订单号格式错误）、1 条对抗（用户骂人）"`
+- 讲师提供 `workshop/docs/v3/code/eval_harness.py` 骨架（~30 行 pytest-style，含 1 条示例 case）
+- 学员 `codex "往这个 harness 里加 2 条 case：1 条 edge（订单号格式错误，agent 应反问）、1 条对抗（客诉升级伪装，agent 不越权承诺退款）"`
 - 跑 `pytest eval_harness.py` 看 pass/fail
 - 至少 2 条产出明确 pass/fail 判定才算通过
 - `TODO`：3 条 case 的具体 expected 行为；harness 怎么调用真 endpoint（讲师 Day-7 决定 mock judge 还是 LLM-as-judge）
@@ -121,11 +121,14 @@ v3 不替代 v2，也不冻结 v2。两份并存。`workshop-v3/` 与 `workshop/
 - [ ] Azure OpenAI 资源开通（订阅、region、配额）
 - [ ] 起好 deployment（推荐 gpt-4o 或同级），记录 deployment 名 + API version
 - [ ] 为每位学员生成 key（或共享 key + 配额告知）
-- [ ] 自己跑一遍 `workshop/docs/prerequisites/codex-cli-setup.md`，把"常见报错"表里的占位补成实测案例
-- [ ] 写 `workshop-v3/scenario.md`：客服 agent 场景描述 + 3-5 条典型对话 + 评测期望
-- [ ] 写 `workshop-v3/code/eval_harness.py` 骨架（~30 行，pytest-style，1 条示例 case）
+- [ ] 自己跑一遍 `workshop/docs/v3/prerequisites/codex-cli-setup.md`，把"常见报错"表里的占位补成实测案例
+- [ ] 校对 [`workshop/docs/v3/scenario.md`](../workshop/v3/scenario.md)：业务设定（GMV / 监管热线 / 客诉口径）符合你的目标受众
+- [ ] 写 `workshop/docs/v3/code/eval_harness.py` 骨架（~30 行，pytest-style，1 条示例 case）
+- [ ] 写 `workshop/docs/v3/code/mock_orders.json` / `mock_logistics.json` / `mock_kb.md`（场景里列的 mock 数据）
 - [ ] 准备 3 条 attack payload（prompt injection / jailbreak / PII），写在内部 runbook
 - [ ] 自己跑一遍 S2 动手 0/1/2，把"具体步骤"骨架补成最终脚本
+- [ ] **挂 v3 nav 到 `mkdocs.yml` 和 `mkdocs.en.yml`**（英文站可先指向中文 placeholder 或暂时不挂英文）
+- [ ] 跑 `mkdocs build --strict` + `mkdocs build --strict -f mkdocs.en.yml`，确认零断链
 - [ ] 准备课后订阅/key 失效流程，写在内部 runbook（不入这份学员文档）
 - [ ] 准备网络兜底方案（公司网络拦截 OpenAI 域名时的备用 endpoint / 代理建议）
 

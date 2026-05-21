@@ -78,10 +78,16 @@ source ~/.zshrc
 
 ```bash
 mkdir -p ~/foundry-training-tmp && cd ~/foundry-training-tmp
-codex "用一句话介绍 Azure OpenAI 和 OpenAI 直连的区别"
+codex
 ```
 
-期望看到一段中文回答输出。
+进入 codex 交互模式后，输入：
+
+```
+用一句话介绍 Azure OpenAI 和 OpenAI 直连的区别。
+```
+
+期望看到一段中文回答输出。退出用 `/exit` 或 Ctrl-D。
 
 ### 5. 自检 checklist
 

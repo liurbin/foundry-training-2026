@@ -92,11 +92,21 @@ nav:
       - D11 AI-pair 工作流: workshop/d11_ai_pair/index.md
   - 讲师包:
     - 训练计划 v2: handbook/00-training-plan-v2.md
+    - 训练计划 v3 短课 (4h): handbook/00-training-plan-v3-compact.md
     - 讲师手册 v2: handbook/01-instructor-handbook-v2.md
     - Day-7 准备清单: handbook/02-instructor-prep-checklist.md
     - 上游 ↔ v2 映射: handbook/03-workshop-fork-mapping.md
     - 设计原则: handbook/04-design-principles.md
     - 学员前置清单: handbook/01-precheck.md
+  - v3 短课 (4h):
+    - 总览: workshop/v3/index.md
+    - 客服 agent 场景: workshop/v3/scenario.md
+    - 课前装机引导: workshop/v3/prerequisites/codex-cli-setup.md
+    - S1 决策框架 (90min): workshop/v3/s1/index.md
+    - S2-0 起 agent (20min): workshop/v3/s2/00-bootstrap.md
+    - S2-1 写评测 (55min): workshop/v3/s2/01-eval.md
+    - S2-2 加 guardrail (50min): workshop/v3/s2/02-guard.md
+    - S2 收尾 (15min): workshop/v3/s2/wrap.md
   - Prompt Spec 库:
     - D1 Foundry fit: specs/spec-d1-foundry-fit.md
     - D2 Service vs SDK: specs/spec-d2-service-vs-sdk.md
