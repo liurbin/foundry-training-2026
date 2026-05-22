@@ -88,7 +88,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 | **Overview** | featured 模型一眼看（GPT-5.4 / claude-opus-4-7 / model-router / Kimi-K2.5 …）| 进 Foundry 第一眼 |
 | **Models** | 1,900+ 模型完整目录 | model 不锁 vendor；自动 Tier 升级 |
 | **Agents** | agent 模板库（看别人怎么建）| S2 动手 0 之前可以来这里抄一个起手 |
-| **Tools** | tool 目录浏览（12 built-in + 4 custom + Toolbox preview）| 决定接什么 tool 前看 |
+| **Tools** | tool 目录浏览（**1,400+ tools** via 公共 + 私有 catalog；旧 agent docs 口径"12 built-in + 4 custom + Toolbox preview"是 agent 内置子集）| 决定接什么 tool 前看 |
 | **Solution templates** | 场景化解决方案模板 | 客服 / RAG / 数据分析等开箱场景 |
 
 **顺带提**（builder 该知道存在）：Model Router（preview，自动选模型）/ Priority processing（preview，保留吞吐）/ Fireworks 模型导入（preview，第三方推理 provider）。
@@ -224,7 +224,7 @@ codex --version
 S1 没展开，但 builder 课后该读的：
 
 - [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)——三种 agent 类型详细对比
-- [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)——12 built-in + 4 custom tools + Toolbox
+- [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)——1,400+ tools（公共 + 私有 catalog）+ agent 内置 12+4 子集 + Toolbox
 - [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq)——客服 FAQ 知识库的"正经"做法
 - [Agent tracing](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)——OTel 语义约定 + 多 agent 追踪
 - [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)——task_adherence / intent_resolution / tool_call_success 等

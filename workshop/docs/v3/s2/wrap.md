@@ -80,7 +80,7 @@ Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 
 | 想深入哪块 | 官方入口 |
 |---|---|
 | 三种 agent 类型详细对比（Prompt/Workflow/Hosted） | [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview) |
-| 12 built-in + 4 custom tools + Toolbox preview | [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog) |
+| 1,400+ tools（公共 + 私有 catalog）+ agent 内置 12+4 子集 + Toolbox preview | [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog) |
 | 企业知识 + agentic retrieval + ACL | [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq) |
 | 跨订阅 fleet 治理 | [Foundry Control Plane](https://learn.microsoft.com/en-us/azure/foundry/control-plane/overview) |
 | Tracing + OTel 语义约定 | [Agent tracing 概念](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept) |

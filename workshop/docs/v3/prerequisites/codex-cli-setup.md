@@ -9,13 +9,15 @@
 
 讲师在课前会发给你**一封私信**，内容包含：
 
-- `PROJECT_ENDPOINT`：形如 `https://<resource-name>.services.ai.azure.com/api/projects/<project-name>`
+- `PROJECT_ENDPOINT`：形如 `https://<resource-name>.ai.azure.com/api/projects/<project-name>`（Python SDK 路线；REST 直调走 `.services.ai.azure.com`）
 - `MODEL_DEPLOYMENT_NAME`：模型部署名（讲师 Day-7 在 Foundry 里部好；rebrand 期模型目录会漂，**以讲师私信为准**）
 - 一个 Azure 账户邀请（你用自己的 Microsoft 账号 `az login` 后会拿到 **Foundry User** 角色）
 
 **重要**：v3 用的是 Microsoft Foundry 当前主路径——**Entra ID 鉴权（`DefaultAzureCredential` + `az login`）**，不是 API key。课程结束后讲师会回收你在 Foundry project 上的 RBAC。
 
-> 为什么不在文档里写死模型名 / API version：Foundry 仍在 rebrand 期（Azure AI Foundry → Microsoft Foundry / Assistants API → Responses API），model 目录、SDK 版本、portal UI 都在演化。讲师 Day-7 实测后的私信值才是当天的真相。
+> 为什么不在文档里写死模型部署名 / SDK 版本细节：Foundry 仍在 rebrand 期（Azure AI Foundry → Microsoft Foundry），**model 目录、portal UI、preview 功能 GA 状态**都在演化。讲师 Day-7 实测后的私信值才是当天的真相。
+>
+> API 版本无需关心——Foundry 已从月度 `api-version` 参数转为 **v1 稳定路由**（`/openai/v1/`），SDK 自动走稳定路由。
 
 ## 步骤
 
@@ -163,11 +165,11 @@ codex
 |---|---|---|
 | `command not found: codex` | 全局 npm bin 不在 PATH | 见步骤 2 的 `~/.npm-global` 方案 |
 | `DefaultAzureCredential failed to retrieve a token` | 没 `az login`，或登录的账号没 Foundry User 角色 | 重跑 `az login`；找讲师确认角色已分配 |
-| `404 Not Found` / `Connection refused` | `PROJECT_ENDPOINT` 拼接错，或 resource/project 名错 | 对照讲师发的字符串，格式是 `https://<resource>.services.ai.azure.com/api/projects/<project>` |
+| `404 Not Found` / `Connection refused` | `PROJECT_ENDPOINT` 拼接错，或 resource/project 名错 | 对照讲师发的字符串，格式是 `https://<resource>.ai.azure.com/api/projects/<project>`（Python SDK 用 `.ai.azure.com`） |
 | `model not found` | `MODEL_DEPLOYMENT_NAME` 错，或该 deployment 未在 project 暴露 | 对照讲师发的部署名；rebrand 期模型目录会漂，不要自己猜 |
 | `ModuleNotFoundError: azure.ai.projects` | 没进 venv，或 SDK 版本错 | `source ~/foundry-v3-env/bin/activate` + `pip install "azure-ai-projects>=2.0.0"` |
 | `AttributeError` on `evals` / `responses` | 装到了 1.x（Foundry classic） | `pip install --upgrade "azure-ai-projects>=2.0.0"` |
-| Network timeout | 本地代理 / 公司网络拦截 `*.services.ai.azure.com` | 切手机热点重试，或问讲师备用 endpoint |
+| Network timeout | 本地代理 / 公司网络拦截 `*.ai.azure.com` 或 `*.services.ai.azure.com` | 切手机热点重试，或问讲师备用 endpoint |
 
 ## 失败兜底
 

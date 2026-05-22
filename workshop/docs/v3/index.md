@@ -1,6 +1,6 @@
 # v3 短课：4 小时压缩版
 
-> 课程类型：4h 短课 ｜ 节奏：S1 90min 决策 + S2 150min 动手 ｜ 凭证：讲师统一发 Azure OpenAI endpoint+key
+> 课程类型：4h 短课 ｜ 节奏：S1 90min 决策 + S2 150min 动手 ｜ 凭证：讲师统一发 Foundry project endpoint + Azure 账号邀请（Entra ID / RBAC，**不是 API key**）+ model deployment name
 
 ## 这门课你会做什么
 
