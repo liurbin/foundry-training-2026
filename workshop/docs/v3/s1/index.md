@@ -20,12 +20,12 @@
 | 时长 | 段 | 内容 |
 |---|---|---|
 | 5min | 一、开场 | 这门课会给你什么 / 不教什么 |
-| 3min | 二、Foundry 是什么 | 一句话定位 + S2 你会写到的两个名字 |
-| 23min | 三、Discover + Build（portal 走读） | "能用什么"+"在 project 里造什么" |
+| 2min | 二、Foundry 是什么 | 一句话定位 + portal 入口 |
+| 18min | 三、Discover + Build（portal 走读） | 在 portal 上指 S2 会用到的位置 |
 | 15min | 四、Operate（Control Plane，Preview） | 跨 project 治理 5 panes |
-| 26min | 五、为什么不自己拼 + 你的栈怎么接 | Foundry 独有 3 件 + 你现栈对照 |
+| 30min | 五、为什么不自己拼 + 你的栈怎么接 | Foundry 独有 3 件 + 你现栈对照 |
 | 15min | 六、Q&A + 环境自检 + scenario 自读 | — |
-| 3min | 缓冲 | 讲师机动 |
+| 5min | 缓冲 | 讲师机动 |
 
 ## 一、开场（5 min）
 
@@ -49,32 +49,21 @@
 - S2 才用环境变量；S1 末尾环境自检
 - 有问题随时打断，不憋到 Q&A
 
-## 二、Foundry 是什么（3 min）
+## 二、Foundry 是什么（2 min）
 
 > 来源：[What is Microsoft Foundry?](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry)（2026/04/29）
-
-### 2.1 一句话定位（1 min）
 
 Microsoft Foundry = Azure 上一个**统一 AI 平台**——一个地方建 model + agent + knowledge base + 治理。
 
 portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle）。
 
-这就是 S2 你会用的那个平台。
+这就是 S2 你会用的那个平台。S2 动手 0 会教你装包 + 写第一行代码，S1 不预热。
 
-### 2.2 S2 你会写到的两个名字（2 min）
-
-- **Python 包**：`azure-ai-projects` 2.x
-- **核心调用形态**（讲师投屏代码，不让学员跟）：
-  ```python
-  project = AIProjectClient(endpoint=..., credential=DefaultAzureCredential())
-  openai = project.get_openai_client()
-  openai.responses.create(input="...", extra_body={"agent_reference": {...}})
-  ```
-- 关键词记 3 个：`AIProjectClient` / `responses.create` / `agent_reference`——S2 动手 0 就这仨
-
-## 三、Discover + Build：能用什么 + 在 project 里造什么（23 min，portal 走读）
+## 三、Discover + Build：能用什么 + 在 project 里造什么（18 min，portal 走读）
 
 > 来源：[Navigate the Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/navigate-from-classic#navigate-the-portal)（2026/03）+ 讲师 portal 实测截图
+>
+> 节奏定位：**只在 portal 上指位置，不讲概念细节**。三种 agent 类型、evaluator 分类、两层 guardrail 关系——S2 动手时会重讲，S1 不预讲。
 
 ### 3.0 portal 5 顶级 section 定位（1 min）
 
@@ -90,7 +79,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 
 §三看 **Discover + Build**，§四看 **Operate**。Home / Docs 自己摸索。
 
-### 3.1 Discover：能用什么（6 min）
+### 3.1 Discover：能用什么（5 min）
 
 左栏 5 项（截图 portal 实拍）：
 
@@ -102,52 +91,26 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 | **Tools** | tool 目录浏览（12 built-in + 4 custom + Toolbox preview）| 决定接什么 tool 前看 |
 | **Solution templates** | 场景化解决方案模板 | 客服 / RAG / 数据分析等开箱场景 |
 
-**顺带提**（builder 该知道存在）：
+**顺带提**（builder 该知道存在）：Model Router（preview，自动选模型）/ Priority processing（preview，保留吞吐）/ Fireworks 模型导入（preview，第三方推理 provider）。
 
-- **Model Router**（preview）：自动选模型，省成本
-- **Priority processing**（preview）：保留吞吐，应对高峰
-- **Fireworks 模型导入**（preview）：第三方推理 provider
+### 3.2 Build：在当前 project 里造（12 min）
 
-### 3.2 Build：在当前 project 里造（16 min）
+左栏 8 项（截图 portal 实拍）。**目标：让学员 S2 打开 portal 知道每个子节点在哪、做什么用**——不讲概念。
 
-左栏 8 项（截图 portal 实拍）：
-
-| 子节点 | 是什么 | v3 哪段会再讲 |
+| 子节点 | portal 上指什么 | v3 哪段会再讲 |
 |---|---|---|
-| **Agents** | create / version / deploy agent | **S2 动手 0** 在这里 create；**trace 也在这里看**（顶部 Traces tab）|
-| **Models** | deployment 管理 + playground | — |
-| **Fine-tune** | 模型微调 | v3 不涉及 |
-| **Tools** | project 内 tool 配置（function call / MCP / OpenAPI）| 课后扩展 |
-| **Knowledge** | **这就是 Foundry IQ 的 portal 入口** | §五 5.1.1 深讲 |
-| **Data** | 数据集 / dataset 管理 | S2 动手 1 上传 eval dataset 在这里 |
-| **Evaluations** | built-in evaluator + report 视图 | **S2 动手 1** 在这里看 report_url |
-| **Guardrails** | project 内 guardrail 配置（content safety 类）| **S2 动手 2 业务层**用这里 |
+| **Agents** | "S2 动手 0 在这里 create agent；trace 在顶部 Traces tab；Workflows 标 Preview" | S2 动手 0 讲三种 agent 类型 |
+| **Models** | "deployment 管理 + playground 在这里点开看" | — |
+| **Fine-tune** | "v3 不涉及，知道在哪即可" | — |
+| **Tools** | "project 内 tool 配置入口" | 课后扩展 |
+| **Knowledge** | "**Foundry IQ 的 portal 入口在这里**" | §五 5.1.1 深讲 |
+| **Data** | "S2 动手 1 上传 eval dataset 进这里" | S2 动手 1 |
+| **Evaluations** | "S2 动手 1 在这里看 report_url + per-evaluator reasoning" | S2 动手 1 讲 evaluator 三类 |
+| **Guardrails** | "S2 动手 2 业务层在这里配；和 Operate → Compliance 不是一个东西，§四再讲" | S2 动手 2 + §四 |
 
-**深讲 3 个（每个 ~4min）**：
-
-**3.2.1 Build → Agents**（4 min）
-- 三种 agent 类型：**Prompt (GA) / Workflow (preview) / Hosted (preview)**
-- Workflows tab 当前在 Agents 页面顶部，标 **Preview**
-- builder 关心点：
-  - Prompt agent 是 v3 主路径
-  - Hosted agents = container（Micro VM）跑你自己的 LangGraph / Agent Framework / CrewAI 代码
-  - Workflows = 微软自家可视化编排（你 LangGraph 在的位置）
-
-**3.2.2 Build → Evaluations**（4 min）
-- built-in evaluator 三类：**Agent**（task_adherence / intent_resolution / tool_call_success）/ **Quality**（coherence / groundedness）/ **Safety**（violence / hate / sexual / self-harm / jailbreak）
-- Custom evaluator 入口
-- builder 关心点：S2 动手 1 直接用这套，不从零写 pytest
-
-**3.2.3 Build → Guardrails**（4 min）
-- project 级 guardrail 配置——content safety + 业务规则
-- ⚠️ **和 Operate → Compliance → Guardrails 是两个东西**：
-  - **Build → Guardrails**：project 内、agent 级，**学员实际能配**（动手 2 走这条）
-  - **Operate → Compliance**：跨 project / 跨订阅，要 Owner / Resource Policy Contributor 权限（动手 2 讲师演示）
-- ⚠️ Day-7 讲师 portal 实测补：Build → Guardrails 子页具体能配哪些 control（content filter / prompt shield / jailbreak / protected materials / custom）——官方文档当前在重组（多个 URL 404）
-
-**剩余 5 个子节点点名即可（4 min）**：Models / Fine-tune / Tools / Knowledge（§五会深讲）/ Data
-
-> ⏱️ Day-7：portal 走读时如果某子节点 UI 已变，以当天 portal 为准
+**讲师 portal 走读流程**：
+- 每个子节点点开看 ~1.5min，按上表"portal 上指什么"那列念一句
+- ⚠️ Day-7 portal UI 如有变化以当天为准
 
 ## 四、Operate：跨 project 治理（15 min）
 
@@ -185,7 +148,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 你现有的栈（OpenAI / LangGraph / 自管）里 Operate 这层等价物是什么？
 通常是没有——你要自己建 dashboard / 接 Datadog / 写 cost script。
 
-## 五、为什么不自己拼 + 你的栈怎么接（26 min）
+## 五、为什么不自己拼 + 你的栈怎么接（30 min）
 
 > 把"What's new"和"vs 你的栈"合并。从 builder 视角讲"Foundry 帮你省了什么、你现栈怎么接"。
 
@@ -210,24 +173,24 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 - 拼出来的差距：评测能拼，但接不进 Azure 治理体系；continuous evaluation 要自己造
 - builder 关心点：S2 动手 1 就用这个
 
-### 5.2 你的现有栈怎么接（12 min，讲师按入场调研对照）
+### 5.2 你的现有栈怎么接（15 min，讲师按入场调研对照）
 
-**5.2.1 已经在 OpenAI 生态的**（4 min）
+**5.2.1 已经在 OpenAI 生态的**（5 min）
 - **OpenAI Responses API + 自己 orchestrator** → 同一个 Responses API，多了 agent_reference / Tracing / Eval / Control Plane
 - **OpenAI Agents SDK** → Foundry OTel 集成已接通，trace 直接在 Build → Agents → Traces 看；可跑 Hosted agents
 
-**5.2.2 用 Python 多 agent 框架的**（4 min）
+**5.2.2 用 Python 多 agent 框架的**（5 min）
 - **LangGraph / LangChain** → 官方集成；可跑 Hosted agents；tracing 自动接 OTel
 - **CrewAI / AutoGen / Pydantic AI** → 走 Hosted agents（任何 Python 框架都能跑）；tracing 看是否实现 OTel 语义约定
 - **Microsoft Agent Framework** → 微软自家（AutoGen + Semantic Kernel 合并产物），Foundry 一等公民
 - **A2A protocol** (preview) → agent 间通信，Foundry 支持
 
-**5.2.3 自管基础设施的**（4 min）
+**5.2.3 自管基础设施的**（5 min）
 - **自己的 vector DB + LangChain RAG** → 对照 Foundry IQ（Build → Knowledge），决定迁不迁
 - **自己的 MCP server** → Foundry 直接接 remote MCP server / Build → Tools / Toolbox preview
 - **自己的 evaluation pipeline** → 对照 5.1.3，决定迁不迁
 
-### 5.3 开放 Q（4 min）
+### 5.3 开放 Q（5 min）
 
 - builder 说自己的栈，讲师对照回应
 - 重点接住"我现在 X 已经跑得好好的，为什么换"——这是 builder 真正的顾虑
