@@ -144,6 +144,15 @@ Result counts: {"total": 3, "passed": 1, "failed": 2, "errored": 0}
 
 4 项打勾即动手 1 pass。
 
+## Enterprise Readiness checkpoint
+
+这一步课内只跑 3 条入门 eval。生产前补：
+
+- **Eval ownership**：谁维护 dataset、threshold、custom evaluator，谁批准 release。
+- **Data governance**：eval JSONL、judge reasoning、report URL 里是否含 PII 或客户数据。
+- **Logging**：eval run id、agent version、model deployment、case id 要进结构化日志。
+- **Continuous evaluation**：线上采样率、失败告警、回归处理流程要提前定。
+
 ## 课后扩展
 
 - 把 3 条扩成 10-20 条（覆盖场景 Story 1-5 全部）

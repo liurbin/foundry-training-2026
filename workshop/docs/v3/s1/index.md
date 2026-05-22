@@ -23,7 +23,7 @@
 | 2min | 二、Foundry 是什么 | 一句话定位 + portal 入口 |
 | 18min | 三、Discover + Build（portal 走读） | 在 portal 上指 S2 会用到的位置 |
 | 15min | 四、Operate（Control Plane，Preview） | 跨 project 治理 5 panes |
-| 30min | 五、Foundry-native solution pattern | Foundry 独有 3 件 + 三类 builder 怎么迁移 |
+| 30min | 五、Foundry-native solution pattern | Foundry 独有 3 件 + 三类 builder 怎么迁移 + 12 类 readiness 边界 |
 | 15min | 六、Q&A + 环境自检 + scenario 自读 | — |
 | 5min | 缓冲 | 讲师机动 |
 
@@ -36,6 +36,7 @@
 - 用 built-in evaluator 跑一次评测
 - 看一次 Control Plane 怎么管 guardrail policy
 - 带走一个可迁移的 Customer Operations Agent pattern
+- 知道课程分两层：课内跑通 agent → eval → guardrail → trace 这个 pattern；enterprise readiness 只做标记，不逐项实操，完整清单见 [Enterprise Readiness](../enterprise-readiness.md)
 
 ### 1.2 这门课不教（1.5 min）
 
@@ -225,6 +226,7 @@ codex --version
 
 S1 没展开，但 builder 课后该读的：
 
+- [Enterprise Readiness](../enterprise-readiness.md)——12 类上线边界：身份、网络、数据、部署、quota、安全、tool、eval、日志、DR、成本、运营责任
 - [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)——三种 agent 类型详细对比
 - [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)——1,400+ tools（公共 + 私有 catalog）+ agent 内置 12+4 子集 + Toolbox
 - [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq)——企业知识层的"正经"做法

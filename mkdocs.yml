@@ -101,6 +101,8 @@ nav:
   - v3 短课 (4h):
     - 总览: workshop/v3/index.md
     - Customer Operations Agent 样例: workshop/v3/scenario.md
+    - AI Solution Readiness Blueprint: workshop/v3/ai-solution-readiness-blueprint.md
+    - Enterprise Readiness: workshop/v3/enterprise-readiness.md
     - 课前装机引导: workshop/v3/prerequisites/codex-cli-setup.md
     - S1 Foundry Orientation (90min): workshop/v3/s1/index.md
     - S2-0 起 agent (20min): workshop/v3/s2/00-bootstrap.md

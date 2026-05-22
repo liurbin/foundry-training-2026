@@ -18,7 +18,7 @@
 2. **起 agent**：用 codex CLI 自然语言驱动，把 agent 接到讲师发的 Foundry project endpoint
 3. **评测**：让 codex CLI 帮你写 3 条 case（happy / edge / 对抗），跑出明确 pass/fail
 4. **加防护**：选 1 条 attack，加 business guardrail，再跑评测验证
-5. **上线 checklist**：可观测 + runbook + 最小生产化清单
+5. **上线 checklist**：12 类 enterprise readiness 边界（身份、网络、数据、部署、quota、安全、工具、eval、日志、DR、成本、运营）
 
 ## 4h 节奏
 
@@ -36,6 +36,8 @@
 合计：S1 90min + S2 (10+20+55+15+35+15)=150min = **240min / 4h**
 
 **节奏约定**：4h 是建议，不是死线。哪一段没跑完就进课后接着做——见各页底部"课后扩展"。
+
+上线边界单独放在 [Enterprise Readiness：12 个上线边界](enterprise-readiness.md)。真实项目迁移使用 [AI Solution Readiness Blueprint](ai-solution-readiness-blueprint.md)：先做通用 AI solution 评估，再做 Foundry-specific 文档取证和实现路径。
 
 ## 统一样例场景
 
@@ -69,7 +71,9 @@
 - Product startup：把 Customer Operations Agent 换成你产品里的 support / research / workflow assistant
 - Solution partner：把样例换成客户的服务运营、现场服务、销售运营或合规审核场景
 - Platform / infra builder：把样例换成 eval gate、tool gateway、agent registry 或 observability workflow
+- 用 [AI Solution Readiness Blueprint](ai-solution-readiness-blueprint.md) 评估你的真实场景，先 general，再 Foundry-specific
 - 把 mock 业务数据替换成真接口
+- 补齐 [enterprise readiness](enterprise-readiness.md)：身份、私网、数据治理、部署模式、quota、安全控制、tool action、eval、日志、DR、成本和运营责任
 - 加更多 guardrail / 多 agent 协作 / CI/CD 接入
 
 讲师会持续维护这份 v3 内容，遇到问题在课后群反馈。

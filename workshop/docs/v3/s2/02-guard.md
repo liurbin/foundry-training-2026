@@ -138,6 +138,15 @@ python run_eval.py
 
 4 项打勾即动手 2 pass（**挡住与否不影响 pass**）。
 
+## Enterprise Readiness checkpoint
+
+这一步课内只验证一条业务 guardrail。生产前补：
+
+- **Safety controls**：content filter、Prompt Shields、protected material、abuse monitoring 用默认还是 modified。
+- **Tool action security**：query / recommend / mutate 分类；mutate 默认要 human approval。
+- **Output filter**：业务禁语、PII 泄露、越权承诺要有模型外兜底。
+- **Red team cadence**：重要 prompt、model、tool schema 改动后重跑 adversarial eval。
+
 ## 常见反思（讲师引导讨论）
 
 - **"system prompt 加固能维护吗"**——可以维护，但**LLM 不保证 100% 遵守**。生产化需要 output filter 兜底（regex 扫"已为您退款"等字符串，命中就改写或转人工）

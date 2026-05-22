@@ -23,14 +23,20 @@
 
 ## 二、上线 checklist（4 min）
 
-**6 项最小生产化清单**（v3 砍到必要项）：
+**6 项最小生产化清单**（v3 课内只保留必要项；完整 12 类见 [Enterprise Readiness](../enterprise-readiness.md)）：
 
 - [ ] **环境分离**：dev / staging / prod 各自 Foundry project（或至少独立 deployment）；prod 不共享 dev 的 agent version
-- [ ] **Eval gate 接 CI**：每次 PR 跑动手 1 的 evaluation，至少 task_adherence happy path 不退化（[GitHub Action for evaluations](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action)）
-- [ ] **Guardrail policy 已在 Control Plane → Compliance 开**：content safety + prompt injection + protected materials（动手 2 的平台层）
-- [ ] **Runbook**：Customer Operations Agent 4 类故障（429 / 5xx / 误回复 / 越权承诺）各一条处置流程
-- [ ] **Cost + Budget alert**：portal Cost analysis 设日预算 + webhook；同时确认 Application Insights ingest 额度也在监控里
-- [ ] **回滚一行命令**：`project.agents.create_version` 留下的 version 链可以一键切回上一个——把切换命令贴 runbook 里
+- [ ] **Eval gate 接 CI**：每次 PR 跑动手 1 的 evaluation，至少 task_adherence happy path 不退化
+- [ ] **Guardrail policy 已开**：content safety + prompt injection + protected materials；业务规则另走 instructions / output filter / tool approval
+- [ ] **Observability / logging**：Application Insights + 结构化日志路径明确，prompt 是否入日志已决定
+- [ ] **Runbook / rollback**：429 / 5xx / 误回复 / 越权承诺有处置流程，能回滚 agent version
+- [ ] **Cost / quota alert**：TPM/RPM、PTU、Application Insights ingest、日/月预算和告警已设
+
+课堂串法：
+
+- **今天已触达**：agent version、eval、guardrail、trace、quota 429、runbook。
+- **课后必须补**：identity、private networking、data retention、deployment type、CMK、SIEM、DR、FinOps。
+- **需要客户 / Microsoft 前置条件**：PTU capacity、modified abuse monitoring、private networking、enterprise RBAC。
 
 讨论：你的项目目前命中几条？哪几条是 Day-1 必须有的？
 
@@ -68,11 +74,13 @@ Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 
 
 ### 把 v3 跑深
 
+- **真实项目评估**：用 [AI Solution Readiness Blueprint](../ai-solution-readiness-blueprint.md) 先做通用 AI solution assessment，再做 Foundry-specific evidence pack
 - **Product startup**：把课堂 agent 换成产品内 support / research / workflow assistant，重跑动手 0/1/2
 - **Solution partner**：把课堂 agent 换成客户运营、现场服务、销售运营或合规审核方案，重跑 eval + guardrail
 - **Platform / infra builder**：把课堂 agent 换成 eval gate、tool gateway、agent registry 或 observability workflow
 - **接真接口**：把 instructions 里 hardcode 的订单换成 **function calling / OpenAPI tool / MCP** 调真后端
 - **接 Foundry IQ**：FAQ / 退货政策做成 knowledge base，agent 用 agentic retrieval（带 ACL/Purview）而不是塞 system prompt
+- **补 enterprise readiness**：按 [Enterprise Readiness](../enterprise-readiness.md) 核 12 类上线边界
 - **多 agent 拆分**：把客诉升级拆成独立 agent，主 agent 用 connected agents / A2A protocol 调它
 - **CI 接入**：eval + GitHub Actions 当 merge gate
 - **Continuous evaluation**：给 staging deployment 开，看一周的真实 task_adherence 漂移
@@ -88,6 +96,8 @@ Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 
 | Tracing + OTel 语义约定 | [Agent tracing 概念](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept) |
 | 完整 evaluator 列表 | [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) |
 | AI Red Teaming Agent（preview） | [AI red teaming agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) |
+| 上线边界速查 | [Enterprise Readiness](../enterprise-readiness.md) |
+| 真实项目评估带走物 | [AI Solution Readiness Blueprint](../ai-solution-readiness-blueprint.md) |
 
 ### v2 三天班（系统学）
 

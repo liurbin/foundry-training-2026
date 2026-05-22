@@ -148,6 +148,15 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 
 4 项打勾即动手 0 pass（对应§评分"实操"维度的第一条）。
 
+## Enterprise Readiness checkpoint
+
+这一步课内只验证讲师发的 project endpoint + 当前模型 deployment 能跑通。生产前补：
+
+- **Identity**：runtime 用 managed identity，不用个人 `az login`。
+- **Network**：确认 public endpoint 还是 private endpoint，以及 tool outbound 路径。
+- **Deployment**：确认 Global / Data Zone / Regional / PTU，不把课堂 shared capacity 当生产建议。
+- **Quota**：确认目标模型在目标 region / deployment type 下的 TPM/RPM 足够。
+
 ## 常见卡点（讲师 Day-7 补）
 
 | 现象 | 处理 |
