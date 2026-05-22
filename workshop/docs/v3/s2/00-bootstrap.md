@@ -1,4 +1,4 @@
-# 动手 0：起客服 agent + 跑通第一条对话（10min 开场 + 20min 动手 = 30min）
+# 动手 0：起 Customer Operations Agent + 跑通第一条对话（10min 开场 + 20min 动手 = 30min）
 
 > 时长：30 min（含 S2 开场 10min）｜ 形式：codex CLI 动手 ｜ 凭证：环境变量已配好（见课前引导）
 > 状态：⚠️ 具体话术待讲师 Day-7 实测后补；当前是骨架，但 SDK 调用结构已对齐 Microsoft Foundry 2026/05 官方 quickstart

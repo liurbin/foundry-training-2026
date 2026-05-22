@@ -15,7 +15,7 @@ v3 早期草稿让学员从零写 pytest harness。**当前版本改用 Foundry 
 
 ## 这一段你要做什么
 
-围绕动手 0 的客服 agent，跑一次 Foundry 平台评测，覆盖：
+围绕动手 0 的 Customer Operations Agent，跑一次 Foundry 平台评测，覆盖：
 
 - **1 条 happy**（场景 Story 1）：订单存在，agent 正确返回 ETA + 物流单号
 - **1 条 edge**（场景 Story 2）：订单号格式错，agent 反问而不是胡编
@@ -61,7 +61,7 @@ codex
 把下面这段 prompt 贴进去（**这是 v3 推荐 prompt 模板，讲师 Day-7 会迭代**）：
 
 ```
-帮我写一个 Python 脚本 run_eval.py，用 Microsoft Foundry 2.x 平台 evaluator 评测我的客服 agent。要求：
+帮我写一个 Python 脚本 run_eval.py，用 Microsoft Foundry 2.x 平台 evaluator 评测我的 Customer Operations Agent（客服样例）。要求：
 
 1. 用 azure-ai-projects 2.x SDK + DefaultAzureCredential
 2. endpoint 读 PROJECT_ENDPOINT，agent 名读 AGENT_NAME，model 读 MODEL_DEPLOYMENT_NAME
@@ -147,7 +147,7 @@ Result counts: {"total": 3, "passed": 1, "failed": 2, "errored": 0}
 ## 课后扩展
 
 - 把 3 条扩成 10-20 条（覆盖场景 Story 1-5 全部）
-- 加 `builtin.intent_resolution` / `builtin.tool_call_success`——客服 agent 接 tool 后必备
+- 加 `builtin.intent_resolution` / `builtin.tool_call_success`——Customer Operations Agent 接 tool 后必备
 - 写 1 个 **Custom evaluator**（例如检测"是否包含越权退款承诺"）
 - 接入 CI：用 [GitHub Action for evaluations](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action) 跑 eval 当 gate
 - 给已部署 agent 配 **continuous evaluation**（生产化路径）

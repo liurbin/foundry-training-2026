@@ -1,19 +1,19 @@
-# S1：Microsoft Foundry 平台扫盲（90min，不动手）
+# S1：Foundry Builder Orientation（90min，不动手）
 
 > 时长：90 min ｜ 形式：讲师讲 + portal 走读 ｜ 凭证要求：无（S1 不连 endpoint）
 > 状态：⚠️ 基于 Microsoft Foundry 2026/04-05 官方文档 + portal 实测截图；rebrand 进行中，讲师 Day-7 重抓核对
 
 ## 这一段的目标
 
-学员对 **AI / agent 熟，对 Microsoft Foundry 0 知识**——S1 不教 agent 概念，也不让你填决策卡。
+学员对 **AI / agent 熟，对 Microsoft Foundry 0 知识**——S1 不做项目设计工作坊，也不让你填自己的项目决策卡。
 
-90min 用来做一件事：**让你看清 Microsoft Foundry 现在长什么样**。这样 S2 动手时你知道每行代码对应平台的哪个能力。
+90min 用来做一件事：**让 builder 看清 Foundry-native agentic solution 的能力地图**。这样 S2 动手时你知道每行代码对应平台的哪个能力，课后也知道这个 pattern 可以迁移到哪里。
 
 学完 S1 你应该能：
 
 - 一句话说清"Microsoft Foundry = 什么"
 - 在 Foundry portal 5 个顶级 section（Home / Discover / Build / Operate / Docs）里指出每个干什么
-- 跟讲师对照"你现有的栈"（Responses API / OpenAI Agents SDK / LangGraph / CrewAI 等），讲出 Foundry 多了/少了什么
+- 讲清一个 Foundry-native workflow 为什么需要 agent、tool / knowledge、eval、guardrail、trace、governance 这几层
 
 ## 90min 节奏
 
@@ -23,7 +23,7 @@
 | 2min | 二、Foundry 是什么 | 一句话定位 + portal 入口 |
 | 18min | 三、Discover + Build（portal 走读） | 在 portal 上指 S2 会用到的位置 |
 | 15min | 四、Operate（Control Plane，Preview） | 跨 project 治理 5 panes |
-| 30min | 五、为什么不自己拼 + 你的栈怎么接 | Foundry 独有 3 件 + 你现栈对照 |
+| 30min | 五、Foundry-native solution pattern | Foundry 独有 3 件 + 三类 builder 怎么迁移 |
 | 15min | 六、Q&A + 环境自检 + scenario 自读 | — |
 | 5min | 缓冲 | 讲师机动 |
 
@@ -35,9 +35,11 @@
 - 跑通一个 prompt agent（Responses API + agent_reference）
 - 用 built-in evaluator 跑一次评测
 - 看一次 Control Plane 怎么管 guardrail policy
+- 带走一个可迁移的 Customer Operations Agent pattern
 
 ### 1.2 这门课不教（1.5 min）
 
+- ❌ 逐个团队的项目设计 / architecture review
 - ❌ Bicep / azd / IaC 部署
 - ❌ Hosted / Workflow agents 实操（preview）
 - ❌ Multi-agent 编排实操
@@ -89,7 +91,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 | **Models** | 1,900+ 模型完整目录 | model 不锁 vendor；自动 Tier 升级 |
 | **Agents** | agent 模板库（看别人怎么建）| S2 动手 0 之前可以来这里抄一个起手 |
 | **Tools** | tool 目录浏览（**1,400+ tools** via 公共 + 私有 catalog；旧 agent docs 口径"12 built-in + 4 custom + Toolbox preview"是 agent 内置子集）| 决定接什么 tool 前看 |
-| **Solution templates** | 场景化解决方案模板 | 客服 / RAG / 数据分析等开箱场景 |
+| **Solution templates** | 场景化解决方案模板 | 客户运营 / 企业知识 / 数据分析等开箱场景 |
 
 **顺带提**（builder 该知道存在）：Model Router（preview，自动选模型）/ Priority processing（preview，保留吞吐）/ Fireworks 模型导入（preview，第三方推理 provider）。
 
@@ -145,55 +147,55 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 
 ### 4.3 讨论（1.5 min）
 
-你现有的栈（OpenAI / LangGraph / 自管）里 Operate 这层等价物是什么？
-通常是没有——你要自己建 dashboard / 接 Datadog / 写 cost script。
+你的产品 / 客户方案 / 平台工具里，Operate 这层等价物是什么？
+通常要自己建 dashboard、权限治理、成本脚本和 policy 流程；这就是 Foundry Control Plane 要解决的问题。
 
-## 五、为什么不自己拼 + 你的栈怎么接（30 min）
+## 五、Foundry-native solution pattern（30 min）
 
-> 把"What's new"和"vs 你的栈"合并。从 builder 视角讲"Foundry 帮你省了什么、你现栈怎么接"。
+> 从 builder 视角讲"一个可交付的 agentic solution 为什么不只是 prompt demo"。不做每个团队的项目设计，只给你课后迁移这个 pattern 的判断框架。
 
 ### 5.1 Foundry 独有 3 件（10 min）
 
 **5.1.1 Foundry IQ**（3.5 min）
 - 是什么：企业知识层 = knowledge base + agentic retrieval + ACL/Purview
 - portal 入口：**Build → Knowledge**
-- 自己拼怎么做：LangChain + 向量 DB + 自写 ACL 过滤
+- 如果不用平台：需要自己维护 retrieval、引用、权限过滤和数据治理
 - 拼出来的差距：ACL/Purview 集成要周；agentic retrieval（多步 query rewrite）要自己调
 - builder 关心点：客服 FAQ 知识库的"正经"做法
 
 **5.1.2 Foundry Control Plane（Operate）**（3.5 min）
 - 是什么：跨订阅 fleet 治理 + Compliance policy + Quota + Cost
-- 自己拼怎么做：Datadog dashboard + 自写 cost script + Azure Policy 手配
+- 如果不用平台：需要自己维护 dashboard、cost script、policy 配置和资产清单
 - 拼出来的差距：要月；跨订阅 / 跨 platform 那层基本拼不出来
 - builder 关心点：你部 5 个 agent 后这是首页
 
 **5.1.3 Built-in evaluators + Continuous evaluation**（3 min）
 - 是什么：开箱 evaluator（task_adherence / coherence / violence / 十几个）+ Operate → Assets 配 continuous evaluation
-- 自己拼怎么做：promptfoo / DeepEval / 自写 pytest harness
+- 如果不用平台：需要自己维护 eval harness、报告、CI gate 和线上采样评测
 - 拼出来的差距：评测能拼，但接不进 Azure 治理体系；continuous evaluation 要自己造
 - builder 关心点：S2 动手 1 就用这个
 
-### 5.2 你的现有栈怎么接（15 min，讲师按入场调研对照）
+### 5.2 三类 builder 怎么迁移这个 pattern（15 min）
 
-**5.2.1 已经在 OpenAI 生态的**（5 min）
-- **OpenAI Responses API + 自己 orchestrator** → 同一个 Responses API，多了 agent_reference / Tracing / Eval / Control Plane
-- **OpenAI Agents SDK** → Foundry OTel 集成已接通，trace 直接在 Build → Agents → Traces 看；可跑 Hosted agents
+**5.2.1 Product startup**（5 min）
+- 把课堂的"订单查询"换成产品内的 support / research / workflow assistant
+- 保留：agent version、eval gate、business guardrail、trace
+- 课后第一步：选 1 个高频 workflow，写 3 条 happy / edge / adversarial eval
 
-**5.2.2 用 Python 多 agent 框架的**（5 min）
-- **LangGraph / LangChain** → 官方集成；可跑 Hosted agents；tracing 自动接 OTel
-- **CrewAI / AutoGen / Pydantic AI** → 走 Hosted agents（任何 Python 框架都能跑）；tracing 看是否实现 OTel 语义约定
-- **Microsoft Agent Framework** → 微软自家（AutoGen + Semantic Kernel 合并产物），Foundry 一等公民
-- **A2A protocol** (preview) → agent 间通信，Foundry 支持
+**5.2.2 Solution partner**（5 min）
+- 把课堂样例换成客户运营、现场服务、销售运营、合规审核等可交付方案
+- 保留：mock-first、工具边界、转人工规则、runbook
+- 课后第一步：把客户业务动作分成 query / recommend / mutate 三类，mutate 默认要人工确认
 
-**5.2.3 自管基础设施的**（5 min）
-- **自己的 vector DB + LangChain RAG** → 对照 Foundry IQ（Build → Knowledge），决定迁不迁
-- **自己的 MCP server** → Foundry 直接接 remote MCP server / Build → Tools / Toolbox preview
-- **自己的 evaluation pipeline** → 对照 5.1.3，决定迁不迁
+**5.2.3 Platform / infra builder**（5 min）
+- 把课堂样例换成 eval gate、tool gateway、agent registry、observability workflow
+- 保留：Foundry project endpoint、Control Plane、asset visibility、continuous evaluation
+- 课后第一步：选一个平台能力做最小 adapter，而不是直接重建整套 agent runtime
 
 ### 5.3 开放 Q（5 min）
 
-- builder 说自己的栈，讲师对照回应
-- 重点接住"我现在 X 已经跑得好好的，为什么换"——这是 builder 真正的顾虑
+- builder 说自己的产品 / 客户 / 平台方向，讲师只帮映射到三类迁移路径
+- 重点接住"我的场景是不是一定适合 Foundry"——答案可能是否定的；这节课只给判断依据，不替你完成设计
 
 ## 六、Q&A + 环境自检 + scenario 自读（15 min）
 
@@ -211,7 +213,7 @@ codex --version
 ### 6.2 scenario 自读（5 min）
 
 - 学员自己读 [scenario.md](../scenario.md)
-- 客服 agent 业务背景 + 5 个 user story
+- Customer Operations Agent 业务背景 + 5 个 user story
 - 讲师不念
 
 ### 6.3 Q&A（5 min）
@@ -225,7 +227,7 @@ S1 没展开，但 builder 课后该读的：
 
 - [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)——三种 agent 类型详细对比
 - [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)——1,400+ tools（公共 + 私有 catalog）+ agent 内置 12+4 子集 + Toolbox
-- [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq)——客服 FAQ 知识库的"正经"做法
+- [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq)——企业知识层的"正经"做法
 - [Agent tracing](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)——OTel 语义约定 + 多 agent 追踪
 - [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)——task_adherence / intent_resolution / tool_call_success 等
 - [Navigate the Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/navigate-from-classic)——portal 完整导航地图
