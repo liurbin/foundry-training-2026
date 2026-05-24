@@ -110,6 +110,18 @@ nav:
     - D9 Production Checklist: specs/spec-d9-prod-checklist.md
     - D10 Foundry Limits: specs/spec-d10-foundry-limits.md
     - D11 AI-Pair Team: specs/spec-d11-ai-pair-team.md
+  - v3 Short Course (4h):
+    - Overview: workshop/v3/index.md
+    - Customer Operations Agent Scenario: workshop/v3/scenario.md
+    - AI Solution Builder Compass: workshop/v3/ai-solution-readiness-blueprint.md
+    - Enterprise Readiness: workshop/v3/enterprise-readiness.md
+    - Pre-class Setup: workshop/v3/prerequisites/codex-cli-setup.md
+    - Instructor Day-7 Run of Show: workshop/v3/instructor-day7-run-of-show.md
+    - S1 Foundry Orientation (90min): workshop/v3/s1/index.md
+    - S2-0 Bootstrap Agent (20min): workshop/v3/s2/00-bootstrap.md
+    - S2-1 Evaluation (55min): workshop/v3/s2/01-eval.md
+    - S2-2 Guardrail (50min): workshop/v3/s2/02-guard.md
+    - S2 Wrap-up (15min): workshop/v3/s2/wrap.md
 
 extra:
   alternate:
