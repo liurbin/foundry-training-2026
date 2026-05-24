@@ -10,8 +10,8 @@
 你的 Customer Operations Agent 已经在 portal trace 里能看见。**生产化的 minimum 还需要**：
 
 1. **Tracing**：每条对话能找到 span → 动手 0 看过
-   - **Prompt agents tracing = GA**（v3 走的路径，落在 GA 范围）
-   - **Hosted / Workflow / Custom agent tracing 仍是 Preview**——上生产前要确认 GA 状态
+   - v3 走的是 prompt agent server-side tracing；具体 GA / preview 状态、入口和延迟以 Day-7 tenant 实测为准
+   - Hosted / Workflow / Custom agent tracing、scheduled evaluation、red team scan 等能力可能有 preview 边界——上生产前要确认支持状态
    - Trace 数据落在你 project 关联的 **Application Insights**——⚠️ 这会**单独计费**（按 ingest GB + 保留天数算）；上线前估一下高峰 trace 体量，否则月底账单容易爆
 2. **Agent Monitoring Dashboard**（Foundry portal Observability → Monitor）：运营指标 + 评测结果汇总，比自己拼 Datadog 快
 3. **Continuous evaluation**：在 Control Plane → **Assets** pane 给已部署 agent 开 continuous evaluation——线上请求按采样率自动跑 eval，结果回流到 dashboard。生产化首选 vs 只靠 CI pre-merge 跑
@@ -66,15 +66,17 @@ Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 
 - 24h 内填一份 RCA：burst 来源 / 是否符合 capacity plan / 调整 Quota 阈值
 ```
 
-讲师 Day-7 完成 4 类故障的完整 runbook，放在 `workshop/docs/v3/code/runbook.md`。
+基础版 4 类故障 runbook 已放在 `workshop/docs/v3/code/runbook.md`；讲师 Day-7 用当天环境补截图、owner 和真实告警入口。
 
 ## 四、课后自学包（3 min）
 
 短课没跑完的、你想接着做的：
 
+回到真实项目后，不要先接全系统。先复制课堂闭环：`workflow → baseline agent → baseline eval → guarded version → regression eval → trace / report evidence → readiness gaps`。
+
 ### 把 v3 跑深
 
-- **真实项目评估**：用 [AI Solution Readiness Blueprint](../ai-solution-readiness-blueprint.md) 先做通用 AI solution assessment，再做 Foundry-specific evidence pack
+- **真实项目迁移**：用 [AI Solution Builder Compass](../ai-solution-readiness-blueprint.md) 先把 workflow、action boundary、eval、安全和平台漂移问题挂在脑子里，再做 Foundry-specific evidence pack
 - **Product startup**：把课堂 agent 换成产品内 support / research / workflow assistant，重跑动手 0/1/2
 - **Solution partner**：把课堂 agent 换成客户运营、现场服务、销售运营或合规审核方案，重跑 eval + guardrail
 - **Platform / infra builder**：把课堂 agent 换成 eval gate、tool gateway、agent registry 或 observability workflow
@@ -97,7 +99,7 @@ Foundry portal Metrics / Application Insights：`RateLimitExceeded` 1min 窗口 
 | 完整 evaluator 列表 | [Agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) |
 | AI Red Teaming Agent（preview） | [AI red teaming agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) |
 | 上线边界速查 | [Enterprise Readiness](../enterprise-readiness.md) |
-| 真实项目评估带走物 | [AI Solution Readiness Blueprint](../ai-solution-readiness-blueprint.md) |
+| 真实项目 top-of-mind 框架 | [AI Solution Builder Compass](../ai-solution-readiness-blueprint.md) |
 
 ### v2 三天班（系统学）
 

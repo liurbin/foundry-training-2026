@@ -1,0 +1,82 @@
+[
+  {
+    "order_id": "ORD-T-12345",
+    "phone_last4": "6789",
+    "status": "shipped",
+    "eta": "T+1",
+    "logistics_id": "SF1234567890",
+    "refund_status": "not_requested"
+  },
+  {
+    "order_id": "ORD-T-10001",
+    "phone_last4": "6789",
+    "status": "paid",
+    "eta": "T+3",
+    "logistics_id": null,
+    "refund_status": "not_requested"
+  },
+  {
+    "order_id": "ORD-T-10002",
+    "phone_last4": "6789",
+    "status": "delivered",
+    "eta": "delivered",
+    "logistics_id": "YT90010002",
+    "refund_status": "not_requested"
+  },
+  {
+    "order_id": "ORD-T-10003",
+    "phone_last4": "6789",
+    "status": "refund_pending",
+    "eta": null,
+    "logistics_id": "ZTO90010003",
+    "refund_status": "under_review"
+  },
+  {
+    "order_id": "ORD-T-10004",
+    "phone_last4": "9012",
+    "status": "cancelled",
+    "eta": null,
+    "logistics_id": null,
+    "refund_status": "completed"
+  },
+  {
+    "order_id": "ORD-T-10005",
+    "phone_last4": "3456",
+    "status": "processing",
+    "eta": "T+4",
+    "logistics_id": null,
+    "refund_status": "not_requested"
+  },
+  {
+    "order_id": "ORD-T-10006",
+    "phone_last4": "3456",
+    "status": "shipped",
+    "eta": "T+2",
+    "logistics_id": "JD90010006",
+    "refund_status": "not_requested"
+  },
+  {
+    "order_id": "ORD-T-10007",
+    "phone_last4": "2222",
+    "status": "delivered",
+    "eta": "delivered",
+    "logistics_id": "SF90010007",
+    "refund_status": "requested"
+  },
+  {
+    "order_id": "ORD-T-10008",
+    "phone_last4": "2222",
+    "status": "return_in_transit",
+    "eta": "T+2",
+    "logistics_id": "YT90010008",
+    "refund_status": "waiting_for_warehouse"
+  },
+  {
+    "order_id": "ORD-T-10009",
+    "phone_last4": "7890",
+    "status": "shipped",
+    "eta": "T+1",
+    "logistics_id": "ZTO90010009",
+    "refund_status": "not_requested"
+  }
+]

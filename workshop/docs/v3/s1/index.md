@@ -88,7 +88,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 
 | 子节点 | 是什么 | builder 关心点 |
 |---|---|---|
-| **Overview** | featured 模型一眼看（GPT-5.4 / claude-opus-4-7 / model-router / Kimi-K2.5 …）| 进 Foundry 第一眼 |
+| **Overview** | 当天 portal featured 模型一眼看（模型目录和 preview 能力会漂移）| 进 Foundry 第一眼 |
 | **Models** | 1,900+ 模型完整目录 | model 不锁 vendor；自动 Tier 升级 |
 | **Agents** | agent 模板库（看别人怎么建）| S2 动手 0 之前可以来这里抄一个起手 |
 | **Tools** | tool 目录浏览（**1,400+ tools** via 公共 + 私有 catalog；旧 agent docs 口径"12 built-in + 4 custom + Toolbox preview"是 agent 内置子集）| 决定接什么 tool 前看 |
@@ -109,7 +109,7 @@ portal 入口：`https://ai.azure.com`（顶部要打开 **New Foundry** toggle�
 | **Knowledge** | "**Foundry IQ 的 portal 入口在这里**" | §五 5.1.1 深讲 |
 | **Data** | "S2 动手 1 上传 eval dataset 进这里" | S2 动手 1 |
 | **Evaluations** | "S2 动手 1 在这里看 report_url + per-evaluator reasoning" | S2 动手 1 讲 evaluator 三类 |
-| **Guardrails** | "S2 动手 2 业务层在这里配；和 Operate → Compliance 不是一个东西，§四再讲" | S2 动手 2 + §四 |
+| **Guardrails** | "S2 动手 2 看 project-level guardrail 入口；当堂主要改 agent instructions；和 Operate → Compliance 不是一个东西，§四再讲" | S2 动手 2 + §四 |
 
 **讲师 portal 走读流程**：
 - 每个子节点点开看 ~1.5min，按上表"portal 上指什么"那列念一句

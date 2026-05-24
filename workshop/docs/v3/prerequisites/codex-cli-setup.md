@@ -9,7 +9,7 @@
 
 讲师在课前会发给你**一封私信**，内容包含：
 
-- `PROJECT_ENDPOINT`：形如 `https://<resource-name>.ai.azure.com/api/projects/<project-name>`（Python SDK 路线；REST 直调走 `.services.ai.azure.com`）
+- `PROJECT_ENDPOINT`：从 Foundry portal 的 project overview 复制完整 project endpoint（可能是 `.ai.azure.com` 或 `.services.ai.azure.com` 域名，**不要手工改域名**）
 - `MODEL_DEPLOYMENT_NAME`：模型部署名（讲师 Day-7 在 Foundry 里部好；rebrand 期模型目录会漂，**以讲师私信为准**）
 - 一个 Azure 账户邀请（你用自己的 Microsoft 账号 `az login` 后会拿到 **Foundry User** 角色）
 
@@ -165,7 +165,7 @@ codex
 |---|---|---|
 | `command not found: codex` | 全局 npm bin 不在 PATH | 见步骤 2 的 `~/.npm-global` 方案 |
 | `DefaultAzureCredential failed to retrieve a token` | 没 `az login`，或登录的账号没 Foundry User 角色 | 重跑 `az login`；找讲师确认角色已分配 |
-| `404 Not Found` / `Connection refused` | `PROJECT_ENDPOINT` 拼接错，或 resource/project 名错 | 对照讲师发的字符串，格式是 `https://<resource>.ai.azure.com/api/projects/<project>`（Python SDK 用 `.ai.azure.com`） |
+| `404 Not Found` / `Connection refused` | `PROJECT_ENDPOINT` 拼接错，或 resource/project 名错 | 对照讲师发的完整字符串或 portal overview 的 project endpoint；不要在 `.ai.azure.com` 和 `.services.ai.azure.com` 之间手工转换 |
 | `model not found` | `MODEL_DEPLOYMENT_NAME` 错，或该 deployment 未在 project 暴露 | 对照讲师发的部署名；rebrand 期模型目录会漂，不要自己猜 |
 | `ModuleNotFoundError: azure.ai.projects` | 没进 venv，或 SDK 版本错 | `source ~/foundry-v3-env/bin/activate` + `pip install "azure-ai-projects>=2.0.0"` |
 | `AttributeError` on `evals` / `responses` | 装到了 1.x（Foundry classic） | `pip install --upgrade "azure-ai-projects>=2.0.0"` |

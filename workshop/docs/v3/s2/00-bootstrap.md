@@ -18,7 +18,24 @@
 1. 在 Foundry project 里创建一个 **prompt agent**（type = prompt，Foundry 当前 GA 的 agent 类型）
 2. 用 `azure-ai-projects` 2.x SDK + Responses API 调它
 3. 让 agent 回答一次"我要查订单 ORD-T-12345"
-4. 在 Foundry portal 看到这次调用的 trace span（Tracing for prompt agents 是 GA）
+4. 在 Foundry portal 看到这次调用的 trace span（入口和 GA / preview 状态以讲师 Day-7 实测为准）
+
+### 你正在练的能力
+
+把一个业务 workflow 压成**最小可运行 baseline agent**，并留下后续 eval / guardrail 能追溯的版本和 trace 证据。
+
+### 本段产物
+
+- 一个可调用的 `AGENT_NAME` + baseline version。
+- 两轮真实 agent 回复：happy path + edge input。
+- 一条 portal trace 证据。
+- 一份 baseline evidence 记录，供动手 1 / 2 继续使用。
+
+### 不是本段目标
+
+- 不是做完整客服系统。
+- 不是接真实订单接口。
+- 不是把 system prompt 写到生产可用。
 
 **简化约定**（重要）：
 
@@ -62,7 +79,7 @@ codex
     你当前 hardcode 知道一条订单：ORD-T-12345 已发货，预计明日到达，物流单号 SF1234567890。
     遇到其他订单号请反问让用户提供有效订单或手机号。"
 4. 调用 PromptAgentDefinition + project.agents.create_version
-5. 把 agent.name / agent.id / agent.version 打印出来
+5. 把 agent.name / agent.version 打印出来
 
 写完执行它。
 ```
@@ -77,7 +94,7 @@ codex
 ### 期望产物
 
 ```
-Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 1)
+Agent created (name: customer-service-agent-v3-yourname, version: 1)
 ```
 
 `TODO 讲师 Day-7`：贴一段真实跑出来的 console output + Foundry portal 截图（应该在 Build → Agents 里能看到这个 agent）。
@@ -131,7 +148,7 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 - ✅ 时延（端到端 ms）
 - ✅ 输入 / 输出 文本
 
-> Tracing for **prompt agents is GA**；Workflow / Hosted / Custom agent 的 tracing 仍是 preview。我们走 prompt agent，落在 GA 范围。
+> v3 走 prompt agent server-side tracing；Tracing 文档和部分 portal 体验可能仍标 preview。讲师 Day-7 必须用当天 tenant 确认入口、数据延迟和 GA / preview 状态。
 
 看不到？常见原因：
 
@@ -139,12 +156,31 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 - trace 异步未到（等 30s 刷新）
 - agent 没真跑（步骤 1/2 输出是 codex 编的样例文字而不是真返回——回去审代码）
 
+### Baseline evidence 记录
+
+把下面 5 项记下来，后面 eval 和 guardrail 都要引用：
+
+| 项 | 你的值 |
+|---|---|
+| Agent name |  |
+| Baseline version |  |
+| Model deployment |  |
+| Trace visible? | yes / no |
+| Trace entry time / screenshot |  |
+
 ## 步骤 4：自检（5 min）
 
-- [ ] `project.agents.create_version` 真跑过一次（codex 执行了 + 你看到 agent.id）
+- [ ] `project.agents.create_version` 真跑过一次（codex 执行了 + 你看到 agent name / version）
 - [ ] `openai.responses.create` 跑了两次，输出含订单号 + ETA + 物流单号；第二次有反问行为
 - [ ] portal trace 看到至少 1 个顶层 span + token 计数
 - [ ] 你能用一句话讲清"刚才 codex 做了什么、我审了哪几个点"
+
+### 你应该能复述
+
+- 这个 baseline agent 解决了哪个最小 workflow？
+- 你创建的是哪个 agent version？
+- 这一步为什么先 hardcode 数据，而不是接真实系统？
+- trace 证明了什么，没证明什么？
 
 4 项打勾即动手 0 pass（对应§评分"实操"维度的第一条）。
 
@@ -163,7 +199,7 @@ Agent created (id: asst_xxx, name: customer-service-agent-v3-yourname, version: 
 |---|---|
 | `DefaultAzureCredential failed` | `az login` 重跑；检查 Foundry User 角色 |
 | `ModuleNotFoundError: azure.ai.projects` | 没进 venv 或装到了 1.x；`pip install --upgrade "azure-ai-projects>=2.0.0"` |
-| `404 Not Found` | `PROJECT_ENDPOINT` 拼接错；格式是 `.../api/projects/<name>` |
+| `404 Not Found` | `PROJECT_ENDPOINT` 拼接错；复制讲师私信或 portal overview 的完整 project endpoint，不要手工改域名 |
 | `AttributeError: 'AgentsOperations' object has no attribute 'create_version'` | 装到了 1.x；同上重装 2.x |
 | codex 反复改代码不收敛 | 明确告诉它"先停下，把当前完整 stacktrace 贴出来再改" |
 | 真跑通但 portal 看不到 trace | project 还没接 Application Insights——这不是学员问题，告诉讲师 |

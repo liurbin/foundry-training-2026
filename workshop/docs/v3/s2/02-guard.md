@@ -1,4 +1,4 @@
-# 动手 2：Red Team 框架 + 加 guardrail（50 min）
+# 动手 2：Red Team 框架 + 看两层入口 + 加业务 guardrail（50 min）
 
 > 时长：15 min Red Team 框架 + 35 min 动手 ｜ 形式：讲师讲 + codex CLI + portal ｜ 前置：动手 1 跑通
 > 状态：⚠️ 蒸馏自 Foundry 2026/05 [Foundry Control Plane](https://learn.microsoft.com/en-us/azure/foundry/control-plane/overview) + [Guardrail policy quickstart](https://learn.microsoft.com/en-us/azure/foundry/control-plane/quickstart-create-guardrail-policy)
@@ -10,15 +10,15 @@ v3 早期草稿让学员在 agent 代码里加 input/output filter。**当前版
 | 层 | portal 入口 | 适合什么 | 谁能操作 |
 |---|---|---|---|
 | **平台层 guardrail policy** | **Operate → Compliance → Policies** tab | content safety / prompt injection / protected materials——策略级、跨 deployment、可审计；Azure Policy 集成 | 讲师演示（要 Owner / Resource Policy Contributor） |
-| **业务层 guardrail** | **Build → Guardrails** + agent instructions（双管） | project 内 content safety + 业务专属约束（不承诺退款 / 不主动外呼 / 转人工话术） | 学员动手 |
+| **业务层 guardrail** | **Build → Guardrails** + agent instructions（双管） | project 内 content safety + 业务专属约束（不承诺退款 / 不主动外呼 / 转人工话术） | 学员看入口；当堂动手只改 instructions |
 
 builder 视角："为什么不用平台的"是合理质问——v3 课中两条路径都摸一遍。
 
-> ⚠️ Build → Guardrails 子页具体能配哪些 control（content filter / prompt shield / jailbreak / protected materials / custom blocklist）：官方文档当前在重组（多个 URL 404），**讲师 Day-7 portal 实测后补具体清单**。
+> ⚠️ Build → Guardrails 子页具体能配哪些 control、谁能创建 / 分配 guardrail，受 tenant、RBAC、region 和功能状态影响。**讲师 Day-7 portal 实测后给当天口径**。
 
 ## 这一段的目标
 
-围绕动手 1 暴露的风险（Story 4 客诉越权 / Story 5 prompt injection），用**两层 guardrail**加一条防护，跑回动手 1 的 eval 看 task_adherence 是否从 fail 变 pass。
+围绕动手 1 暴露的风险（Story 4 客诉越权 / Story 5 prompt injection），先看两层 guardrail 入口，再用 agent instructions 加一条当堂可控的业务防护，跑回动手 1 的 eval 看 task_adherence 是否从 fail 变 pass。
 
 **"挡不住"也算 pass**——只要你能讲清"挡不住的原因 + 下一步会怎么做"。
 
@@ -36,9 +36,26 @@ builder 视角："为什么不用平台的"是合理质问——v3 课中两条�
    - 平台 guardrail 抓 **通用类**（content safety / prompt injection / protected materials）
    - 业务专属约束（"不承诺退款"）必须自己在 system prompt / output filter 写
 
-讲师在 `workshop/docs/v3/code/attack_payloads.md` 提供 3 条具体 payload（**讲师 Day-7 写**）。
+讲师在 `workshop/docs/v3/code/attack_payloads.md` 提供 3 条具体 payload。
 
-## 二、动手：两层 guardrail（35 min）
+### 你正在练的能力
+
+用 **version + regression eval** 安全地修改 agent。平台 guardrail 负责通用风险视角；当堂真正动手的是业务规则加固和回归验证。
+
+### 本段产物
+
+- 一个 guarded agent version。
+- 一次 guarded evaluation run。
+- baseline vs guarded 的 report 对照。
+- 一句能解释清楚的判断：风险被缓解、未缓解，还是需要模型外兜底。
+
+### 不是本段目标
+
+- 不是让学员当堂创建平台级 guardrail policy。
+- 不是证明 system prompt 能 100% 防护。
+- 不是完成生产安全设计。
+
+## 二、动手：看两层入口 + 加业务 guardrail（35 min）
 
 ### 步骤 1：在 Foundry portal 看两个 guardrail 入口（10 min）
 
@@ -60,21 +77,21 @@ builder 视角："为什么不用平台的"是合理质问——v3 课中两条�
 
 **讲师顺便点开 Compliance 其他 3 个 tab**（Guardrails / Security posture / Data security and governance），让学员看一眼 Compliance 是个**4 tab 复合页**，不是单一功能。
 
-**1b. 业务层入口（学员看，下一步会用）**
+**1b. 业务层入口（学员看，不要求创建）**
 
 切到顶部 **Build** → 左栏 **Guardrails**。
 
-这是 **project 级**的 guardrail 入口——你可以在这里给当前 project 配 content safety 类规则，不需要订阅级 RBAC。⚠️ Day-7 讲师 portal 实测后补具体能配什么。
+这是 **project 级**的 guardrail 入口。具备足够权限时，可以在这里给 model deployment 或 agent 配 content safety / Prompt Shields 等规则；普通学员不默认拥有创建 / 分配 guardrail 所需权限。⚠️ Day-7 讲师 portal 实测后补具体能配什么、谁能配。
 
 **讨论**：
 
 - 平台 policy（Operate → Compliance → Policies）是 **deployment 级 + 跨 project**——它防的是模型出"违规内容"，不直接防"agent 越权承诺退款"
-- project guardrail（Build → Guardrails）是 **project 级**——你能配，但仍是 content safety 类，不能表达"不承诺退款"这种业务规则
+- project guardrail（Build → Guardrails）是 **project 级**——有权限时可配，但仍偏 content safety / prompt shield 类，不能表达"不承诺退款"这种业务规则
 - 业务规则只能在 **agent instructions（system prompt）** 里写——这是步骤 2 要做的事
 
 ### 步骤 2：业务层 system prompt 加固（15 min）
 
-> 注：Build → Guardrails 也是业务层的一部分（content safety 类），但**业务专属约束**（"不承诺退款"）只能写进 agent instructions。本步骤专做后者。
+> 注：Build → Guardrails 也是业务层的一部分（content safety 类），但当堂不要求学员创建。**业务专属约束**（"不承诺退款"）本步骤写进 agent instructions。
 
 进入 codex 交互模式：
 
@@ -129,12 +146,32 @@ python run_eval.py
 - 是 instructions 加固没生效？还是 LLM 仍然被诱导？
 - 把 fail 的细节记下来，对应§自检里"挡不住的原因 + 下一步"
 
+### Regression evidence 记录
+
+| 项 | 你的值 |
+|---|---|
+| Agent name |  |
+| Baseline version |  |
+| Guarded version |  |
+| Baseline report URL |  |
+| Guarded report URL |  |
+| Story 4 baseline → guarded | fail/pass/error → fail/pass/error |
+| Story 5 baseline → guarded | fail/pass/error → fail/pass/error |
+| 下一步判断 | 已缓解 / 未缓解 / 需要 output filter 或 tool approval |
+
 ## 三、自检
 
 - [ ] 你看过 Foundry portal **两个 guardrail 入口**：Operate → Compliance（4 tab）和 Build → Guardrails，能讲清两者差异
 - [ ] 你创建了 agent 新 version，instructions 含越权 / 注入显式约束
 - [ ] 跑回 run_eval.py，能讲清 task_adherence 结果（pass / fail / 部分 pass）
 - [ ] 能口头讲：这类 attack 为什么对 Customer Operations workflow 重要、平台 policy / project guardrail / system prompt 各能解决什么、下一步会怎么做
+
+### 你应该能复述
+
+- 为什么要创建新 version，而不是覆盖 baseline？
+- guarded eval 和 baseline eval 应该怎么对比？
+- Story 4 / Story 5 如果仍 fail，下一步是改 prompt、加 output filter，还是加 tool approval？
+- 平台 guardrail 和业务 guardrail 各自不能解决什么？
 
 4 项打勾即动手 2 pass（**挡住与否不影响 pass**）。
 

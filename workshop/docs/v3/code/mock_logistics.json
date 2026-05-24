@@ -1,0 +1,28 @@
+[
+  {
+    "logistics_id": "SF1234567890",
+    "carrier": "SF Express",
+    "events": [
+      {"time": "T-1 20:10", "status": "已揽收"},
+      {"time": "T 08:35", "status": "运输中"},
+      {"time": "T 15:20", "status": "到达目的城市分拨中心"}
+    ]
+  },
+  {
+    "logistics_id": "YT90010002",
+    "carrier": "YTO",
+    "events": [
+      {"time": "T-4 09:10", "status": "已揽收"},
+      {"time": "T-2 18:00", "status": "派送中"},
+      {"time": "T-2 19:15", "status": "已签收"}
+    ]
+  },
+  {
+    "logistics_id": "ZTO90010003",
+    "carrier": "ZTO",
+    "events": [
+      {"time": "T-3 11:00", "status": "已揽收"},
+      {"time": "T-2 09:30", "status": "运输中"}
+    ]
+  }
+]

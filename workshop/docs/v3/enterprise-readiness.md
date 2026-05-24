@@ -175,7 +175,7 @@ Day-7 讲师要给学员明确值：`MODEL_DEPLOYMENT_NAME`、deployment type、
 
 ## 9. Evaluation / Red Team / Release Gate
 
-课中 3 条 eval 只证明最小闭环。上线至少要分 5 类：
+课中 4 条入门 eval 只证明最小闭环。上线至少要分 5 类：
 
 | 类别 | 例子 |
 |---|---|
