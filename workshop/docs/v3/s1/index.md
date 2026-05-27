@@ -3,6 +3,8 @@
 > 时长：90 min ｜ 形式：讲师讲 + portal 走读 ｜ 凭证要求：无（S1 不连 endpoint）
 > 状态：⚠️ 基于 Microsoft Foundry 2026/04-05 官方文档 + portal 实测截图；rebrand 进行中，讲师 Day-7 重抓核对
 
+![Microsoft Foundry capability map（S1 开场总览图）](foundry-builder-orientation.png)
+
 ## 这一段的目标
 
 学员对 **AI / agent 熟，对 Microsoft Foundry 0 知识**——S1 不做项目设计工作坊，也不让你填自己的项目决策卡。

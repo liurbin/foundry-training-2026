@@ -3,6 +3,8 @@
 > Duration: 90 min | Format: instructor talk + portal walkthrough | Credentials: none (S1 does not connect to any endpoint)
 > Status: ⚠️ Based on Microsoft Foundry 2026/04-05 official docs + portal screenshots; rebrand in progress, instructor re-verifies on Day-7.
 
+![Microsoft Foundry capability map (S1 opening overview)](foundry-builder-orientation.png)
+
 ## Goal of this segment
 
 Learners are fluent in AI / agents but have **zero knowledge of Microsoft Foundry**—S1 is not a project-design workshop, and you do not fill out your own project decision card.
