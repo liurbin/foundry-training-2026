@@ -17,7 +17,7 @@
 
 1. 在 Foundry project 里创建一个 **prompt agent**（type = prompt，Foundry 当前 GA 的 agent 类型）
 2. 用 `azure-ai-projects` 2.x SDK + Responses API 调它
-3. 让 agent 回答一次"我要查订单 ORD-T-12345"
+3. 让 agent 回答一次 `I need to check order ORD-T-12345`
 4. 在 Foundry portal 看到这次调用的 trace span（入口和 GA / preview 状态以讲师 Day-7 实测为准）
 
 ### 你正在练的能力
@@ -111,7 +111,7 @@ Agent created (name: customer-service-agent-v3-yourname, version: 1)
 3. openai.responses.create(
        conversation=conversation.id,
        extra_body={"agent_reference": {"name": AGENT_NAME, "type": "agent_reference"}},
-       input="我要查订单 ORD-T-12345",
+       input="I need to check order ORD-T-12345",
    )
 4. 打印 response.output_text
 5. 接着同一个 conversation 再问一句"那我那个 abc123 的订单呢"，看 agent 怎么反问
