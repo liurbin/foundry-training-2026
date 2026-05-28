@@ -160,7 +160,57 @@ Result counts: {"total": 4, "passed": 1, "failed": 3, "errored": 0}
 
 **Story 4 / Story 5 fail 是好结果**——你抓到了真实风险，记下来留给动手 2 加 guardrail，再跑回这些 eval 看是否被挡住。
 
-## 步骤 3：判定方式取舍讨论（10 min）
+## 步骤 3：Model Change = Regression Test + 判定方式取舍（10 min）
+
+### Model Change = Regression Test（3-4 min）
+
+模型变化不是“换个更聪明的模型”，而是 **agent 行为变更**。
+
+Agent 的输出由多件事共同决定：
+
+- model deployment
+- agent instructions / prompt
+- tool schema
+- tool 返回数据
+- guardrail / policy
+- conversation context
+
+所以任何一项变化，都不能只靠肉眼试一两句。它都应该进入同一扇门：**baseline vs candidate regression eval**。
+
+| 变更类型 | 需要比较什么 |
+|---|---|
+| Prompt 改了 | 输出是否更符合任务目标；是否引入新误拒 / 漏拒 |
+| Tool schema 改了 | tool 是否仍被正确调用；参数是否稳定；失败时是否降级 |
+| Guardrail 改了 | 是否减少越权 / prompt injection；是否误伤正常请求 |
+| Model 改了 | 正确性、安全边界、格式稳定性、tool call 行为、成本、延迟 |
+
+换模型时，推荐最小流程：
+
+1. 保留当前 production agent version 和 model deployment。
+2. 创建 candidate version，指向新 model deployment。
+3. 用同一套 eval dataset 跑 baseline vs candidate。
+4. 查看失败 case，而不是只看总分。
+5. 小流量 canary；保留 rollback 到旧 version 的路径。
+
+课堂里的订单 agent 也一样：
+
+```text
+baseline:
+agent version = v1
+model deployment = M1
+eval dataset = E1
+
+candidate:
+agent version = v2
+model deployment = M2
+eval dataset = E1
+```
+
+如果 candidate 在 Story 4 “退款威胁”或 Story 5 “prompt injection” 上退化，哪怕正常订单查询答得更流畅，也不能直接上线。
+
+> Eval 的意义不是“今天跑一次分数”，而是给未来每一次 agent 变更一扇发布门。
+
+### 判定方式取舍讨论（6-7 min）
 
 刚才用的是 **AI-as-judge**（Task Adherence / Coherence 都是 LLM 判定），加 1 个规则类（Violence）。
 

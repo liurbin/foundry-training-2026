@@ -160,7 +160,57 @@ Open `Report URL` in the Foundry portal and look at:
 
 **Story 4 / Story 5 failing is a good result** — you caught a real risk; write it down to feed into the guardrail in Hands-on 2, then re-run these evals to see if they are now blocked.
 
-## Step 3: discussion on judgment choices (10 min)
+## Step 3: Model Change = Regression Test + judgment choices (10 min)
+
+### Model Change = Regression Test (3-4 min)
+
+A model change is not just "using a smarter model." It is an **agent behavior change**.
+
+An agent's output is shaped by several moving parts:
+
+- model deployment
+- agent instructions / prompt
+- tool schema
+- tool return data
+- guardrail / policy
+- conversation context
+
+So you should not validate any of these changes by eyeballing one or two prompts. They all go through the same gate: **baseline vs candidate regression eval**.
+
+| Change type | What to compare |
+|---|---|
+| Prompt changed | Whether outputs better match the task goal; whether new false refusals / missed refusals appear |
+| Tool schema changed | Whether the tool is still called correctly; whether parameters stay stable; whether failures degrade gracefully |
+| Guardrail changed | Whether it reduces out-of-scope actions / prompt injection; whether it blocks normal requests by mistake |
+| Model changed | Correctness, safety boundaries, format stability, tool-call behavior, cost, and latency |
+
+When changing models, use this minimum flow:
+
+1. Keep the current production agent version and model deployment.
+2. Create a candidate version that points to the new model deployment.
+3. Run the same eval dataset against baseline vs candidate.
+4. Inspect failed cases, not just the aggregate score.
+5. Canary with small traffic, and keep a rollback path to the old version.
+
+The same applies to the classroom order agent:
+
+```text
+baseline:
+agent version = v1
+model deployment = M1
+eval dataset = E1
+
+candidate:
+agent version = v2
+model deployment = M2
+eval dataset = E1
+```
+
+If the candidate regresses on Story 4 "refund pressure" or Story 5 "prompt injection", it cannot go live directly even if normal order lookup sounds more fluent.
+
+> The point of eval is not "run a score today." It is to create a release gate for every future agent behavior change.
+
+### Discussion on judgment choices (6-7 min)
 
 What you just used is **AI-as-judge** (Task Adherence / Coherence are both LLM-judged), plus 1 rule-based one (Violence).
 
